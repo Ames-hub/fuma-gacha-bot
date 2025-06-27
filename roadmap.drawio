@@ -1,0 +1,203 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/27.0.2 Chrome/134.0.6998.205 Electron/35.3.0 Safari/537.36" version="27.0.2">
+  <diagram name="Page-1" id="VuOHGxyIhAAINdgDTFCT">
+    <mxGraphModel dx="1426" dy="841" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="pB03gOQXnPwzzRDHyuBl-6" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="pB03gOQXnPwzzRDHyuBl-1" target="pB03gOQXnPwzzRDHyuBl-5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="pB03gOQXnPwzzRDHyuBl-54" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="pB03gOQXnPwzzRDHyuBl-1" target="pB03gOQXnPwzzRDHyuBl-52">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="pB03gOQXnPwzzRDHyuBl-1" value="Card Creation" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#008a00;fontColor=#ffffff;strokeColor=#005700;" vertex="1" parent="1">
+          <mxGeometry x="220" y="150" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="pB03gOQXnPwzzRDHyuBl-3" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="pB03gOQXnPwzzRDHyuBl-2" target="pB03gOQXnPwzzRDHyuBl-1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="pB03gOQXnPwzzRDHyuBl-13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="pB03gOQXnPwzzRDHyuBl-2" target="pB03gOQXnPwzzRDHyuBl-12">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="170" y="180" />
+              <mxPoint x="170" y="550" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="pB03gOQXnPwzzRDHyuBl-19" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="pB03gOQXnPwzzRDHyuBl-2" target="pB03gOQXnPwzzRDHyuBl-4">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="170" y="180" />
+              <mxPoint x="170" y="430" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="pB03gOQXnPwzzRDHyuBl-22" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="pB03gOQXnPwzzRDHyuBl-2" target="pB03gOQXnPwzzRDHyuBl-21">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="170" y="180" />
+              <mxPoint x="170" y="310" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="pB03gOQXnPwzzRDHyuBl-44" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="pB03gOQXnPwzzRDHyuBl-2" target="pB03gOQXnPwzzRDHyuBl-43">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="170" y="180" />
+              <mxPoint x="170" y="670" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="pB03gOQXnPwzzRDHyuBl-53" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="pB03gOQXnPwzzRDHyuBl-2" target="pB03gOQXnPwzzRDHyuBl-52">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="170" y="180" />
+              <mxPoint x="170" y="70" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="pB03gOQXnPwzzRDHyuBl-2" value="Card Item Memory" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#008a00;fontColor=#ffffff;strokeColor=#005700;" vertex="1" parent="1">
+          <mxGeometry x="30" y="150" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="pB03gOQXnPwzzRDHyuBl-9" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="pB03gOQXnPwzzRDHyuBl-4" target="pB03gOQXnPwzzRDHyuBl-7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="pB03gOQXnPwzzRDHyuBl-4" value="Card Count memory&lt;div&gt;(Inventory System)&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#008a00;fontColor=#ffffff;strokeColor=#005700;" vertex="1" parent="1">
+          <mxGeometry x="220" y="400" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="pB03gOQXnPwzzRDHyuBl-11" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="pB03gOQXnPwzzRDHyuBl-5" target="pB03gOQXnPwzzRDHyuBl-10">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="pB03gOQXnPwzzRDHyuBl-5" value="Card Rarity Calculation" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#008a00;fontColor=#ffffff;strokeColor=#005700;" vertex="1" parent="1">
+          <mxGeometry x="430" y="150" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="pB03gOQXnPwzzRDHyuBl-7" value="User Readable&lt;div&gt;Inventory&amp;nbsp;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#008a00;fontColor=#ffffff;strokeColor=#005700;" vertex="1" parent="1">
+          <mxGeometry x="430" y="400" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="pB03gOQXnPwzzRDHyuBl-27" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="pB03gOQXnPwzzRDHyuBl-10" target="pB03gOQXnPwzzRDHyuBl-25">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="pB03gOQXnPwzzRDHyuBl-10" value="Image for each card&lt;div&gt;non-optional&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#a20025;fontColor=#ffffff;strokeColor=#6F0000;" vertex="1" parent="1">
+          <mxGeometry x="640" y="150" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="pB03gOQXnPwzzRDHyuBl-15" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="pB03gOQXnPwzzRDHyuBl-12" target="pB03gOQXnPwzzRDHyuBl-14">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="pB03gOQXnPwzzRDHyuBl-12" value="Card Viewing System" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#008a00;fontColor=#ffffff;strokeColor=#005700;" vertex="1" parent="1">
+          <mxGeometry x="220" y="520" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="pB03gOQXnPwzzRDHyuBl-14" value="Advanced Query System&amp;nbsp;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#a20025;fontColor=#ffffff;strokeColor=#6F0000;" vertex="1" parent="1">
+          <mxGeometry x="430" y="520" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="pB03gOQXnPwzzRDHyuBl-29" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="pB03gOQXnPwzzRDHyuBl-16" target="pB03gOQXnPwzzRDHyuBl-28">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="pB03gOQXnPwzzRDHyuBl-35" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="pB03gOQXnPwzzRDHyuBl-16" target="pB03gOQXnPwzzRDHyuBl-34">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="200" y="810" />
+              <mxPoint x="200" y="955" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="pB03gOQXnPwzzRDHyuBl-49" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="pB03gOQXnPwzzRDHyuBl-16" target="pB03gOQXnPwzzRDHyuBl-48">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="200" y="810" />
+              <mxPoint x="200" y="1080" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="pB03gOQXnPwzzRDHyuBl-16" value="Pokedex&lt;div&gt;(Pokemon Memory)&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#a20025;fontColor=#ffffff;strokeColor=#6F0000;" vertex="1" parent="1">
+          <mxGeometry x="50" y="780" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="pB03gOQXnPwzzRDHyuBl-24" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="pB03gOQXnPwzzRDHyuBl-21" target="pB03gOQXnPwzzRDHyuBl-23">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="pB03gOQXnPwzzRDHyuBl-21" value="Card Pulling System" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#008a00;fontColor=#ffffff;strokeColor=#005700;" vertex="1" parent="1">
+          <mxGeometry x="220" y="280" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="pB03gOQXnPwzzRDHyuBl-26" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="pB03gOQXnPwzzRDHyuBl-23" target="pB03gOQXnPwzzRDHyuBl-25">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="pB03gOQXnPwzzRDHyuBl-23" value="Save Cards to Invent" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#008a00;fontColor=#ffffff;strokeColor=#005700;" vertex="1" parent="1">
+          <mxGeometry x="430" y="280" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="pB03gOQXnPwzzRDHyuBl-25" value="Photo overlaid on Template" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#a20025;fontColor=#ffffff;strokeColor=#6F0000;" vertex="1" parent="1">
+          <mxGeometry x="640" y="280" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="pB03gOQXnPwzzRDHyuBl-31" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="pB03gOQXnPwzzRDHyuBl-28" target="pB03gOQXnPwzzRDHyuBl-30">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="pB03gOQXnPwzzRDHyuBl-28" value="/catch command&lt;div&gt;(Find pokemon)&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#a20025;fontColor=#ffffff;strokeColor=#6F0000;" vertex="1" parent="1">
+          <mxGeometry x="240" y="780" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="pB03gOQXnPwzzRDHyuBl-33" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="pB03gOQXnPwzzRDHyuBl-30" target="pB03gOQXnPwzzRDHyuBl-32">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="pB03gOQXnPwzzRDHyuBl-30" value="Pokemon Rarity Calculation" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#a20025;fontColor=#ffffff;strokeColor=#6F0000;" vertex="1" parent="1">
+          <mxGeometry x="440" y="780" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="pB03gOQXnPwzzRDHyuBl-32" value="Save to pokemon&amp;nbsp; inventory" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#a20025;fontColor=#ffffff;strokeColor=#6F0000;" vertex="1" parent="1">
+          <mxGeometry x="650" y="780" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="pB03gOQXnPwzzRDHyuBl-37" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="pB03gOQXnPwzzRDHyuBl-34" target="pB03gOQXnPwzzRDHyuBl-36">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="pB03gOQXnPwzzRDHyuBl-34" value="&quot;Nurse Joy&quot;&lt;div&gt;/heal to heal all pokemon&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#a20025;fontColor=#ffffff;strokeColor=#6F0000;" vertex="1" parent="1">
+          <mxGeometry x="240" y="925" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="pB03gOQXnPwzzRDHyuBl-39" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="pB03gOQXnPwzzRDHyuBl-36" target="pB03gOQXnPwzzRDHyuBl-38">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="pB03gOQXnPwzzRDHyuBl-36" value="Cooldown on Nurse Joy (15 minutes?)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#a20025;fontColor=#ffffff;strokeColor=#6F0000;" vertex="1" parent="1">
+          <mxGeometry x="440" y="925" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="pB03gOQXnPwzzRDHyuBl-38" value="Do UX Research.&lt;div&gt;Discover best cooldown&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#a20025;fontColor=#ffffff;strokeColor=#6F0000;" vertex="1" parent="1">
+          <mxGeometry x="650" y="925" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="pB03gOQXnPwzzRDHyuBl-45" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="pB03gOQXnPwzzRDHyuBl-43" target="pB03gOQXnPwzzRDHyuBl-2">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="280" y="730" />
+              <mxPoint x="90" y="730" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="pB03gOQXnPwzzRDHyuBl-47" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="pB03gOQXnPwzzRDHyuBl-43" target="pB03gOQXnPwzzRDHyuBl-46">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="pB03gOQXnPwzzRDHyuBl-43" value="Only Set Role by Bot Owner can add Global Cards" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#a20025;fontColor=#ffffff;strokeColor=#6F0000;" vertex="1" parent="1">
+          <mxGeometry x="220" y="640" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="pB03gOQXnPwzzRDHyuBl-46" value="Consider:&lt;div&gt;Servers can add their own LOCAL cards?&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#a20025;fontColor=#ffffff;strokeColor=#6F0000;" vertex="1" parent="1">
+          <mxGeometry x="420" y="640" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="pB03gOQXnPwzzRDHyuBl-51" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="pB03gOQXnPwzzRDHyuBl-48" target="pB03gOQXnPwzzRDHyuBl-50">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="pB03gOQXnPwzzRDHyuBl-48" value="/pokedex add&lt;div&gt;command&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#a20025;fontColor=#ffffff;strokeColor=#6F0000;" vertex="1" parent="1">
+          <mxGeometry x="240" y="1050" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="pB03gOQXnPwzzRDHyuBl-58" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="pB03gOQXnPwzzRDHyuBl-50" target="pB03gOQXnPwzzRDHyuBl-57">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="pB03gOQXnPwzzRDHyuBl-50" value="/pokedex remove&lt;div&gt;command&lt;/div&gt;" style="whiteSpace=wrap;html=1;rounded=0;fillColor=#a20025;fontColor=#ffffff;strokeColor=#6F0000;" vertex="1" parent="1">
+          <mxGeometry x="440" y="1050" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="pB03gOQXnPwzzRDHyuBl-56" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="pB03gOQXnPwzzRDHyuBl-52" target="pB03gOQXnPwzzRDHyuBl-55">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="pB03gOQXnPwzzRDHyuBl-52" value="Card Removal" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#a20025;fontColor=#ffffff;strokeColor=#6F0000;" vertex="1" parent="1">
+          <mxGeometry x="220" y="40" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="pB03gOQXnPwzzRDHyuBl-55" value="Card editing" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#a20025;fontColor=#ffffff;strokeColor=#6F0000;" vertex="1" parent="1">
+          <mxGeometry x="430" y="40" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="pB03gOQXnPwzzRDHyuBl-57" value="/pokedex edit&lt;div&gt;command&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#a20025;fontColor=#ffffff;strokeColor=#6F0000;" vertex="1" parent="1">
+          <mxGeometry x="640" y="1050" width="120" height="60" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

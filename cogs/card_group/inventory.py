@@ -1,5 +1,5 @@
-from cogs.card_group.group import group
 from library.database import DB_PATH
+from library.botapp import botapp
 import lightbulb
 import sqlite3
 import logging
@@ -38,7 +38,7 @@ def get_inventory(user_id, search_for=None):
     finally:
         conn.close()
 
-@group.child
+@botapp.command()
 @lightbulb.app_command_permissions(dm_enabled=False)
 @lightbulb.option(
     name="query",
@@ -58,7 +58,7 @@ def get_inventory(user_id, search_for=None):
 @lightbulb.add_checks(
     lightbulb.guild_only
 )
-@lightbulb.command(name='inventory', description="See your current inventory!")
+@lightbulb.command(name='inv', description="See your current inventory!")
 @lightbulb.implements(lightbulb.SlashSubCommand)
 async def bot_command(ctx: lightbulb.SlashContext):
     search = ctx.options.query

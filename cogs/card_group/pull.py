@@ -1,5 +1,5 @@
-from cogs.card_group.group import group
 from library.database import DB_PATH
+from library.botapp import botapp
 import lightbulb
 import sqlite3
 import logging
@@ -75,7 +75,7 @@ def pull_random_card(exception_names=[]):
     finally:
         conn.close()
 
-@group.child
+@botapp.command()
 @lightbulb.app_command_permissions(dm_enabled=False)
 @lightbulb.add_checks(
     lightbulb.guild_only

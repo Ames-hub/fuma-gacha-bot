@@ -1,10 +1,8 @@
-import hikari
-
-from cogs.card_group.group import group
 from library.database import DB_PATH
+from library.botapp import botapp
 import lightbulb
 import sqlite3
-
+import hikari
 
 plugin = lightbulb.Plugin(__name__)
 
@@ -27,7 +25,7 @@ def add_card(name, description, rarity):
     finally:
         conn.close()
 
-@group.child
+@botapp.command()
 @lightbulb.app_command_permissions(dm_enabled=False)
 @lightbulb.option(
     name="rarity",
