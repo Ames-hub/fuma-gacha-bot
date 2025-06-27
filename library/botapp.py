@@ -1,9 +1,12 @@
+import hikari
 from lightbulb.ext import tasks
 import lightbulb
 import datetime
 import logging
 import miru
 import os
+
+os.makedirs('logs', exist_ok=True)
 
 logging.basicConfig(
     level=logging.INFO,
@@ -16,6 +19,10 @@ if BOT_TOKEN == "none":
     raise Exception("BOT_TOKEN is not set in environment variables. Please set it.")
 
 botapp = lightbulb.BotApp(token=BOT_TOKEN)
+
+@botapp.listen(hikari.ShardReadyEvent)
+async def ready(event: hikari.ShardReadyEvent) -> None:
+    print(f"Ready, Logged in as {event.my_user.username} (Shard {event.shard.id})")
 
 tasks.load(botapp)
 miru_client = miru.Client(botapp)

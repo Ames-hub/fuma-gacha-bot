@@ -17,8 +17,9 @@ class database:
         # Using this dict, it formats the SQL query to create the tables if they don't exist
         table_dict = {
             'inventories': {
-                'item_name': 'INTEGER NOT NULL UNIQUE',
-                'user_id': 'INTEGER NOT NULL PRIMARY KEY',
+                'identifier': 'INTEGER PRIMARY KEY AUTOINCREMENT',  # Just so we HAVE a primary key
+                'item_name': 'INTEGER NOT NULL',
+                'user_id': 'INTEGER NOT NULL',
                 'amount': 'INTEGER NOT NULL DEFAULT 0',
             },
             'items': {

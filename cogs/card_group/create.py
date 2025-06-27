@@ -36,19 +36,18 @@ def add_card(name, description, rarity):
     choices=["Common", "Uncommon", "Difficult", "Rare", "Fictional"]
 )
 @lightbulb.option(
-    name="name",
-    description="The name of the card",
-    required=True,
-    type=hikari.OptionType.STRING,
-)
-@lightbulb.option(
     name="description",
     description="How would you describe the card?",
     required=False,
     default="This card has not been described.",
     type=hikari.OptionType.STRING,
 )
-@lightbulb.add_cooldown(bucket=lightbulb.buckets.UserBucket, length=120, uses=1)
+@lightbulb.option(
+    name="name",
+    description="The name of the card",
+    required=True,
+    type=hikari.OptionType.STRING,
+)
 @lightbulb.add_checks(
     lightbulb.guild_only
 )
