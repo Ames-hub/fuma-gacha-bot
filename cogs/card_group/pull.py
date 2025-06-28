@@ -81,7 +81,7 @@ def pull_random_card(exception_names=[]):
     lightbulb.guild_only
 )
 @lightbulb.command(name='pull', description="Pull a selection of 3 cards!")
-@lightbulb.implements(lightbulb.SlashSubCommand)
+@lightbulb.implements(lightbulb.SlashCommand)
 async def bot_command(ctx: lightbulb.SlashContext):
     cards = []
     card_names = []

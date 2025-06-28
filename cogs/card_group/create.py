@@ -50,8 +50,19 @@ def add_card(name, description, rarity):
     lightbulb.guild_only
 )
 @lightbulb.command(name='create', description="Create a card that can be in any set of three!")
-@lightbulb.implements(lightbulb.SlashSubCommand)
+@lightbulb.implements(lightbulb.SlashCommand)
 async def bot_command(ctx: lightbulb.SlashContext):
+    for admin_role_id in botapp.d['admin_roles']:
+        if admin_role_id not in ctx.member.role_ids:
+            await ctx.respond(
+                embed=hikari.Embed(
+                    title="Unauthorized!",
+                    description="You are not authorized to use this command.",
+                ),
+                flags=hikari.MessageFlag.EPHEMERAL
+            )
+            return
+
     success = add_card(ctx.options.name, ctx.options.description, ctx.options.rarity)
     if success:
         await ctx.respond(

@@ -27,6 +27,12 @@ class database:
                 'description': 'TEXT NOT NULL',
                 'rarity': 'INTEGER NOT NULL DEFAULT 0',
             },
+            'admin_guilds': {
+                'guild_id': 'INTEGER NOT NULL PRIMARY KEY',
+            },
+            'admin_roles': {
+                'role_id': 'INTEGER NOT NULL PRIMARY KEY',
+            }
         }
 
         for table_name, columns in table_dict.items():

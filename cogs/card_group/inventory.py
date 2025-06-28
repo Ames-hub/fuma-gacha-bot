@@ -59,7 +59,7 @@ def get_inventory(user_id, search_for=None):
     lightbulb.guild_only
 )
 @lightbulb.command(name='inv', description="See your current inventory!")
-@lightbulb.implements(lightbulb.SlashSubCommand)
+@lightbulb.implements(lightbulb.SlashCommand)
 async def bot_command(ctx: lightbulb.SlashContext):
     search = ctx.options.query
     page_number = int(ctx.options.page) - 1  # index at 0.

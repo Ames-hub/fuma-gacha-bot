@@ -43,7 +43,7 @@ def view_card(name):
     lightbulb.guild_only
 )
 @lightbulb.command(name='view', description="View a card that exists!")
-@lightbulb.implements(lightbulb.SlashSubCommand)
+@lightbulb.implements(lightbulb.SlashCommand)
 async def bot_command(ctx: lightbulb.SlashContext):
     card = view_card(ctx.options.name)
 
