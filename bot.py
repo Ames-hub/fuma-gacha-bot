@@ -10,6 +10,6 @@ botapp.load_extensions_from("cogs/staff")
 botapp.load_extensions_from("cogs/other")
 
 botapp.d['maintainer'] = 913574723475083274
-botapp.d['admin_roles'] = [1386536159185862768, 1386536393085419664]
+botapp.d['admin_roles'] = [1386536393085419664, 1386536159185862768]
 
 botapp.run()

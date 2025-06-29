@@ -9,6 +9,9 @@ plugin = lightbulb.Plugin(__name__)
 
 def get_inventory(user_id, search_for=None):
     conn = sqlite3.connect(DB_PATH)
+
+    search_is_id = len(search_for) == 6 and ["1","2","3","4","5","6","7","8","9","0"] in search_for
+
     try:
         cursor = conn.cursor()
         if search_for is None:
@@ -20,8 +23,11 @@ def get_inventory(user_id, search_for=None):
             )
         else:
             cursor.execute(
-                """
-                SELECT item_name, amount FROM inventories WHERE user_id = ? AND item_name = ?
+                f"""
+                SELECT item_name, amount
+                FROM inventories
+                WHERE user_id = ?
+                AND {"item_name" if not search_is_id else "item_identifier"} = ?
                 """,
                 (user_id, search_for,)
             )
@@ -85,12 +91,15 @@ async def bot_command(ctx: lightbulb.SlashContext):
             description=chunk_list[page_number],
         )
     )
+
+    footer_text = ""
     if search is not None:
-        embed.set_footer("This has been filtered to look for cards with a specific name.")
+        footer_text += f"Search filtered with query: {search}\n"
     if len(chunk_list) > 1:
-        embed.set_footer(
-            text="Your inventory contains too many items to show on one page, use page option to see more.",
-        )
+        footer_text += "Your inventory contains too many items to show on one page, use page option to see more."
+
+    if footer_text != "":
+        embed.set_footer(text=footer_text)
 
     await ctx.respond(embed=embed)
 

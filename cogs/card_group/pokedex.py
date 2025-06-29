@@ -1,54 +1,38 @@
-from library.database import DB_PATH
+from library.database import view_card, load_img_bytes
 from library.botapp import botapp
 import lightbulb
-import sqlite3
 import hikari
 
 plugin = lightbulb.Plugin(__name__)
 
-def view_card(name):
-    conn = sqlite3.connect(DB_PATH)
-    try:
-        cur = conn.cursor()
-        cur.execute(
-            """
-            SELECT name, description, rarity FROM items WHERE name = ?
-            """,
-            (name,),
-        )
-        data = cur.fetchone()
-        conn.close()
-        if data is None:
-            return {}
-        else:
-            return {
-                'name': data[0],
-                'description': data[1],
-                'rarity': data[2],
-            }
-    except sqlite3.OperationalError:
-        conn.rollback()
-        conn.close()
-        return False
+rarity_crossref = {
+    1: "common",
+    2: "uncommon",
+    3: "difficult",
+    4: "rare",
+    5: "fictional",
+}
 
 @botapp.command()
 @lightbulb.app_command_permissions(dm_enabled=False)
 @lightbulb.option(
-    name="name",
-    description="The name of the card",
+    name="name_or_id",
+    description="The name or ID of the card. If using ID, prefix 'id:'",
     required=True,
     type=hikari.OptionType.STRING,
 )
 @lightbulb.add_checks(
     lightbulb.guild_only
 )
-@lightbulb.command(name='view', description="View a card that exists!")
+@lightbulb.command(name='pokedex', description="View a card!")
 @lightbulb.implements(lightbulb.SlashCommand)
 async def bot_command(ctx: lightbulb.SlashContext):
-    card = view_card(ctx.options.name)
+    card = view_card(ctx.options.name_or_id)
 
     if type(card) is dict:
         if card.get('name', None) is not None:
+            image_bytes = load_img_bytes(card.get('identifier'))
+
             await ctx.respond(
                 embed=(
                     hikari.Embed(
@@ -56,9 +40,10 @@ async def bot_command(ctx: lightbulb.SlashContext):
                     )
                     .add_field(
                         name=card['name'],
-                        value=f"{card['description']} - *{card['rarity'].upper()}*",
+                        value=f"{card['description']} - *{rarity_crossref[card['rarity']]}*",
                     )
-                )
+                    .set_image(hikari.Bytes(image_bytes, "cardphoto.png"))
+                ),
             )
         else:
             await ctx.respond(
@@ -69,6 +54,27 @@ async def bot_command(ctx: lightbulb.SlashContext):
                     )
                 )
             )
+    elif type(card) is list:
+        embed = (
+            hikari.Embed(
+                title="Too many Found!",
+                description=f"We found {len(card) - 1} card(s) more than what's ideal.\nPlease run this command using one of these IDs below instead.",
+            )
+        )
+
+        cards_text = ""
+        for item in card:
+            # noinspection PyTypeChecker
+            cards_text += f"{item['description']}\nName: {item['name']} | ID: {item['identifier']}\n\n"
+
+        embed.add_field(
+            name="Cards",
+            value=cards_text
+        )
+
+        await ctx.respond(
+            embed=embed
+        )
     else:
         await ctx.respond(
             embed=(

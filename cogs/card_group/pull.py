@@ -1,106 +1,68 @@
-from library.database import DB_PATH
+from library.database import pull_random_card, save_to_invent, load_img_bytes
 from library.botapp import botapp
+from io import BytesIO
+from PIL import Image
 import lightbulb
-import sqlite3
-import logging
 import hikari
 
 plugin = lightbulb.Plugin(__name__)
-
-def save_to_invent(user_id, item_name):
-    conn = sqlite3.connect(DB_PATH)
-    try:
-        cursor = conn.cursor()
-        cursor.execute(
-            """
-            SELECT FROM inventories WHERE user_id = ? AND item_name = ?
-            """,
-            (user_id, item_name)
-        )
-        data = cursor.fetchone()
-        if data is None:
-            cursor.execute(
-                """
-                INSERT INTO inventories (user_id, item_name, amount)
-                VALUES (?, ?, 1)
-                """,
-                (user_id, item_name)
-            )
-        else:
-            cursor.execute(
-                """
-                UPDATE inventories SET amount = ? WHERE user_id = ? AND item_name = ?
-                """
-            )
-        conn.commit()
-    except sqlite3.OperationalError:
-        conn.rollback()
-    finally:
-        conn.close()
-
-def pull_random_card(exception_names=[]):
-    conn = sqlite3.connect(DB_PATH)
-    try:
-        cursor = conn.cursor()
-        placeholders = ','.join('?' for _ in exception_names) or "''"
-
-        # Build a CASE expression to simulate rarity weighting
-        query = f'''
-        SELECT name, description, rarity FROM items 
-        WHERE name NOT IN ({placeholders})
-        ORDER BY
-            CASE rarity
-                WHEN 'common' THEN ABS(RANDOM()) * 1.0
-                WHEN 'uncommon' THEN ABS(RANDOM()) * 1.25
-                WHEN 'difficult' THEN ABS(RANDOM()) * 1.67
-                WHEN 'Rare' THEN ABS(RANDOM()) * 5.0
-                WHEN 'Fictional' THEN ABS(RANDOM()) * 8.0
-                ELSE ABS(RANDOM()) * 10.0 -- fallback for unknown rarity
-            END
-        LIMIT 1
-        '''
-
-        cursor.execute(query, exception_names)
-        data = cursor.fetchone()
-        if not data:
-            return False
-        else:
-            return {
-                "name": data[0],
-                "description": data[1],
-                "rarity": data[2],
-            }
-    except sqlite3.OperationalError as err:
-        logging.error(err)
-    finally:
-        conn.close()
 
 @botapp.command()
 @lightbulb.app_command_permissions(dm_enabled=False)
 @lightbulb.add_checks(
     lightbulb.guild_only
 )
+@lightbulb.add_cooldown(
+    120, 1, lightbulb.buckets.UserBucket
+)
 @lightbulb.command(name='pull', description="Pull a selection of 3 cards!")
 @lightbulb.implements(lightbulb.SlashCommand)
 async def bot_command(ctx: lightbulb.SlashContext):
     cards = []
     card_names = []
+    card_imgs = []
+
     for i in range(3):
         rcard = pull_random_card(exception_names=card_names)
+        if rcard is False:
+            await ctx.respond(
+                embed=hikari.Embed(
+                    title="Not enough cards!",
+                    description="You need at least 3 cards for pulls to work!",
+                )
+            )
+            return
 
         cards.append(rcard)
-        card_names.append(rcard["name"])
-
+        card_names.append(rcard["identifier"])
         save_to_invent(
+            item_identifier=rcard["identifier"],
             item_name=rcard["name"],
             user_id=int(ctx.author.id),
         )
+        card_imgs.append(load_img_bytes(rcard["identifier"]))  # Assumes returns BytesIO
 
-    embed = (
-        hikari.Embed(
-            title=f'✨ Pull Result ✨',
-            description=f'<@{ctx.author.id}> Pulled the below cards!',
-        )
+    # --- Combine images ---
+    pil_imgs = [Image.open(img).convert("RGBA") for img in card_imgs]
+
+    gap = 20
+    total_width = sum(img.width for img in pil_imgs) + gap * (len(pil_imgs) - 1)
+    max_height = max(img.height for img in pil_imgs)
+
+    final_img = Image.new("RGBA", (total_width, max_height), (255, 255, 255, 0))
+
+    x_offset = 0
+    for img in pil_imgs:
+        final_img.paste(img, (x_offset, 0))
+        x_offset += img.width + gap
+
+    img_bytes = BytesIO()
+    final_img.save(img_bytes, format="PNG")
+    img_bytes.seek(0)
+
+    embed = hikari.Embed(
+        title='✨ Pull Result ✨',
+        description=f'<@{ctx.author.id}> Pulled the below cards!',
     )
 
     for card in cards:
@@ -109,6 +71,10 @@ async def bot_command(ctx: lightbulb.SlashContext):
             value=f"{card['description']}\nRarity: {card['rarity']}",
             inline=True,
         )
+
+    embed.set_image(
+        hikari.Bytes(img_bytes.read(), "pull_result.png")
+    )
 
     await ctx.respond(embed=embed)
 
