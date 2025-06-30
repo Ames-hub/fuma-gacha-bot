@@ -115,7 +115,7 @@
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="pB03gOQXnPwzzRDHyuBl-14" value="Advanced Query System&amp;nbsp;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#a20025;fontColor=#ffffff;strokeColor=#6F0000;" parent="1" vertex="1">
-          <mxGeometry x="430" y="590" width="120" height="60" as="geometry" />
+          <mxGeometry x="420" y="590" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="pB03gOQXnPwzzRDHyuBl-24" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="pB03gOQXnPwzzRDHyuBl-21" target="pB03gOQXnPwzzRDHyuBl-23" edge="1">
           <mxGeometry relative="1" as="geometry" />
@@ -214,7 +214,7 @@
         <mxCell id="xh6JLx4Z2FLlokLm3iLa-23" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="xh6JLx4Z2FLlokLm3iLa-20" target="xh6JLx4Z2FLlokLm3iLa-22" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="xh6JLx4Z2FLlokLm3iLa-20" value="Search by Name" style="whiteSpace=wrap;html=1;rounded=0;fillColor=#008a00;fontColor=#ffffff;strokeColor=#005700;" parent="1" vertex="1">
+        <mxCell id="xh6JLx4Z2FLlokLm3iLa-20" value="Search by Name" style="whiteSpace=wrap;html=1;rounded=0;fillColor=#d80073;fontColor=#ffffff;strokeColor=#A50040;" parent="1" vertex="1">
           <mxGeometry x="770" y="510" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="xh6JLx4Z2FLlokLm3iLa-22" value="Search by ID" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#a20025;fontColor=#ffffff;strokeColor=#6F0000;" parent="1" vertex="1">
@@ -270,6 +270,21 @@
         </mxCell>
         <mxCell id="WWe20naChPC3Fc8F13mq-9" value="Photo Displayed in 3s on pull" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#008a00;fontColor=#ffffff;strokeColor=#005700;" vertex="1" parent="1">
           <mxGeometry x="840" y="350" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="WWe20naChPC3Fc8F13mq-11" value="Colour Flash System" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;gradientColor=none;rounded=0;shadow=0;glass=0;" vertex="1" parent="1">
+          <mxGeometry x="940" y="20" width="140" height="170" as="geometry" />
+        </mxCell>
+        <mxCell id="WWe20naChPC3Fc8F13mq-12" value="Red - Incomplete" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="WWe20naChPC3Fc8F13mq-11">
+          <mxGeometry y="30" width="140" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="WWe20naChPC3Fc8F13mq-13" value="Green - Complete" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="WWe20naChPC3Fc8F13mq-11">
+          <mxGeometry y="60" width="140" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="WWe20naChPC3Fc8F13mq-14" value="Blue - In Progress" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="WWe20naChPC3Fc8F13mq-11">
+          <mxGeometry y="90" width="140" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="WWe20naChPC3Fc8F13mq-15" value="Pink - Deconstruction Needed" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="WWe20naChPC3Fc8F13mq-11">
+          <mxGeometry y="120" width="140" height="50" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>

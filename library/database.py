@@ -86,6 +86,8 @@ def view_card(name:str):
     conn = sqlite3.connect(DB_PATH)
 
     is_id = " " not in name and name.lower().startswith("id:")
+    if is_id:
+        name = name.replace("id:", "")
 
     try:
         cur = conn.cursor()
@@ -100,7 +102,9 @@ def view_card(name:str):
         data = cur.fetchall()
         conn.close()
         if data is None:
-            return {}
+            return [{}]
+        elif len(data) == 0:
+            return [{}]
         elif len(data) > 1:
             parsed_data = []
             for item in data:
@@ -114,13 +118,13 @@ def view_card(name:str):
             return parsed_data
         else:
             data = data[0]
-            return {
+            return [{
                 'identifier': data[0],
                 'name': data[1],
                 'description': data[2],
                 'rarity': data[3],
                 'img_bytes': data[4],
-            }
+            }]
     except sqlite3.OperationalError:
         conn.rollback()
         conn.close()

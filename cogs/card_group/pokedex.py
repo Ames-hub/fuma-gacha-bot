@@ -6,11 +6,11 @@ import hikari
 plugin = lightbulb.Plugin(__name__)
 
 rarity_crossref = {
-    1: "common",
-    2: "uncommon",
-    3: "difficult",
-    4: "rare",
-    5: "fictional",
+    1: "<:loveball:1389313177392513034>",
+    2: "<:loveball:1389313177392513034>" * 2,
+    3: "<:loveball:1389313177392513034>" * 3,
+    4: "<:loveball:1389313177392513034>" * 4,
+    5: "<:loveball:1389313177392513034>" * 5,
 }
 
 @botapp.command()
@@ -29,9 +29,10 @@ rarity_crossref = {
 async def bot_command(ctx: lightbulb.SlashContext):
     card = view_card(ctx.options.name_or_id)
 
-    if type(card) is dict:
-        if card.get('name', None) is not None:
-            image_bytes = load_img_bytes(card.get('identifier'))
+    if type(card) is list:
+        if len(card) == 1:
+            image_bytes = load_img_bytes(card[0].get('identifier'))
+            card = card[0]
 
             await ctx.respond(
                 embed=(
@@ -40,12 +41,12 @@ async def bot_command(ctx: lightbulb.SlashContext):
                     )
                     .add_field(
                         name=card['name'],
-                        value=f"{card['description']} - *{rarity_crossref[card['rarity']]}*",
+                        value=f"{card['description']}\n*{rarity_crossref[card['rarity']]}*",
                     )
                     .set_image(hikari.Bytes(image_bytes, "cardphoto.png"))
                 ),
             )
-        else:
+        elif len(card) == 0:
             await ctx.respond(
                 embed=(
                     hikari.Embed(
@@ -54,27 +55,27 @@ async def bot_command(ctx: lightbulb.SlashContext):
                     )
                 )
             )
-    elif type(card) is list:
-        embed = (
-            hikari.Embed(
-                title="Too many Found!",
-                description=f"We found {len(card) - 1} card(s) more than what's ideal.\nPlease run this command using one of these IDs below instead.",
+        elif len(card) > 1:
+            embed = (
+                hikari.Embed(
+                    title="Too many Found!",
+                    description=f"We found {len(card) - 1} card(s) more than what's ideal.\nPlease run this command using one of these IDs below instead.",
+                )
             )
-        )
 
-        cards_text = ""
-        for item in card:
-            # noinspection PyTypeChecker
-            cards_text += f"{item['description']}\nName: {item['name']} | ID: {item['identifier']}\n\n"
+            cards_text = ""
+            for item in card:
+                # noinspection PyTypeChecker
+                cards_text += f"{item['description']}\nName: {item['name']} | ID: {item['identifier']}\n\n"
 
-        embed.add_field(
-            name="Cards",
-            value=cards_text
-        )
+            embed.add_field(
+                name="Cards",
+                value=cards_text
+            )
 
-        await ctx.respond(
-            embed=embed
-        )
+            await ctx.respond(
+                embed=embed
+            )
     else:
         await ctx.respond(
             embed=(

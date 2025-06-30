@@ -10,21 +10,23 @@ plugin = lightbulb.Plugin(__name__)
 def get_inventory(user_id, search_for=None):
     conn = sqlite3.connect(DB_PATH)
 
-    search_is_id = len(search_for) == 6 and ["1","2","3","4","5","6","7","8","9","0"] in search_for
-
     try:
         cursor = conn.cursor()
         if search_for is None:
             cursor.execute(
                 """
-                SELECT item_name, amount FROM inventories WHERE user_id = ?
+                SELECT item_name, item_identifier, amount FROM inventories WHERE user_id = ?
                 """,
                 (user_id,)
             )
         else:
+            search_is_id = " " not in search_for and search_for.lower().startswith("id:")
+            if search_is_id:
+                search_for = search_for.replace("id:", "")
+
             cursor.execute(
                 f"""
-                SELECT item_name, amount
+                SELECT item_name, item_identifier, amount
                 FROM inventories
                 WHERE user_id = ?
                 AND {"item_name" if not search_is_id else "item_identifier"} = ?
@@ -35,7 +37,11 @@ def get_inventory(user_id, search_for=None):
 
         inventory = {}
         for row in data:
-            inventory[row[0]] = row[1]
+            inventory[row[1]] = {
+                "name": row[0],
+                "identifier": row[1],
+                "amount": row[2],
+            }
 
         return inventory
     except sqlite3.OperationalError as err:
@@ -54,6 +60,13 @@ def get_inventory(user_id, search_for=None):
     default=None
 )
 @lightbulb.option(
+    name="user",
+    description="Check a particular persons inventory.",
+    required=False,
+    type=hikari.OptionType.MENTIONABLE,
+    default=None
+)
+@lightbulb.option(
     name="page",
     description="Enter which page of your inventory you want!",
     required=False,
@@ -69,12 +82,13 @@ def get_inventory(user_id, search_for=None):
 async def bot_command(ctx: lightbulb.SlashContext):
     search = ctx.options.query
     page_number = int(ctx.options.page) - 1  # index at 0.
+    target_user: hikari.Member = ctx.options.user
 
-    inventory = get_inventory(ctx.author.id, search)
+    inventory = get_inventory(ctx.author.id if target_user is None else int(target_user), search)
 
     invent_str = f"Your Inventory has {len(inventory)} Items."
-    for item_name in inventory:
-        invent_str += f"\n*__{item_name}__*\n**Amount** {inventory[item_name]}\n"
+    for item_identifier in inventory:
+        invent_str += f"\n*__{inventory[item_identifier]['name']}__* - {item_identifier}\n**Amount** {inventory[item_identifier]['amount']}\n"
 
     lines = invent_str.split("\n")
 
@@ -85,9 +99,18 @@ async def bot_command(ctx: lightbulb.SlashContext):
     if page_number > len(chunk_list):
         page_number = len(chunk_list)
 
+    if target_user is not None:
+        if botapp.d['inventory_username_cache'].get(target_user) is None:
+            target_user = await botapp.rest.fetch_member(ctx.guild_id, target_user)
+            target_username = target_user.username
+        else:
+            target_username = botapp.d['inventory_username_cache'].get(target_user.id)
+    else:
+        target_username = ctx.author.username
+
     embed = (
         hikari.Embed(
-            title=f"{ctx.author.username}'s Inventory",
+            title=f"{target_username}'s Inventory",
             description=chunk_list[page_number],
         )
     )
