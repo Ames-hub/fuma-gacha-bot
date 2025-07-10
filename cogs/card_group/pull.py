@@ -1,4 +1,5 @@
 from library.database import pull_random_card, save_to_invent, load_img_bytes
+from library import decorators as dc
 from library.botapp import botapp
 from io import BytesIO
 from PIL import Image
@@ -17,6 +18,7 @@ plugin = lightbulb.Plugin(__name__)
 )
 @lightbulb.command(name='pull', description="Pull a selection of 3 cards!")
 @lightbulb.implements(lightbulb.SlashCommand)
+@dc.check_bot_ban()
 async def bot_command(ctx: lightbulb.SlashContext):
     cards = []
     card_names = []

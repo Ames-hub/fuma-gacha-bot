@@ -1,5 +1,6 @@
-from library.database import DB_PATH, has_admin_role
+from library import decorators as dc
 from cogs.staff.group import group
+from library import database
 import lightbulb
 import mimetypes
 import sqlite3
@@ -8,29 +9,6 @@ import random
 import hikari
 
 plugin = lightbulb.Plugin(__name__)
-
-def add_card(card_id, name, description, rarity, img_bytes):
-    conn = sqlite3.connect(DB_PATH)
-    try:
-        cur = conn.cursor()
-        cur.execute(
-            f"""
-            INSERT INTO global_cards (identifier, name, description, rarity, img_bytes)
-            VALUES (?, ?, ?, ?, ?)
-            {"RETURNING global_cards.identifier" if card_id is None else ""}
-            """,
-            (card_id, str(name), str(description), int(rarity), img_bytes),
-        )
-        conn.commit()
-        if card_id is None:
-            return {'success': True, 'card_id': cur.fetchone()[0]}
-        return {'success': True, 'card_id': card_id}
-    except sqlite3.OperationalError as err:
-        logging.error(err, exc_info=err)
-        conn.rollback()
-        return {'success': False, 'card_id': None}
-    finally:
-        conn.close()
 
 rarity_crossref = {
     "common": 1,
@@ -62,6 +40,13 @@ rarity_crossref = {
     type=hikari.OptionType.STRING,
 )
 @lightbulb.option(
+    name="card_tier",
+    description="Is this a standard, event or limited card?",
+    required=True,
+    choices=["Standard", "Event", "Limited"],
+    type=hikari.OptionType.STRING,
+)
+@lightbulb.option(
     name="name",
     description="The name of the card",
     required=True,
@@ -72,6 +57,7 @@ rarity_crossref = {
     description="The custom ID for the card. Defaults to randomness.",
     required=False,
     default=None,
+    min_length=3,
     type=hikari.OptionType.STRING,
 )
 @lightbulb.add_checks(
@@ -79,19 +65,11 @@ rarity_crossref = {
 )
 @lightbulb.command(name='create_card', description="Add a new card to the collection (bot admin only)")
 @lightbulb.implements(lightbulb.SlashSubCommand)
+@dc.check_admin_status()
+@dc.check_bot_ban()
 async def bot_command(ctx: lightbulb.SlashContext):
     rarity = rarity_crossref[ctx.options.rarity.lower()]
     card_id = ctx.options.custom_id
-
-    if has_admin_role(ctx.member.role_ids) is False:
-        await ctx.respond(
-            embed=hikari.Embed(
-                title="Unauthorized",
-                description="You are not allowed to use this command!",
-            ),
-            flags=hikari.MessageFlag.EPHEMERAL
-        )
-        return
 
     if card_id is not None:
         if " " in card_id:
@@ -118,17 +96,27 @@ async def bot_command(ctx: lightbulb.SlashContext):
     # Converts to bytes
     img_bytes = await attachment.read()
     name = ctx.options.name
+    card_tier = ctx.options.card_tier
+
+    card_tier_crossref = {
+        "Standard": 1,
+        "Event": 2,
+        "Limited": 3,
+    }
+
+    card_tier = card_tier_crossref[card_tier]
 
     try:
-        addresult = add_card(
+        addresult = database.add_card(
             card_id=card_id,
             name=name,
             description=ctx.options.description,
             rarity=rarity,
+            card_tier=card_tier,
             img_bytes=img_bytes,
         )
-    except sqlite3.IntegrityError:
-        logging.warning(f"User {ctx.author.id} has attempted to make a card with the pre-existing ID {card_id}.")
+    except sqlite3.IntegrityError as err:
+        logging.warning(f"User {ctx.author.id} has attempted to make a card with the pre-existing ID {card_id}. Err: {err}")
         await ctx.respond(
             embed=hikari.Embed(
                 title="Duplicacy Warning",
@@ -150,7 +138,7 @@ async def bot_command(ctx: lightbulb.SlashContext):
         )
         if random.choice([True, False]):
             embed.set_footer(
-                text=f"Make use of the ID in searching by prefixing \"ID:(your ID)\"",
+                text=f"Make use of the ID in searching by prefixing \"id:(your ID)\"",
             )
 
         await ctx.respond(
@@ -161,7 +149,7 @@ async def bot_command(ctx: lightbulb.SlashContext):
             embed=(
                 hikari.Embed(
                     title="Card Not Created!",
-                    description=f"Your card has not been created!",
+                    description=f"Reason: {addresult['error']}",
                     color=0xff0000,
                 )
             )

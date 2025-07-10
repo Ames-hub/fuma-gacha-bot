@@ -1,87 +1,10 @@
-from library.database import DB_PATH
+from library import decorators as dc
 from library.botapp import botapp
+from library import database
 import lightbulb
-import sqlite3
 import hikari
 
 plugin = lightbulb.Plugin(__name__)
-
-rarity_crossref = {
-    1: "common",
-    2: "uncommon",
-    3: "difficult",
-    4: "rare",
-    5: "fictional",
-}
-
-def gift_card(cardname: str, giving_amount: int, giver_id: int, receiver_id: int):
-    if giving_amount < 1:
-        return "Amount must be at least 1."
-
-    is_id = " " not in cardname and cardname.lower().startswith("id:")
-    if is_id:
-        cardname = cardname.replace("id:", "")
-
-    conn = sqlite3.connect(DB_PATH)
-    try:
-        cur = conn.cursor()
-
-        # Step 1: Fetch item from giver
-        cur.execute(f"""
-            SELECT item_identifier, item_name, amount FROM inventories
-            WHERE user_id = ? AND {'item_identifier' if is_id else 'item_name'} = ?
-        """, (giver_id, cardname))
-
-        item = cur.fetchone()
-        if not item:
-            return "Giver doesn't own the item."
-
-        item_identifier, item_name, giver_amount = item
-
-        if giver_amount < giving_amount:
-            return f"Not enough quantity to give. You have {giver_amount}."
-
-        # Step 2: Deduct from giver
-        if giver_amount == giving_amount:
-            cur.execute("""
-                DELETE FROM inventories
-                WHERE user_id = ? AND item_identifier = ?
-            """, (giver_id, item_identifier))
-        else:
-            cur.execute("""
-                UPDATE inventories
-                SET amount = amount - ?
-                WHERE user_id = ? AND item_identifier = ?
-            """, (giving_amount, giver_id, item_identifier))
-
-        # Step 3: Add to receiver
-        cur.execute("""
-            SELECT amount FROM inventories
-            WHERE user_id = ? AND item_identifier = ?
-        """, (receiver_id, item_identifier))
-
-        receiver_item = cur.fetchone()
-        if receiver_item:
-            cur.execute("""
-                UPDATE inventories
-                SET amount = amount + ?
-                WHERE user_id = ? AND item_identifier = ?
-            """, (giving_amount, receiver_id, item_identifier))
-        else:
-            cur.execute("""
-                INSERT INTO inventories (item_identifier, item_name, user_id, amount)
-                VALUES (?, ?, ?, ?)
-            """, (item_identifier, item_name, receiver_id, giving_amount))
-
-        conn.commit()
-        return "Transfer successful."
-
-    except sqlite3.OperationalError as e:
-        conn.rollback()
-        return f"Database error: {e}"
-    finally:
-        conn.close()
-
 
 @botapp.command()
 @lightbulb.app_command_permissions(dm_enabled=False)
@@ -109,8 +32,9 @@ def gift_card(cardname: str, giving_amount: int, giver_id: int, receiver_id: int
 )
 @lightbulb.command(name='gift', description="Gift someone a card!", pass_options=True)
 @lightbulb.implements(lightbulb.SlashCommand)
+@dc.check_bot_ban()
 async def bot_command(ctx: lightbulb.SlashContext, name_or_id:str, target:hikari.Member, amount:int):
-    success = gift_card(
+    success = database.gift_card(
         cardname=str(name_or_id),
         giver_id=int(ctx.author.id),
         receiver_id=int(target),

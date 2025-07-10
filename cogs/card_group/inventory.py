@@ -1,54 +1,10 @@
-from library.database import DB_PATH
+from library import decorators as dc
 from library.botapp import botapp
+from library import database
 import lightbulb
-import sqlite3
-import logging
 import hikari
 
 plugin = lightbulb.Plugin(__name__)
-
-def get_inventory(user_id, search_for=None):
-    conn = sqlite3.connect(DB_PATH)
-
-    try:
-        cursor = conn.cursor()
-        if search_for is None:
-            cursor.execute(
-                """
-                SELECT item_name, item_identifier, amount FROM inventories WHERE user_id = ?
-                """,
-                (user_id,)
-            )
-        else:
-            search_is_id = " " not in search_for and search_for.lower().startswith("id:")
-            if search_is_id:
-                search_for = search_for.replace("id:", "")
-
-            cursor.execute(
-                f"""
-                SELECT item_name, item_identifier, amount
-                FROM inventories
-                WHERE user_id = ?
-                AND {"item_name" if not search_is_id else "item_identifier"} = ?
-                """,
-                (user_id, search_for,)
-            )
-        data = cursor.fetchall()
-
-        inventory = {}
-        for row in data:
-            inventory[row[1]] = {
-                "name": row[0],
-                "identifier": row[1],
-                "amount": row[2],
-            }
-
-        return inventory
-    except sqlite3.OperationalError as err:
-        conn.rollback()
-        logging.error(f"An error occurred while running a command: {err}", exc_info=err)
-    finally:
-        conn.close()
 
 @botapp.command()
 @lightbulb.app_command_permissions(dm_enabled=False)
@@ -79,12 +35,13 @@ def get_inventory(user_id, search_for=None):
 )
 @lightbulb.command(name='inv', description="See your current inventory!")
 @lightbulb.implements(lightbulb.SlashCommand)
+@dc.check_bot_ban()
 async def bot_command(ctx: lightbulb.SlashContext):
     search = ctx.options.query
     page_number = int(ctx.options.page) - 1  # index at 0.
     target_user: hikari.Member = ctx.options.user
 
-    inventory = get_inventory(ctx.author.id if target_user is None else int(target_user), search)
+    inventory = database.get_inventory(ctx.author.id if target_user is None else int(target_user), search)
 
     invent_str = f"Your Inventory has {len(inventory)} Items."
     for item_identifier in inventory:

@@ -7,6 +7,8 @@ database.modernize()
 
 # Load all extensions
 botapp.load_extensions_from("cogs/card_group")
+botapp.load_extensions_from("cogs/nicho_market")
+botapp.load_extensions_from("cogs/pokeshop")
 botapp.load_extensions_from("cogs/staff")
 botapp.load_extensions_from("cogs/other")
 

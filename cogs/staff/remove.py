@@ -1,30 +1,10 @@
-from library.database import DB_PATH, has_admin_role
+from library import decorators as dc
 from cogs.staff.group import group
+from library import database
 import lightbulb
-import sqlite3
-import logging
 import hikari
 
 plugin = lightbulb.Plugin(__name__)
-
-def rm_card(card_id):
-    conn = sqlite3.connect(DB_PATH)
-    try:
-        cur = conn.cursor()
-        cur.execute(
-            """
-            DELETE FROM global_cards WHERE identifier = ?
-            """,
-            (card_id,),
-        )
-        conn.commit()
-        return True
-    except sqlite3.OperationalError as err:
-        logging.error(err, exc_info=err)
-        conn.rollback()
-        return False
-    finally:
-        conn.close()
 
 rarity_crossref = {
     "common": 1,
@@ -47,17 +27,9 @@ rarity_crossref = {
 )
 @lightbulb.command(name='remove_card', description="Create a card that can be in any set of three!")
 @lightbulb.implements(lightbulb.SlashSubCommand)
+@dc.check_admin_status()
+@dc.check_bot_ban()
 async def bot_command(ctx: lightbulb.SlashContext):
-    if has_admin_role(ctx.member.role_ids) is False:
-        await ctx.respond(
-            embed=hikari.Embed(
-                title="Unauthorized",
-                description="You are not allowed to use this command!",
-            ),
-            flags=hikari.MessageFlag.EPHEMERAL
-        )
-        return
-
     custom_id = ctx.options.custom_id
     if " " in custom_id:
         await ctx.respond(
@@ -69,7 +41,7 @@ async def bot_command(ctx: lightbulb.SlashContext):
         )
         return
 
-    success = rm_card(custom_id)
+    success = database.rm_card(custom_id)
     if success is True:
         await ctx.respond(
             embed=(

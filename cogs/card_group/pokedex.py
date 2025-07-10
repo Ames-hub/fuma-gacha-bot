@@ -1,4 +1,5 @@
 from library.database import view_card, load_img_bytes
+from library import decorators as dc
 from library.botapp import botapp
 import lightbulb
 import hikari
@@ -26,6 +27,7 @@ rarity_crossref = {
 )
 @lightbulb.command(name='pokedex', description="View a card!")
 @lightbulb.implements(lightbulb.SlashCommand)
+@dc.check_bot_ban()
 async def bot_command(ctx: lightbulb.SlashContext):
     card = view_card(ctx.options.name_or_id)
 
