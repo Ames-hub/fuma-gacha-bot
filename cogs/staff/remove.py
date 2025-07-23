@@ -1,8 +1,9 @@
+from cogs.staff.group import staff_group
 from library import decorators as dc
-from cogs.staff.group import group
-from library import database
+from library.database import dbcards
 import lightbulb
 import hikari
+
 
 plugin = lightbulb.Plugin(__name__)
 
@@ -14,16 +15,13 @@ rarity_crossref = {
     "fictional": 5,
 }
 
-@group.child
+@staff_group.child
 @lightbulb.app_command_permissions(dm_enabled=False)
 @lightbulb.option(
     name="custom_id",
     description="The custom ID for the card. Defaults to randomness.",
     required=True,
     type=hikari.OptionType.STRING,
-)
-@lightbulb.add_checks(
-    lightbulb.guild_only
 )
 @lightbulb.command(name='remove_card', description="Create a card that can be in any set of three!")
 @lightbulb.implements(lightbulb.SlashSubCommand)
@@ -41,7 +39,7 @@ async def bot_command(ctx: lightbulb.SlashContext):
         )
         return
 
-    success = database.rm_card(custom_id)
+    success = dbcards.rm_card(custom_id)
     if success is True:
         await ctx.respond(
             embed=(

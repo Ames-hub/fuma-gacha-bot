@@ -20,7 +20,7 @@ async def bot_command(ctx: lightbulb.SlashContext):
             )
             .add_field(
                 "WIP",
-                "This is currently a work in progress, pending development and further information."
+                "This is currently a work in progress, pending development."
                 "\nThank you for your patience!"
             )
         )

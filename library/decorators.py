@@ -1,4 +1,4 @@
-from library import database
+from library.database import dbuser
 import functools
 import lightbulb
 import hikari
@@ -9,7 +9,7 @@ def check_bot_ban():
         async def wrapper(ctx: lightbulb.SlashContext, *args, **kwargs):
             if not type(ctx) == lightbulb.SlashContext:
                 raise TypeError("This decorator can only be used on slash commands!")
-            if database.run_ban_check(ctx) is True:
+            if dbuser.run_ban_check(int(ctx.author.id)) is True:
                 await ctx.respond(
                     embed=hikari.Embed(
                         title="Forbidden",
@@ -28,7 +28,7 @@ def check_admin_status():
         async def wrapper(ctx: lightbulb.SlashContext, *args, **kwargs):
             if not type(ctx) == lightbulb.SlashContext:
                 raise TypeError("This decorator can only be used on slash commands!")
-            if database.has_admin_role(ctx.member.role_ids) is False:
+            if dbuser.has_admin_role(ctx.member.role_ids) is False:
                 await ctx.respond(
                     embed=hikari.Embed(
                         title="Unauthorized",

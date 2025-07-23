@@ -1,12 +1,12 @@
+from cogs.staff.group import staff_group
 from library import decorators as dc
-from cogs.staff.group import group
-from library import database
+from library.database import dbuser
 import lightbulb
 import hikari
 
 plugin = lightbulb.Plugin(__name__)
 
-@group.child
+@staff_group.child
 @lightbulb.app_command_permissions(dm_enabled=False)
 @lightbulb.option(
     name="reason",
@@ -21,15 +21,12 @@ plugin = lightbulb.Plugin(__name__)
     required=True,
     type=hikari.OptionType.USER,
 )
-@lightbulb.add_checks(
-    lightbulb.guild_only
-)
 @lightbulb.command(name='ban_user', description="Ban a user from using the bot (bot admin only)", pass_options=True)
 @lightbulb.implements(lightbulb.SlashSubCommand)
 @dc.check_admin_status()
 @dc.check_bot_ban()
 async def bot_command(ctx: lightbulb.SlashContext, user: hikari.User, reason: str):
-    success = database.set_user_ban(
+    success = dbuser.set_user_ban(
         ban_status=True,
         user_id=int(user.id),
         reason=str(reason),

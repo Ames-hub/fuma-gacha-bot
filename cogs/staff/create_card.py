@@ -1,12 +1,12 @@
+from cogs.staff.group import staff_group
 from library import decorators as dc
-from cogs.staff.group import group
-from library import database
+from library.database import dbcards
 import lightbulb
 import mimetypes
 import sqlite3
 import logging
-import random
 import hikari
+
 
 plugin = lightbulb.Plugin(__name__)
 
@@ -18,7 +18,7 @@ rarity_crossref = {
     "fictional": 5,
 }
 
-@group.child
+@staff_group.child
 @lightbulb.app_command_permissions(dm_enabled=False)
 @lightbulb.option(
     name="rarity",
@@ -59,9 +59,6 @@ rarity_crossref = {
     default=None,
     min_length=3,
     type=hikari.OptionType.STRING,
-)
-@lightbulb.add_checks(
-    lightbulb.guild_only
 )
 @lightbulb.command(name='create_card', description="Add a new card to the collection (bot admin only)")
 @lightbulb.implements(lightbulb.SlashSubCommand)
@@ -107,13 +104,14 @@ async def bot_command(ctx: lightbulb.SlashContext):
     card_tier = card_tier_crossref[card_tier]
 
     try:
-        addresult = database.add_card(
+        addresult = dbcards.add_card(
             card_id=card_id,
             name=name,
             description=ctx.options.description,
             rarity=rarity,
             card_tier=card_tier,
             img_bytes=img_bytes,
+            pullable=True if card_tier == 1 else False,
         )
     except sqlite3.IntegrityError as err:
         logging.warning(f"User {ctx.author.id} has attempted to make a card with the pre-existing ID {card_id}. Err: {err}")
@@ -133,13 +131,9 @@ async def bot_command(ctx: lightbulb.SlashContext):
             hikari.Embed(
                 title="Card Created!",
                 description="Your card has successfully been created!\n"
-                            f"Card ID: `id:{card_id}`\n",
+                            f"Card ID: `{card_id}`\n",
             )
         )
-        if random.choice([True, False]):
-            embed.set_footer(
-                text=f"Make use of the ID in searching by prefixing \"id:(your ID)\"",
-            )
 
         await ctx.respond(
             embed=embed,

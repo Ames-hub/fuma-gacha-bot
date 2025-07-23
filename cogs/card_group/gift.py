@@ -1,6 +1,6 @@
 from library import decorators as dc
+from library.database import dbcards
 from library.botapp import botapp
-from library import database
 import lightbulb
 import hikari
 
@@ -34,7 +34,7 @@ plugin = lightbulb.Plugin(__name__)
 @lightbulb.implements(lightbulb.SlashCommand)
 @dc.check_bot_ban()
 async def bot_command(ctx: lightbulb.SlashContext, name_or_id:str, target:hikari.Member, amount:int):
-    success = database.gift_card(
+    success = dbcards.gift_card(
         cardname=str(name_or_id),
         giver_id=int(ctx.author.id),
         receiver_id=int(target),

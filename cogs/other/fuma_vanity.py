@@ -1,5 +1,5 @@
+from library import decorators as dc
 from library.botapp import botapp
-from library import database
 import lightbulb
 import hikari
 
@@ -9,18 +9,8 @@ plugin = lightbulb.Plugin(__name__)
 @lightbulb.app_command_permissions(dm_enabled=False)
 @lightbulb.command(name='fumabot', description="Get an invite to the server, or add the bot to your own server!")
 @lightbulb.implements(lightbulb.SlashCommand)
+@dc.check_bot_ban()
 async def bot_command(ctx: lightbulb.SlashContext):
-    is_banned = database.run_ban_check(ctx)
-    if is_banned is True:
-        await ctx.respond(
-            embed=hikari.Embed(
-                title="Forbidden",
-                description="Sorry, you can't access this bot anymore.",
-                color=0xff0000,
-            ),
-        )
-        return
-
     embed = (
         hikari.Embed(
             title="<:loveball:1389313177392513034> Thank you for picking Fumabot <:loveball:1389313177392513034>",

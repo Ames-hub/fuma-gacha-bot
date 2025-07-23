@@ -1,6 +1,6 @@
 from library import decorators as dc
+from library.database import dbuser
 from library.botapp import botapp
-from library import database
 import lightbulb
 import hikari
 
@@ -41,7 +41,7 @@ async def bot_command(ctx: lightbulb.SlashContext):
     page_number = int(ctx.options.page) - 1  # index at 0.
     target_user: hikari.Member = ctx.options.user
 
-    inventory = database.get_inventory(ctx.author.id if target_user is None else int(target_user), search)
+    inventory = dbuser.get_inventory(ctx.author.id if target_user is None else int(target_user), search)
 
     invent_str = f"Your Inventory has {len(inventory)} Items."
     for item_identifier in inventory:

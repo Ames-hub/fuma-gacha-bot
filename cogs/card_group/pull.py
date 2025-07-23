@@ -1,4 +1,4 @@
-from library.database import pull_random_card, save_to_invent, load_img_bytes
+from library.database import dbcards
 from library import decorators as dc
 from library.botapp import botapp
 from io import BytesIO
@@ -25,7 +25,7 @@ async def bot_command(ctx: lightbulb.SlashContext):
     card_imgs = []
 
     for i in range(3):
-        rcard = pull_random_card(exception_names=card_names)
+        rcard = dbcards.pull_random_card(exception_names=card_names)
         if rcard is False:
             await ctx.respond(
                 embed=hikari.Embed(
@@ -37,12 +37,12 @@ async def bot_command(ctx: lightbulb.SlashContext):
 
         cards.append(rcard)
         card_names.append(rcard["identifier"])
-        save_to_invent(
+        dbcards.save_to_invent(
             item_identifier=rcard["identifier"],
             item_name=rcard["name"],
             user_id=int(ctx.author.id),
         )
-        card_imgs.append(load_img_bytes(rcard["identifier"]))  # Assumes returns BytesIO
+        card_imgs.append(dbcards.load_img_bytes(rcard["identifier"]))  # Assumes returns BytesIO
 
     # --- Combine images ---
     pil_imgs = [Image.open(img).convert("RGBA") for img in card_imgs]

@@ -1,8 +1,8 @@
-import hikari
 from lightbulb.ext import tasks
 import lightbulb
 import datetime
 import logging
+import hikari
 import miru
 import os
 
@@ -19,6 +19,7 @@ if BOT_TOKEN == "none":
     raise Exception("BOT_TOKEN is not set in environment variables. Please set it.")
 
 botapp = lightbulb.BotApp(token=BOT_TOKEN)
+tasks.load(botapp)
 
 @botapp.listen(hikari.ShardReadyEvent)
 async def ready(event: hikari.ShardReadyEvent) -> None:

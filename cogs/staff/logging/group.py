@@ -1,13 +1,14 @@
+from cogs.staff.group import staff_group
 import lightbulb
 
 plugin = lightbulb.Plugin(__name__)
 
-name = "staff"
-desc = "All Staff commands"
-@plugin.command
+name = "logging"
+desc = "All logging commands"
+@staff_group.child
 @lightbulb.command(name, desc)
-@lightbulb.implements(lightbulb.SlashCommandGroup)
-async def staff_group(ctx: lightbulb.Context) -> None:
+@lightbulb.implements(lightbulb.SlashSubGroup)
+async def logging_group(ctx: lightbulb.Context) -> None:
     # This shouldn't be able to be called, but if it is, it'll just respond with a message
     msg = f"Hello, {ctx.author.username}! If you can see this message, that's a bug! Please report it.\n"
     await ctx.respond(msg)
