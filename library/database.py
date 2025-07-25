@@ -139,12 +139,11 @@ class dbuser:
             conn.close()
 
     @staticmethod
-    def has_admin_role(user_role_ids):
-        admin_roles = botapp.d['admin_roles']
-        for role_id in user_role_ids:
-            for admin_role_id in admin_roles:
-                if role_id == admin_role_id:
-                    return True
+    def is_administrator(user_id):
+        admin_ids = botapp.d['admin_ids']
+        for admin_id in admin_ids:
+            if int(user_id) == int(admin_id):
+                return True
         return False
 
     @staticmethod

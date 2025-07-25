@@ -16,7 +16,13 @@ botapp.load_extensions_from("cogs/staff/botlogging")
 botapp.load_extensions_from("cogs/other")
 
 botapp.d['maintainer'] = 913574723475083274
-botapp.d['admin_roles'] = [1386536393085419664, 1386536159185862768]
+botapp.d['admin_ids'] = [
+    913574723475083274,
+    299709812848197644,
+    690236383410782301,
+    340243618101198858,
+    740312826253410355
+]
 
 DEBUG = os.environ.get("DEBUG", "False").lower() == "true"
 botapp.d['DEBUG'] = DEBUG
