@@ -1,4 +1,4 @@
-from cogs.staff.logging.group import logging_group
+from cogs.staff.botlogging.group import logging_group
 from library.database import eventlogs
 from library import decorators as dc
 import lightbulb

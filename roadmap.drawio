@@ -1,6 +1,6 @@
 <mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/27.0.2 Chrome/134.0.6998.205 Electron/35.3.0 Safari/537.36" version="27.0.2">
   <diagram name="Page-1" id="VuOHGxyIhAAINdgDTFCT">
-    <mxGraphModel dx="439" dy="417" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2450" pageHeight="1500" math="0" shadow="0">
+    <mxGraphModel dx="1240" dy="731" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2450" pageHeight="1500" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -183,7 +183,7 @@
         <mxCell id="pB03gOQXnPwzzRDHyuBl-52" value="Card Removal" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#008a00;fontColor=#ffffff;strokeColor=#005700;" parent="1" vertex="1">
           <mxGeometry x="410" y="50" width="120" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="pB03gOQXnPwzzRDHyuBl-55" value="Card editing" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fa6800;fontColor=#000000;strokeColor=#C73500;" parent="1" vertex="1">
+        <mxCell id="pB03gOQXnPwzzRDHyuBl-55" value="Card editing" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f0a30a;fontColor=#000000;strokeColor=#BD7000;" parent="1" vertex="1">
           <mxGeometry x="620" y="50" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="xh6JLx4Z2FLlokLm3iLa-6" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="xh6JLx4Z2FLlokLm3iLa-1" target="xh6JLx4Z2FLlokLm3iLa-5" edge="1">
@@ -204,14 +204,8 @@
         <mxCell id="xh6JLx4Z2FLlokLm3iLa-7" value="Admin can spawn Card&lt;div&gt;(/staff gift)&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#008a00;fontColor=#ffffff;strokeColor=#005700;" parent="1" vertex="1">
           <mxGeometry x="950" y="260" width="120" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="xh6JLx4Z2FLlokLm3iLa-17" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="xh6JLx4Z2FLlokLm3iLa-14" target="xh6JLx4Z2FLlokLm3iLa-16" edge="1">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
         <mxCell id="xh6JLx4Z2FLlokLm3iLa-14" value="Viewable Inventory by Admin" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#008a00;fontColor=#ffffff;strokeColor=#005700;" parent="1" vertex="1">
           <mxGeometry x="790" y="680" width="120" height="60" as="geometry" />
-        </mxCell>
-        <mxCell id="xh6JLx4Z2FLlokLm3iLa-16" value="Modifiable Inventory by Admin" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fa6800;fontColor=#000000;strokeColor=#C73500;" parent="1" vertex="1">
-          <mxGeometry x="960" y="680" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="xh6JLx4Z2FLlokLm3iLa-21" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="xh6JLx4Z2FLlokLm3iLa-18" target="xh6JLx4Z2FLlokLm3iLa-20" edge="1">
           <mxGeometry relative="1" as="geometry" />
@@ -360,7 +354,7 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="wAaWJtf0U_tvFRP9rB3A-38" value="Limited Card Event System&lt;div&gt;(Create possible limited event)&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#a20025;fontColor=#ffffff;strokeColor=#6F0000;" parent="1" vertex="1">
+        <mxCell id="wAaWJtf0U_tvFRP9rB3A-38" value="Limited Card Event System&lt;div&gt;(Create possible limited event)&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#008a00;fontColor=#ffffff;strokeColor=#005700;" parent="1" vertex="1">
           <mxGeometry x="940" y="540" width="160" height="50" as="geometry" />
         </mxCell>
         <mxCell id="_D_GStA8pNQ2_JilolDI-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="wAaWJtf0U_tvFRP9rB3A-40" target="6YqeTpMIhfhGa7pDKwlR-2" edge="1">
@@ -390,9 +384,6 @@
         <mxCell id="6YqeTpMIhfhGa7pDKwlR-9" value="Card Creation Command Supports Event And Limited Cards" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#008a00;fontColor=#ffffff;strokeColor=#005700;" parent="1" vertex="1">
           <mxGeometry x="1120" y="570" width="120" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="6YqeTpMIhfhGa7pDKwlR-19" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="6YqeTpMIhfhGa7pDKwlR-11" target="6YqeTpMIhfhGa7pDKwlR-18" edge="1">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
         <mxCell id="22NPlYDqhb8-uklPoqEk-8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.75;entryDx=0;entryDy=0;" parent="1" source="6YqeTpMIhfhGa7pDKwlR-11" target="6YqeTpMIhfhGa7pDKwlR-7" edge="1">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
@@ -403,53 +394,20 @@
         <mxCell id="6YqeTpMIhfhGa7pDKwlR-11" value="Event End Detection" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#008a00;fontColor=#ffffff;strokeColor=#005700;" parent="1" vertex="1">
           <mxGeometry x="1420" y="660" width="120" height="50" as="geometry" />
         </mxCell>
-        <mxCell id="6YqeTpMIhfhGa7pDKwlR-23" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="6YqeTpMIhfhGa7pDKwlR-18" target="6YqeTpMIhfhGa7pDKwlR-22" edge="1">
-          <mxGeometry relative="1" as="geometry">
-            <Array as="points">
-              <mxPoint x="1580" y="760" />
-              <mxPoint x="1580" y="550" />
-            </Array>
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="6YqeTpMIhfhGa7pDKwlR-18" value="End Event Prematurely Command" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fa6800;fontColor=#000000;strokeColor=#C73500;" parent="1" vertex="1">
-          <mxGeometry x="1420" y="740" width="120" height="50" as="geometry" />
-        </mxCell>
-        <mxCell id="6YqeTpMIhfhGa7pDKwlR-24" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="6YqeTpMIhfhGa7pDKwlR-22" target="6YqeTpMIhfhGa7pDKwlR-7" edge="1">
-          <mxGeometry relative="1" as="geometry">
-            <Array as="points">
-              <mxPoint x="1320" y="550" />
-            </Array>
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="6YqeTpMIhfhGa7pDKwlR-22" value="If a timed end is set, verify they want to prematurely end the event" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fa6800;fontColor=#000000;strokeColor=#C73500;" parent="1" vertex="1">
-          <mxGeometry x="1380" y="520" width="120" height="60" as="geometry" />
-        </mxCell>
         <mxCell id="6YqeTpMIhfhGa7pDKwlR-33" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="6YqeTpMIhfhGa7pDKwlR-35" target="6YqeTpMIhfhGa7pDKwlR-39" edge="1">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="6YqeTpMIhfhGa7pDKwlR-34" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="6YqeTpMIhfhGa7pDKwlR-35" target="6YqeTpMIhfhGa7pDKwlR-40" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="22NPlYDqhb8-uklPoqEk-4" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="6YqeTpMIhfhGa7pDKwlR-35" target="22NPlYDqhb8-uklPoqEk-3" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="6YqeTpMIhfhGa7pDKwlR-35" value="Start Limited Event Scheduling" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#a20025;fontColor=#ffffff;strokeColor=#6F0000;" parent="1" vertex="1">
+        <mxCell id="6YqeTpMIhfhGa7pDKwlR-35" value="Start Limited Event Scheduling" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#008a00;fontColor=#ffffff;strokeColor=#005700;" parent="1" vertex="1">
           <mxGeometry x="1190" y="380" width="120" height="50" as="geometry" />
-        </mxCell>
-        <mxCell id="6YqeTpMIhfhGa7pDKwlR-38" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="6YqeTpMIhfhGa7pDKwlR-39" target="6YqeTpMIhfhGa7pDKwlR-41" edge="1">
-          <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="22NPlYDqhb8-uklPoqEk-17" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="6YqeTpMIhfhGa7pDKwlR-39" target="22NPlYDqhb8-uklPoqEk-16" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="6YqeTpMIhfhGa7pDKwlR-39" value="&lt;span style=&quot;color: rgb(237, 237, 237);&quot;&gt;Limited Event End Detection&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#a20025;fontColor=#ffffff;strokeColor=#6F0000;" parent="1" vertex="1">
+        <mxCell id="6YqeTpMIhfhGa7pDKwlR-39" value="&lt;span style=&quot;color: rgb(237, 237, 237);&quot;&gt;Limited Event End Detection&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#008a00;fontColor=#ffffff;strokeColor=#005700;" parent="1" vertex="1">
           <mxGeometry x="1350" y="380" width="120" height="50" as="geometry" />
-        </mxCell>
-        <mxCell id="6YqeTpMIhfhGa7pDKwlR-40" value="Start Limited Event Command" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fa6800;fontColor=#000000;strokeColor=#C73500;" parent="1" vertex="1">
-          <mxGeometry x="1190" y="460" width="120" height="40" as="geometry" />
-        </mxCell>
-        <mxCell id="6YqeTpMIhfhGa7pDKwlR-41" value="End Limited Event Command" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fa6800;fontColor=#000000;strokeColor=#C73500;" parent="1" vertex="1">
-          <mxGeometry x="1350" y="460" width="120" height="40" as="geometry" />
         </mxCell>
         <mxCell id="sr6Q4fcyC1EpfoRv2chg-1" value="FUMABOT ROADMAP" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=5;fontSize=31;" parent="1" vertex="1">
           <mxGeometry x="870" y="10" width="350" height="30" as="geometry" />
@@ -813,7 +771,7 @@
         <mxCell id="22NPlYDqhb8-uklPoqEk-15" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="22NPlYDqhb8-uklPoqEk-3" target="22NPlYDqhb8-uklPoqEk-14" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="22NPlYDqhb8-uklPoqEk-3" value="Limited Event Start Detection" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#a20025;fontColor=#ffffff;strokeColor=#6F0000;" parent="1" vertex="1">
+        <mxCell id="22NPlYDqhb8-uklPoqEk-3" value="Limited Event Start Detection" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#008a00;fontColor=#ffffff;strokeColor=#005700;" parent="1" vertex="1">
           <mxGeometry x="1190" y="300" width="120" height="50" as="geometry" />
         </mxCell>
         <mxCell id="22NPlYDqhb8-uklPoqEk-6" value="Event Start Notification" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#008a00;fontColor=#ffffff;strokeColor=#005700;" parent="1" vertex="1">
@@ -825,20 +783,20 @@
         <mxCell id="22NPlYDqhb8-uklPoqEk-20" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="22NPlYDqhb8-uklPoqEk-14" target="22NPlYDqhb8-uklPoqEk-19" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="22NPlYDqhb8-uklPoqEk-14" value="Limited Event Start Notification" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#a20025;fontColor=#ffffff;strokeColor=#6F0000;" parent="1" vertex="1">
+        <mxCell id="22NPlYDqhb8-uklPoqEk-14" value="Limited Event Start Notification" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#008a00;fontColor=#ffffff;strokeColor=#005700;" parent="1" vertex="1">
           <mxGeometry x="1190" y="220" width="120" height="50" as="geometry" />
         </mxCell>
-        <mxCell id="22NPlYDqhb8-uklPoqEk-16" value="Limited Event End Notification" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#a20025;fontColor=#ffffff;strokeColor=#6F0000;" parent="1" vertex="1">
+        <mxCell id="22NPlYDqhb8-uklPoqEk-16" value="Limited Event End Notification" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#008a00;fontColor=#ffffff;strokeColor=#005700;" parent="1" vertex="1">
           <mxGeometry x="1350" y="300" width="120" height="50" as="geometry" />
         </mxCell>
-        <mxCell id="22NPlYDqhb8-uklPoqEk-19" value="Make Assosciated Limited Cards Pullable" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#a20025;fontColor=#ffffff;strokeColor=#6F0000;" parent="1" vertex="1">
+        <mxCell id="22NPlYDqhb8-uklPoqEk-19" value="Make Assosciated Limited Cards Pullable" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#008a00;fontColor=#ffffff;strokeColor=#005700;" parent="1" vertex="1">
           <mxGeometry x="1350" y="220" width="120" height="50" as="geometry" />
         </mxCell>
         <mxCell id="22NPlYDqhb8-uklPoqEk-22" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="22NPlYDqhb8-uklPoqEk-21" target="22NPlYDqhb8-uklPoqEk-19" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="22NPlYDqhb8-uklPoqEk-21" value="Cmd to mark a card as assosciated with limited event" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#a20025;fontColor=#ffffff;strokeColor=#6F0000;" parent="1" vertex="1">
-          <mxGeometry x="1540" y="260" width="120" height="60" as="geometry" />
+        <mxCell id="22NPlYDqhb8-uklPoqEk-21" value="Cmd to mark a card as assosciated with limited event" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#008a00;fontColor=#ffffff;strokeColor=#005700;" parent="1" vertex="1">
+          <mxGeometry x="1520" y="260" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="22NPlYDqhb8-uklPoqEk-26" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="22NPlYDqhb8-uklPoqEk-23" target="22NPlYDqhb8-uklPoqEk-24" edge="1">
           <mxGeometry relative="1" as="geometry" />

@@ -1,12 +1,12 @@
-from library.database import stdn_events, eventlogs, TimeError
-from cogs.staff.events.group import event_group
+from library.database import lmtd_events, eventlogs, TimeError
+from cogs.staff.limited_events.group import l_event_group
 from library import decorators as dc
 import lightbulb
 import hikari
 
 plugin = lightbulb.Plugin(__name__)
 
-@event_group.child
+@l_event_group.child
 @lightbulb.app_command_permissions(dm_enabled=False)
 @lightbulb.option(
     name="end_time",
@@ -29,13 +29,13 @@ plugin = lightbulb.Plugin(__name__)
 @lightbulb.add_checks(
     lightbulb.guild_only
 )
-@lightbulb.command(name='schedule', description="Schedule a new event", pass_options=True)
+@lightbulb.command(name='schedule', description="Schedule a new limited event", pass_options=True)
 @lightbulb.implements(lightbulb.SlashSubCommand)
 @dc.check_admin_status()
 @dc.check_bot_ban()
 async def bot_command(ctx: lightbulb.SlashContext, name, start_time, end_time):
     try:
-        success = stdn_events.schedule(
+        success = lmtd_events.schedule(
             name=name,
             start_time=start_time,
             end_time=end_time
@@ -53,7 +53,7 @@ async def bot_command(ctx: lightbulb.SlashContext, name, start_time, end_time):
             flags=hikari.MessageFlag.EPHEMERAL
         )
         return
-    except stdn_events.EventSchedulingError:
+    except lmtd_events.LimEventSchedulingError:
         await ctx.respond(
             embed=hikari.Embed(
                 title="Event scheduling",
@@ -62,11 +62,11 @@ async def bot_command(ctx: lightbulb.SlashContext, name, start_time, end_time):
             ),
         )
         return
-    except stdn_events.NotSchedulable:
+    except lmtd_events.NotSchedulable:
         await ctx.respond(
             embed=hikari.Embed(
                 title="Event scheduling",
-                description="This event is no longer schedulable.",
+                description="Limited event's cant be scheduled twice.",
                 color=0xff0000,
             ),
         )
@@ -81,7 +81,7 @@ async def bot_command(ctx: lightbulb.SlashContext, name, start_time, end_time):
         )
 
         await eventlogs.log_event(
-            "Event Scheduled",
+            "Limited Event Scheduled",
             f"The event {name} has been scheduled for {start_time} to {end_time}."
         )
     else:

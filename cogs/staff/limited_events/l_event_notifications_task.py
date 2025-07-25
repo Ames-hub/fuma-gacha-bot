@@ -1,4 +1,4 @@
-from library.database import eventlogs, stdn_events, dbcards
+from library.database import eventlogs, lmtd_events, dbcards
 from library.botapp import tasks, botapp
 import lightbulb
 import datetime
@@ -6,13 +6,13 @@ import datetime
 plugin = lightbulb.Plugin(__name__)
 
 @tasks.task(s=10, wait_before_execution=False, auto_start=True)
-async def event_notifications():
-    if 'event_checked_cache' not in botapp.d:
-        botapp.d['event_checked_cache'] = {}
+async def limited_event_notifications():
+    if 'limited_event_checked_cache' not in botapp.d:
+        botapp.d['limited_event_checked_cache'] = {}
 
-    events_list = stdn_events.get_all_events()
+    events_list = lmtd_events.get_all_events()
     for event_name in events_list:
-        schedules = stdn_events.get_event_schedule(event_name)
+        schedules = lmtd_events.get_event_schedule(event_name)
         if schedules is None:
             continue
 
@@ -31,11 +31,11 @@ async def event_notifications():
             later_than_end = now.timestamp() >= end_time.timestamp()
 
             if later_than_start and not later_than_end:
-                if botapp.d['event_checked_cache'].get(event_name, False):
+                if botapp.d['limited_event_checked_cache'].get(event_name, False):
                     continue
 
                 # Get all associated cards and mark them as pullable
-                cards_list = stdn_events.get_assosciated_cards(event_name)
+                cards_list = lmtd_events.get_assosciated_cards(event_name)
                 for card in cards_list:
                     success = dbcards.set_pullability(
                         card_id=card,
@@ -48,16 +48,16 @@ async def event_notifications():
                         )
 
                 await eventlogs.log_event(
-                    "Event Notification",
-                    f"The event \"{event_name}\" has started at {start_time}!"
+                    "Limited Event Notification",
+                    f"The limited event \"{event_name}\" has started at {start_time}!"
                 )
 
                 # Mark as checked only after a successful start
-                botapp.d['event_checked_cache'][event_name] = True
+                botapp.d['limited_event_checked_cache'][event_name] = True
 
             elif later_than_end:
                 # Get all associated cards and mark them as not pullable
-                cards_list = stdn_events.get_assosciated_cards(event_name)
+                cards_list = lmtd_events.get_assosciated_cards(event_name)
                 for card in cards_list:
                     success = dbcards.set_pullability(
                         card_id=card,
@@ -65,21 +65,21 @@ async def event_notifications():
                     )
                     if not success:
                         await eventlogs.log_event(
-                            "Event Error Warning",
+                            "Limited Event Error Warning",
                             f"I failed to mark the card with the ID \"{card}\" as not pullable for event \"{event_name}\"."
                         )
 
                 entry_id = schedule['entry_id']
-                success = stdn_events.delete_schedule(entry_id)
+                success = lmtd_events.delete_schedule(entry_id)
                 if not success:
                     await eventlogs.log_event(
-                        "Event Error Warning",
+                        "Limited Event Error Warning",
                         f"I failed to delete the scheduled event with the ID \"{entry_id}\" after it was completed."
                     )
                     continue
 
                 await eventlogs.log_event(
-                    "Event Notification",
+                    "Limited Event Notification",
                     f"The event \"{event_name}\" has ended at {end_time}."
                 )
 

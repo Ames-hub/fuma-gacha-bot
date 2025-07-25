@@ -1,6 +1,6 @@
+from library.database import dbcards, eventlogs
 from cogs.staff.group import staff_group
 from library import decorators as dc
-from library.database import dbcards
 import lightbulb
 import mimetypes
 import sqlite3
@@ -137,6 +137,11 @@ async def bot_command(ctx: lightbulb.SlashContext):
 
         await ctx.respond(
             embed=embed,
+        )
+
+        await eventlogs.log_event(
+            "Card Created",
+            f"The card {name} has been created with the ID {card_id}."
         )
     else:
         await ctx.respond(

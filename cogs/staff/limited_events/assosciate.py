@@ -1,12 +1,12 @@
+from cogs.staff.limited_events.group import l_event_group
 from library.database import dbcards, stdn_events, eventlogs
-from cogs.staff.events.group import event_group
 from library import decorators as dc
 import lightbulb
 import hikari
 
 plugin = lightbulb.Plugin(__name__)
 
-@event_group.child
+@l_event_group.child
 @lightbulb.app_command_permissions(dm_enabled=False)
 @lightbulb.option(
     name="card_id",
@@ -22,7 +22,7 @@ plugin = lightbulb.Plugin(__name__)
 @lightbulb.add_checks(
     lightbulb.guild_only
 )
-@lightbulb.command(name='assosciate', description="Assosciate a card with an event.", pass_options=True)
+@lightbulb.command(name='assosciate', description="Assosciate a card with a limited event.", pass_options=True)
 @lightbulb.implements(lightbulb.SlashSubCommand)
 @dc.check_admin_status()
 @dc.check_bot_ban()
@@ -40,12 +40,12 @@ async def bot_command(ctx: lightbulb.SlashContext, event_name, card_id):
         )
         return
     card_tier = dbcards.get_tier(card_id=card_id)
-    if card_tier != "Event":
-        if card_tier == "Limited":
+    if card_tier != "Limited":
+        if card_tier == "Event":
             await ctx.respond(
                 embed=hikari.Embed(
                     title="Card Tier Incompatibility",
-                    description="The card you are trying to assosciate with the standard event is a limited event card.",
+                    description="The card you are trying to assosciate with the limited event is an event card, you need a limited event card for this one.",
                     color=0xff0000,
                 ),
                 flags=hikari.MessageFlag.EPHEMERAL
@@ -54,7 +54,7 @@ async def bot_command(ctx: lightbulb.SlashContext, event_name, card_id):
         await ctx.respond(
             embed=hikari.Embed(
                 title="Card Tier Incompatibility",
-                description="The card you are trying to assosciate with the event is not an event card.",
+                description="The card you are trying to assosciate with the event is not a limited event card.",
                 color=0xff0000,
             ),
             flags=hikari.MessageFlag.EPHEMERAL
@@ -66,7 +66,7 @@ async def bot_command(ctx: lightbulb.SlashContext, event_name, card_id):
         await ctx.respond(
             embed=hikari.Embed(
                 title="Card Assosciated",
-                description="This card is already assosciated with this event.",
+                description="This card is already assosciated with this limited event.",
                 color=0xff0000,
             ),
             flags=hikari.MessageFlag.EPHEMERAL
@@ -78,7 +78,7 @@ async def bot_command(ctx: lightbulb.SlashContext, event_name, card_id):
         await ctx.respond(
             embed=hikari.Embed(
                 title="Card Assosciated",
-                description="This card is already assosciated with another event.",
+                description="This card is already assosciated with another limited event.",
                 color=0xff0000,
             ),
         )
@@ -90,7 +90,7 @@ async def bot_command(ctx: lightbulb.SlashContext, event_name, card_id):
         await ctx.respond(
             embed=hikari.Embed(
                 title="Assosciation Error",
-                description="This card is already assosciated with this event.",
+                description="This card is already assosciated with this limited event.",
                 color=0xff0000,
             ),
         )
@@ -100,18 +100,18 @@ async def bot_command(ctx: lightbulb.SlashContext, event_name, card_id):
         await ctx.respond(
             embed=hikari.Embed(
                 title="Success!",
-                description=f"The event card with the ID {card_id} has been assosciated with the event.",
+                description=f"The event card with the ID {card_id} has been assosciated with the limited event.",
             )
         )
         await eventlogs.log_event(
-            "Event Card Assosciated",
-            f"The event card with the ID {card_id} has been assosciated with the event {event_name}."
+            "Limited Event Card Assosciated",
+            f"The event card with the ID {card_id} has been assosciated with the limited event {event_name}."
         )
     else:
         await ctx.respond(
             embed=hikari.Embed(
                 title="Error!",
-                description="The card could not be assosciated with the event.",
+                description="The card could not be assosciated with the limited event.",
             )
         )
 

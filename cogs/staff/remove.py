@@ -1,6 +1,6 @@
+from library.database import dbcards, eventlogs
 from cogs.staff.group import staff_group
 from library import decorators as dc
-from library.database import dbcards
 import lightbulb
 import hikari
 
@@ -48,6 +48,11 @@ async def bot_command(ctx: lightbulb.SlashContext):
                     description="Your card has been deleted."
                 )
             )
+        )
+
+        await eventlogs.log_event(
+            "Card Deleted",
+            f"The card with the ID {custom_id} has been deleted."
         )
     else:
         await ctx.respond(

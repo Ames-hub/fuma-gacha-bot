@@ -1,6 +1,6 @@
+from library.database import dbcards, eventlogs
 from cogs.staff.group import staff_group
 from library import decorators as dc
-from library.database import dbcards
 import lightbulb
 import hikari
 
@@ -43,6 +43,11 @@ async def bot_command(ctx: lightbulb.SlashContext, card_id: str, target_user: hi
                 title="Success!",
                 description="The card has been successfully spawned in to their inventory.",
             )
+        )
+
+        await eventlogs.log_event(
+            "Card Spawned",
+            f"The card {card_id} has been spawned in to {target_user.username}'s inventory."
         )
     else:
         await ctx.respond(

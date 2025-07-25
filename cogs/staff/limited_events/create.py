@@ -1,19 +1,13 @@
-from library.database import stdn_events, eventlogs
-from cogs.staff.events.group import event_group
+from cogs.staff.limited_events.group import l_event_group
+from library.database import lmtd_events, eventlogs
 from library import decorators as dc
 import lightbulb
 import hikari
 
 plugin = lightbulb.Plugin(__name__)
 
-@event_group.child
+@l_event_group.child
 @lightbulb.app_command_permissions(dm_enabled=False)
-@lightbulb.option(
-    name="unique",
-    description="Is this event only going to happen once?",
-    required=True,
-    type=hikari.OptionType.BOOLEAN,
-)
 @lightbulb.option(
     name="name",
     description="What's the name or title for this event?",
@@ -23,17 +17,16 @@ plugin = lightbulb.Plugin(__name__)
 @lightbulb.add_checks(
     lightbulb.guild_only
 )
-@lightbulb.command(name='create', description="Create a new event that can be scheduled", pass_options=True)
+@lightbulb.command(name='create', description="Create a new limited event that can be scheduled for later", pass_options=True)
 @lightbulb.implements(lightbulb.SlashSubCommand)
 @dc.check_admin_status()
 @dc.check_bot_ban()
-async def bot_command(ctx: lightbulb.SlashContext, name, unique):
+async def bot_command(ctx: lightbulb.SlashContext, name):
     try:
-        success = stdn_events.create(
+        success = lmtd_events.create(
             name=name,
-            onetime=unique
         )
-    except stdn_events.EventExistingError:
+    except lmtd_events.LimEventExistingError:
         await ctx.respond(
             embed=hikari.Embed(
                 title="Event Existant",
@@ -48,23 +41,15 @@ async def bot_command(ctx: lightbulb.SlashContext, name, unique):
             hikari.Embed(
                 title="Success!",
                 description="The event has been created and is ready to be scheduled for any time.\n\n"
-                            f"To schedule the event,\nuse `/staff event schedule` command.",
+                            f"To schedule the event,\nuse `/staff limited schedule` command.",
                 color=0x00ff00,
             )
         )
 
-        if unique:
-            embed.add_field(
-                name="Unique Event",
-                value="This event is only going to happen once.\n"
-                      "Once ended, it will not be able to be rescheduled.\n",
-                inline=False,
-            )
-
         await ctx.respond(embed)
 
         await eventlogs.log_event(
-            "Event Created",
+            "Limited Event Created",
             f"The event {name} has been created."
         )
     else:
