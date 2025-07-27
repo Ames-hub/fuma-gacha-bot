@@ -60,7 +60,7 @@ rarity_crossref = {
     min_length=3,
     type=hikari.OptionType.STRING,
 )
-@lightbulb.command(name='create_card', description="Add a new card to the collection (bot admin only)")
+@lightbulb.command(name='mkcard', description="Add a new card to the collection (bot admin only)")
 @lightbulb.implements(lightbulb.SlashSubCommand)
 @dc.check_admin_status()
 @dc.check_bot_ban()
@@ -81,6 +81,14 @@ async def bot_command(ctx: lightbulb.SlashContext):
 
     attachment: hikari.Attachment = ctx.options.icon
     img_mime, _ = mimetypes.guess_type(attachment.filename)
+    if not img_mime:
+        await ctx.respond(
+            embed=hikari.Embed(
+                title="Attachment problem.",
+                description="Could not find the image type?",
+            )
+        )
+        return
     if not img_mime.startswith("image/"):
         await ctx.respond(
             embed=hikari.Embed(

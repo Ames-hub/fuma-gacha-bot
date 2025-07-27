@@ -23,7 +23,7 @@ rarity_crossref = {
     required=True,
     type=hikari.OptionType.STRING,
 )
-@lightbulb.command(name='remove_card', description="Create a card that can be in any set of three!")
+@lightbulb.command(name='rmcard', description="Delete a card.")
 @lightbulb.implements(lightbulb.SlashSubCommand)
 @dc.check_admin_status()
 @dc.check_bot_ban()

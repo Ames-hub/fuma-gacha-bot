@@ -1,5 +1,6 @@
 from library.database import database
 from library.botapp import botapp
+import datetime
 import os
 
 # Keep DB Up to date
@@ -8,7 +9,8 @@ database.modernize()
 # Load all extensions
 botapp.load_extensions_from("cogs/card_group")
 botapp.load_extensions_from("cogs/nicho_market")
-botapp.load_extensions_from("cogs/pokeshop")
+botapp.load_extensions_from("cogs/pokemarket")
+botapp.load_extensions_from("cogs/economy")
 botapp.load_extensions_from("cogs/staff")
 botapp.load_extensions_from("cogs/staff/events")
 botapp.load_extensions_from("cogs/staff/limited_events")
@@ -32,5 +34,21 @@ botapp.d['inventory_username_cache'] = {}
 
 botapp.d['event_checked_cache'] = {}
 botapp.d['limited_event_checked_cache'] = {}
+
+botapp.d['pokeshop'] = {
+    "stock": {},
+    "last_stock_update": datetime.datetime.now(),
+    "open": True
+}
+
+botapp.d['pokestore_page_cache'] = {}  # Used to remember what page of the store users are on
+
+botapp.d['nichomarket'] = {
+    "cache": {
+        "page_list": [],
+        "last_update": datetime.datetime.now() - datetime.timedelta(seconds=30),
+    },
+    "open": True
+}
 
 botapp.run(shard_count=5 if not DEBUG else 1)

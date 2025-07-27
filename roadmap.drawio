@@ -1,6 +1,6 @@
 <mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/27.0.2 Chrome/134.0.6998.205 Electron/35.3.0 Safari/537.36" version="27.0.2">
   <diagram name="Page-1" id="VuOHGxyIhAAINdgDTFCT">
-    <mxGraphModel dx="1240" dy="731" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2450" pageHeight="1500" math="0" shadow="0">
+    <mxGraphModel dx="1426" dy="841" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2450" pageHeight="1500" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -77,19 +77,13 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="TWwjKnk3flyv9fksDZWs-116" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="pB03gOQXnPwzzRDHyuBl-2" target="TWwjKnk3flyv9fksDZWs-115" edge="1">
+        <mxCell id="nOH1uKtNQENdLvDcyFZl-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="pB03gOQXnPwzzRDHyuBl-2" target="nOH1uKtNQENdLvDcyFZl-3" edge="1">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
               <mxPoint x="360" y="190" />
-            </Array>
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="TWwjKnk3flyv9fksDZWs-118" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="pB03gOQXnPwzzRDHyuBl-2" target="TWwjKnk3flyv9fksDZWs-117" edge="1">
-          <mxGeometry relative="1" as="geometry">
-            <Array as="points">
-              <mxPoint x="360" y="190" />
-              <mxPoint x="360" y="1050" />
-              <mxPoint x="860" y="1050" />
+              <mxPoint x="360" y="990" />
+              <mxPoint x="241" y="990" />
+              <mxPoint x="241" y="1090" />
             </Array>
           </mxGeometry>
         </mxCell>
@@ -183,7 +177,7 @@
         <mxCell id="pB03gOQXnPwzzRDHyuBl-52" value="Card Removal" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#008a00;fontColor=#ffffff;strokeColor=#005700;" parent="1" vertex="1">
           <mxGeometry x="410" y="50" width="120" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="pB03gOQXnPwzzRDHyuBl-55" value="Card editing" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f0a30a;fontColor=#000000;strokeColor=#BD7000;" parent="1" vertex="1">
+        <mxCell id="pB03gOQXnPwzzRDHyuBl-55" value="Card editing" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fa6800;fontColor=#000000;strokeColor=#C73500;" parent="1" vertex="1">
           <mxGeometry x="620" y="50" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="xh6JLx4Z2FLlokLm3iLa-6" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="xh6JLx4Z2FLlokLm3iLa-1" target="xh6JLx4Z2FLlokLm3iLa-5" edge="1">
@@ -663,8 +657,8 @@
         <mxCell id="TWwjKnk3flyv9fksDZWs-144" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="TWwjKnk3flyv9fksDZWs-115" target="TWwjKnk3flyv9fksDZWs-143" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="TWwjKnk3flyv9fksDZWs-115" value="Nicho Shop" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#a20025;fontColor=#ffffff;strokeColor=#6F0000;" parent="1" vertex="1">
-          <mxGeometry x="300" y="1170" width="120" height="60" as="geometry" />
+        <mxCell id="TWwjKnk3flyv9fksDZWs-115" value="Nicho Shop" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#0050ef;fontColor=#ffffff;strokeColor=#001DBC;" parent="1" vertex="1">
+          <mxGeometry x="810" y="1120" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="TWwjKnk3flyv9fksDZWs-148" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="TWwjKnk3flyv9fksDZWs-117" target="TWwjKnk3flyv9fksDZWs-147" edge="1">
           <mxGeometry relative="1" as="geometry" />
@@ -675,89 +669,85 @@
         <mxCell id="TWwjKnk3flyv9fksDZWs-162" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="TWwjKnk3flyv9fksDZWs-117" target="TWwjKnk3flyv9fksDZWs-161" edge="1">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="860" y="1220" />
-              <mxPoint x="1030" y="1220" />
+              <mxPoint x="1390" y="1350" />
+              <mxPoint x="1530" y="1350" />
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="TWwjKnk3flyv9fksDZWs-117" value="PokeShop" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#a20025;fontColor=#ffffff;strokeColor=#6F0000;" parent="1" vertex="1">
-          <mxGeometry x="800" y="1120" width="120" height="60" as="geometry" />
+        <mxCell id="TWwjKnk3flyv9fksDZWs-117" value="PokeShop" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#008a00;fontColor=#ffffff;strokeColor=#005700;" parent="1" vertex="1">
+          <mxGeometry x="1330" y="1250" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="TWwjKnk3flyv9fksDZWs-129" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="TWwjKnk3flyv9fksDZWs-121" target="TWwjKnk3flyv9fksDZWs-128" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="TWwjKnk3flyv9fksDZWs-140" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="TWwjKnk3flyv9fksDZWs-121" target="TWwjKnk3flyv9fksDZWs-139" edge="1">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="TWwjKnk3flyv9fksDZWs-140" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="TWwjKnk3flyv9fksDZWs-139" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="800" y="1370" as="targetPoint" />
+          </mxGeometry>
         </mxCell>
-        <mxCell id="TWwjKnk3flyv9fksDZWs-121" value="/nichoshop sell&lt;div&gt;command&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;place item from inventory for sale&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#a20025;fontColor=#ffffff;strokeColor=#6F0000;" parent="1" vertex="1">
-          <mxGeometry x="230" y="1290" width="120" height="90" as="geometry" />
+        <mxCell id="TWwjKnk3flyv9fksDZWs-121" value="/nichoshop sell&lt;div&gt;command&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;place item from inventory for sale&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f0a30a;fontColor=#000000;strokeColor=#BD7000;" parent="1" vertex="1">
+          <mxGeometry x="740" y="1240" width="120" height="90" as="geometry" />
         </mxCell>
         <mxCell id="TWwjKnk3flyv9fksDZWs-132" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="TWwjKnk3flyv9fksDZWs-123" target="TWwjKnk3flyv9fksDZWs-131" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="TWwjKnk3flyv9fksDZWs-123" value="/nichoshop&amp;nbsp;buy command&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;buy an offered item from the market&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#a20025;fontColor=#ffffff;strokeColor=#6F0000;" parent="1" vertex="1">
-          <mxGeometry x="490" y="1290" width="120" height="90" as="geometry" />
+        <mxCell id="TWwjKnk3flyv9fksDZWs-123" value="/nichoshop&amp;nbsp;buy command&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;buy an offered item from the market&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f0a30a;fontColor=#000000;strokeColor=#BD7000;" parent="1" vertex="1">
+          <mxGeometry x="1000" y="1240" width="120" height="90" as="geometry" />
         </mxCell>
-        <mxCell id="TWwjKnk3flyv9fksDZWs-125" value="Market Memory" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#a20025;fontColor=#ffffff;strokeColor=#6F0000;" parent="1" vertex="1">
-          <mxGeometry x="140" y="1170" width="120" height="60" as="geometry" />
+        <mxCell id="TWwjKnk3flyv9fksDZWs-125" value="Market Memory" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#008a00;fontColor=#ffffff;strokeColor=#005700;" parent="1" vertex="1">
+          <mxGeometry x="650" y="1120" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="TWwjKnk3flyv9fksDZWs-138" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="TWwjKnk3flyv9fksDZWs-128" target="TWwjKnk3flyv9fksDZWs-125" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="TWwjKnk3flyv9fksDZWs-128" value="Add to market list sold item" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#a20025;fontColor=#ffffff;strokeColor=#6F0000;" parent="1" vertex="1">
-          <mxGeometry x="80" y="1305" width="120" height="60" as="geometry" />
+        <mxCell id="TWwjKnk3flyv9fksDZWs-128" value="Add to market list sold item" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f0a30a;fontColor=#000000;strokeColor=#BD7000;" parent="1" vertex="1">
+          <mxGeometry x="600" y="1255" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="TWwjKnk3flyv9fksDZWs-134" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="TWwjKnk3flyv9fksDZWs-131" target="TWwjKnk3flyv9fksDZWs-133" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="TWwjKnk3flyv9fksDZWs-131" value="Verify enough nicho coins" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#a20025;fontColor=#ffffff;strokeColor=#6F0000;" parent="1" vertex="1">
-          <mxGeometry x="630" y="1305" width="120" height="60" as="geometry" />
+        <mxCell id="TWwjKnk3flyv9fksDZWs-131" value="Verify enough nicho coins" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f0a30a;fontColor=#000000;strokeColor=#BD7000;" parent="1" vertex="1">
+          <mxGeometry x="1140" y="1255" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="TWwjKnk3flyv9fksDZWs-141" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="TWwjKnk3flyv9fksDZWs-133" target="TWwjKnk3flyv9fksDZWs-135" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="TWwjKnk3flyv9fksDZWs-133" value="Add bought item to inventory." style="rounded=0;whiteSpace=wrap;html=1;fillColor=#a20025;fontColor=#ffffff;strokeColor=#6F0000;" parent="1" vertex="1">
-          <mxGeometry x="630" y="1190" width="120" height="60" as="geometry" />
+        <mxCell id="TWwjKnk3flyv9fksDZWs-133" value="Add bought item to inventory." style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f0a30a;fontColor=#000000;strokeColor=#BD7000;" parent="1" vertex="1">
+          <mxGeometry x="1140" y="1140" width="120" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="TWwjKnk3flyv9fksDZWs-137" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;jumpStyle=arc;jumpSize=16;" parent="1" source="TWwjKnk3flyv9fksDZWs-135" target="TWwjKnk3flyv9fksDZWs-125" edge="1">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="TWwjKnk3flyv9fksDZWs-135" value="&amp;nbsp;Mark offer expired" style="whiteSpace=wrap;html=1;rounded=0;fillColor=#f0a30a;fontColor=#000000;strokeColor=#BD7000;" parent="1" vertex="1">
+          <mxGeometry x="1140" y="1080" width="120" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="TWwjKnk3flyv9fksDZWs-135" value="&amp;nbsp;Mark offer expired" style="whiteSpace=wrap;html=1;rounded=0;fillColor=#a20025;fontColor=#ffffff;strokeColor=#6F0000;" parent="1" vertex="1">
-          <mxGeometry x="630" y="1130" width="120" height="30" as="geometry" />
+        <mxCell id="TWwjKnk3flyv9fksDZWs-143" value="/nichoshop browse&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;See all offers&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#008a00;fontColor=#ffffff;strokeColor=#005700;" parent="1" vertex="1">
+          <mxGeometry x="880" y="1242.5" width="100" height="85" as="geometry" />
         </mxCell>
-        <mxCell id="TWwjKnk3flyv9fksDZWs-139" value="Remove item from seller inventory" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#a20025;fontColor=#ffffff;strokeColor=#6F0000;" parent="1" vertex="1">
-          <mxGeometry x="230" y="1420" width="120" height="40" as="geometry" />
-        </mxCell>
-        <mxCell id="TWwjKnk3flyv9fksDZWs-143" value="/nichoshop browse&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;See all offers&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#a20025;fontColor=#ffffff;strokeColor=#6F0000;" parent="1" vertex="1">
-          <mxGeometry x="370" y="1292.5" width="100" height="85" as="geometry" />
-        </mxCell>
-        <mxCell id="TWwjKnk3flyv9fksDZWs-147" value="/pokeshop browse command&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;View all card packs offered&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#a20025;fontColor=#ffffff;strokeColor=#6F0000;" parent="1" vertex="1">
-          <mxGeometry x="800" y="1270" width="120" height="90" as="geometry" />
+        <mxCell id="TWwjKnk3flyv9fksDZWs-147" value="/pokeshop browse command&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;View all card packs offered&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#008a00;fontColor=#ffffff;strokeColor=#005700;" parent="1" vertex="1">
+          <mxGeometry x="1330" y="1380" width="120" height="90" as="geometry" />
         </mxCell>
         <mxCell id="TWwjKnk3flyv9fksDZWs-159" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="TWwjKnk3flyv9fksDZWs-149" target="TWwjKnk3flyv9fksDZWs-158" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="TWwjKnk3flyv9fksDZWs-149" value="Random card pack generator" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#a20025;fontColor=#ffffff;strokeColor=#6F0000;" parent="1" vertex="1">
-          <mxGeometry x="970" y="1020" width="120" height="60" as="geometry" />
+        <mxCell id="TWwjKnk3flyv9fksDZWs-149" value="Random card pack generator" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#008a00;fontColor=#ffffff;strokeColor=#005700;" parent="1" vertex="1">
+          <mxGeometry x="1500" y="1150" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="TWwjKnk3flyv9fksDZWs-157" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="TWwjKnk3flyv9fksDZWs-153" target="TWwjKnk3flyv9fksDZWs-149" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="TWwjKnk3flyv9fksDZWs-153" value="Shop Items Memory" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#a20025;fontColor=#ffffff;strokeColor=#6F0000;" parent="1" vertex="1">
-          <mxGeometry x="970" y="1120" width="120" height="60" as="geometry" />
+        <mxCell id="TWwjKnk3flyv9fksDZWs-153" value="Shop Items Memory" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#008a00;fontColor=#ffffff;strokeColor=#005700;" parent="1" vertex="1">
+          <mxGeometry x="1500" y="1250" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="TWwjKnk3flyv9fksDZWs-160" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="TWwjKnk3flyv9fksDZWs-158" target="TWwjKnk3flyv9fksDZWs-153" edge="1">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="1190" y="1160" />
+              <mxPoint x="1700" y="1290" />
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="TWwjKnk3flyv9fksDZWs-158" value="once per day task:&lt;div&gt;Randomise shop stock&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#a20025;fontColor=#ffffff;strokeColor=#6F0000;" parent="1" vertex="1">
-          <mxGeometry x="1130" y="1020" width="120" height="60" as="geometry" />
+        <mxCell id="TWwjKnk3flyv9fksDZWs-158" value="once per day task:&lt;div&gt;Randomise shop stock&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#008a00;fontColor=#ffffff;strokeColor=#005700;" parent="1" vertex="1">
+          <mxGeometry x="1640" y="1150" width="120" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="TWwjKnk3flyv9fksDZWs-161" value="/pokeshop buy command&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Buy a card pack&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#a20025;fontColor=#ffffff;strokeColor=#6F0000;" parent="1" vertex="1">
-          <mxGeometry x="970" y="1270" width="120" height="90" as="geometry" />
+        <mxCell id="TWwjKnk3flyv9fksDZWs-161" value="/pokeshop buy command&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Buy a card pack&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#008a00;fontColor=#ffffff;strokeColor=#005700;" parent="1" vertex="1">
+          <mxGeometry x="1470" y="1380" width="120" height="90" as="geometry" />
         </mxCell>
         <mxCell id="22NPlYDqhb8-uklPoqEk-7" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="22NPlYDqhb8-uklPoqEk-1" target="22NPlYDqhb8-uklPoqEk-6" edge="1">
           <mxGeometry relative="1" as="geometry" />
@@ -806,6 +796,87 @@
         </mxCell>
         <mxCell id="22NPlYDqhb8-uklPoqEk-24" value="Make Event Cards Pullable" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#008a00;fontColor=#ffffff;strokeColor=#005700;" parent="1" vertex="1">
           <mxGeometry x="1260" y="845" width="120" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="nOH1uKtNQENdLvDcyFZl-2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="TWwjKnk3flyv9fksDZWs-121" target="TWwjKnk3flyv9fksDZWs-139" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="800" y="1330" as="sourcePoint" />
+            <mxPoint x="800" y="1370" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="TWwjKnk3flyv9fksDZWs-139" value="Remove item from seller inventory" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f0a30a;fontColor=#000000;strokeColor=#BD7000;" parent="1" vertex="1">
+          <mxGeometry x="740" y="1370" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="nOH1uKtNQENdLvDcyFZl-7" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="nOH1uKtNQENdLvDcyFZl-3" target="nOH1uKtNQENdLvDcyFZl-5" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ayNVhUNwxRgXQm-94cKu-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="nOH1uKtNQENdLvDcyFZl-3" target="TWwjKnk3flyv9fksDZWs-115" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="320" y="1120" />
+              <mxPoint x="320" y="1040" />
+              <mxPoint x="870" y="1040" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ayNVhUNwxRgXQm-94cKu-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;sourcePerimeterSpacing=1;" parent="1" source="nOH1uKtNQENdLvDcyFZl-3" target="TWwjKnk3flyv9fksDZWs-117" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="320" y="1120" />
+              <mxPoint x="320" y="1040" />
+              <mxPoint x="1390" y="1040" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="nOH1uKtNQENdLvDcyFZl-3" value="Economy System" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e3c800;fontColor=#000000;strokeColor=#B09500;" parent="1" vertex="1">
+          <mxGeometry x="180" y="1090" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="nOH1uKtNQENdLvDcyFZl-8" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="nOH1uKtNQENdLvDcyFZl-5" target="nOH1uKtNQENdLvDcyFZl-6" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="nOH1uKtNQENdLvDcyFZl-10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="nOH1uKtNQENdLvDcyFZl-5" target="nOH1uKtNQENdLvDcyFZl-9" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="nOH1uKtNQENdLvDcyFZl-13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="nOH1uKtNQENdLvDcyFZl-5" target="nOH1uKtNQENdLvDcyFZl-12" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="nOH1uKtNQENdLvDcyFZl-18" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" parent="1" source="nOH1uKtNQENdLvDcyFZl-5" target="nOH1uKtNQENdLvDcyFZl-16" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ayNVhUNwxRgXQm-94cKu-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" parent="1" source="nOH1uKtNQENdLvDcyFZl-5" target="ayNVhUNwxRgXQm-94cKu-5" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="nOH1uKtNQENdLvDcyFZl-5" value="Money Per User Memory" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#008a00;fontColor=#ffffff;strokeColor=#005700;" parent="1" vertex="1">
+          <mxGeometry x="180" y="1220" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="nOH1uKtNQENdLvDcyFZl-6" value="/bal command" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#008a00;fontColor=#ffffff;strokeColor=#005700;" parent="1" vertex="1">
+          <mxGeometry x="180" y="1350" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="nOH1uKtNQENdLvDcyFZl-9" value="Weekly Cmd&lt;div&gt;/gymbattle&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f0a30a;fontColor=#000000;strokeColor=#BD7000;" parent="1" vertex="1">
+          <mxGeometry x="340" y="1300" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="nOH1uKtNQENdLvDcyFZl-11" value="You earn much money and CAN get 3 5P Rarity cards" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="340" y="1385" width="120" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="nOH1uKtNQENdLvDcyFZl-12" value="Monthly Cmd&lt;div&gt;/howl&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f0a30a;fontColor=#000000;strokeColor=#BD7000;" parent="1" vertex="1">
+          <mxGeometry x="469" y="1300" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="nOH1uKtNQENdLvDcyFZl-14" value="6 5P Cards, 1 random event card, lotta money, 2-5 Nicho Coins" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="470" y="1380" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="nOH1uKtNQENdLvDcyFZl-16" value="Daily cmd&lt;div&gt;/pokemon battle&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#008a00;fontColor=#ffffff;strokeColor=#005700;" parent="1" vertex="1">
+          <mxGeometry x="470" y="1140" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="ayNVhUNwxRgXQm-94cKu-1" value="Get 1 card and some money" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="470" y="1080" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="ayNVhUNwxRgXQm-94cKu-5" value="/pay command" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f0a30a;fontColor=#000000;strokeColor=#BD7000;" parent="1" vertex="1">
+          <mxGeometry x="340" y="1140" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="ayNVhUNwxRgXQm-94cKu-7" value="Price Equation&lt;div&gt;(card1 P + card2 P + card3 P) * 6 + (card1 T + card2 T + card3 T)&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;P = Rarity, T = Tier&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="1465" y="1065" width="190" height="75" as="geometry" />
+        </mxCell>
+        <mxCell id="ayNVhUNwxRgXQm-94cKu-8" value="Seller can put card up for any desired amount." style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="730" y="1420" width="140" height="30" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>

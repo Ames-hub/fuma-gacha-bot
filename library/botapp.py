@@ -21,6 +21,8 @@ if BOT_TOKEN == "none":
 botapp = lightbulb.BotApp(token=BOT_TOKEN)
 tasks.load(botapp)
 
+botapp.d['DB_PATH'] = "botapp.sqlite"
+
 @botapp.listen(hikari.ShardReadyEvent)
 async def ready(event: hikari.ShardReadyEvent) -> None:
     print(f"Ready, Logged in as {event.my_user.username} (Shard {event.shard.id})")

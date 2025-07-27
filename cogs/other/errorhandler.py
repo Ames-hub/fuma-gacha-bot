@@ -39,10 +39,24 @@ async def on_error(event: lightbulb.CommandErrorEvent) -> None:
         await event.context.respond("You are not the owner of this bot.", flags=hikari.MessageFlag.EPHEMERAL)
         return
     elif isinstance(event.exception, lightbulb.errors.CommandIsOnCooldown):
+        wait_time = int(event.exception.retry_after)  # In seconds
+        if wait_time <= 120:  # Under 2 minutes
+            time_unit = "second(s)"
+            # No change to wait_time (remains in seconds).
+        elif wait_time <= 3599:  # Under an hour
+            time_unit = "minute(s)"
+            wait_time = wait_time // 60  # Convert seconds to minutes.
+        elif wait_time <= 86399:  # Less than a day (under 24 hours)
+            time_unit = "hour(s)"
+            wait_time = wait_time // 3600  # Convert seconds to hours.
+        else:  # Greater than or equal to 1 day
+            time_unit = "day(s)"
+            wait_time = wait_time // 86400  # Convert seconds to days.
+
         embed = (
             hikari.Embed(
                 title="Command is on cooldown",
-                description=f"You have {event.exception.retry_after:.2f} seconds left before you can run this command again."
+                description=f"You have {wait_time} {time_unit} left before you can run this command again."
             )
         )
         await event.context.respond(embed)

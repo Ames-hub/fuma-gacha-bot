@@ -1,8 +1,6 @@
-from library.database import dbcards
+from library.database import dbcards, combine_image
 from library import decorators as dc
 from library.botapp import botapp
-from io import BytesIO
-from PIL import Image
 import lightbulb
 import hikari
 
@@ -35,32 +33,18 @@ async def bot_command(ctx: lightbulb.SlashContext):
             )
             return
 
+        card_id = rcard.get('identifier')
+
         cards.append(rcard)
-        card_names.append(rcard["identifier"])
+        card_names.append(card_id)
         dbcards.save_to_invent(
-            item_identifier=rcard["identifier"],
+            item_identifier=card_id,
             item_name=rcard["name"],
             user_id=int(ctx.author.id),
         )
-        card_imgs.append(dbcards.load_img_bytes(rcard["identifier"]))  # Assumes returns BytesIO
+        card_imgs.append(dbcards.load_img_bytes(card_id))  # Assumes returns BytesIO
 
-    # --- Combine images ---
-    pil_imgs = [Image.open(img).convert("RGBA") for img in card_imgs]
-
-    gap = 20
-    total_width = sum(img.width for img in pil_imgs) + gap * (len(pil_imgs) - 1)
-    max_height = max(img.height for img in pil_imgs)
-
-    final_img = Image.new("RGBA", (total_width, max_height), (255, 255, 255, 0))
-
-    x_offset = 0
-    for img in pil_imgs:
-        final_img.paste(img, (x_offset, 0))
-        x_offset += img.width + gap
-
-    img_bytes = BytesIO()
-    final_img.save(img_bytes, format="PNG")
-    img_bytes.seek(0)
+    image = combine_image(card_imgs)
 
     embed = hikari.Embed(
         title='✨ Pull Result ✨',
@@ -75,7 +59,7 @@ async def bot_command(ctx: lightbulb.SlashContext):
         )
 
     embed.set_image(
-        hikari.Bytes(img_bytes.read(), "pull_result.png")
+        image
     )
 
     await ctx.respond(embed=embed)
