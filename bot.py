@@ -25,6 +25,10 @@ botapp.d['admin_ids'] = [
     340243618101198858,
     740312826253410355
 ]
+botapp.d['admin_roles'] = [
+    1386187466897227890, # Admin role
+    1386535298346782761, # Center staff Role
+]
 
 DEBUG = os.environ.get("DEBUG", "False").lower() == "true"
 botapp.d['DEBUG'] = DEBUG
@@ -35,13 +39,9 @@ botapp.d['inventory_username_cache'] = {}
 botapp.d['event_checked_cache'] = {}
 botapp.d['limited_event_checked_cache'] = {}
 
-botapp.d['pokeshop'] = {
-    "stock": {},
-    "last_stock_update": datetime.datetime.now(),
-    "open": True
+botapp.d['pokestore'] = {
+    'user_cache': {}
 }
-
-botapp.d['pokestore_page_cache'] = {}  # Used to remember what page of the store users are on
 
 botapp.d['nichomarket'] = {
     "cache": {

@@ -28,7 +28,7 @@ def check_admin_status():
         async def wrapper(ctx: lightbulb.SlashContext, *args, **kwargs):
             if not type(ctx) == lightbulb.SlashContext:
                 raise TypeError("This decorator can only be used on slash commands!")
-            if dbuser.is_administrator(int(ctx.member.id)) is False:
+            if dbuser.is_administrator(list(ctx.member.role_ids), int(ctx.author.id)) is False:
                 await ctx.respond(
                     embed=hikari.Embed(
                         title="Unauthorized",

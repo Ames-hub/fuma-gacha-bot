@@ -63,6 +63,10 @@ async def bot_command(ctx: lightbulb.SlashContext):
     else:
         pageList = plugin.bot.d['nicho_shop']['cache']['page_list']
 
+    page = str(pageList[ctx.options.page - 1])
+    if len(page) > 1024:
+        page = page[:1000] + "... (trunciated)"
+
     await ctx.respond(
         embed=(
             hikari.Embed(
@@ -71,7 +75,7 @@ async def bot_command(ctx: lightbulb.SlashContext):
             )
             .add_field(
                 name=f"Purchasable Cards ({stock_count})",
-                value=pageList[ctx.options.page - 1],
+                value=page,
             )
         )
     )

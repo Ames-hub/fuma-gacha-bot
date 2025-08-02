@@ -1,5 +1,6 @@
-from library.database import dbcards, combine_image
+from library.database import pokemarket, economy
 from library.botapp import botapp
+import datetime
 import hikari
 import miru
 
@@ -11,48 +12,55 @@ rarity_crossref = {
     5: "<:loveball:1389313177392513034>" * 5,
 }
 
+item_type_crossref = {
+    0: "Random",
+    1: "Choice",
+}
+
 class main_view:
     @staticmethod
-    def gen_embed(user_id: int):
+    def gen_embed(member_id):
+        member_id = int(member_id)
+        cache = dict(botapp.d['pokestore']['user_cache']).get(str(member_id))
+        if not cache:
+            botapp.d['pokestore']['user_cache'][str(member_id)] = 0
+            viewing_page = 0
+        else:
+            viewing_page = cache
+
         embed = (
             hikari.Embed(
                 title="PokeMarket",
-                description="View below the great card packs available for purchase! One purchase is 3 Cards!",
+                description="View below the great card packs available for purchase!",
             )
         )
 
-        try:
-            user_page = botapp.d['pokestore_page_cache'][int(user_id)]
-        except KeyError:
-            botapp.d['pokestore_page_cache'][int(user_id)] = 1
-            user_page = 1
+        all_items = pokemarket.get_all_items()
+        if viewing_page != 0:
+            try:
+                item = all_items[viewing_page - 1]
+            except IndexError:
+                item = "No items found!"
 
-        page_stock = botapp.d['pokeshop']['stock'][user_page]['pack']
+            # noinspection PyTypeChecker
+            embed.add_field(
+                name="Card Packs",
+                value=f"✨ *{item['item_id']}*\n{item['amount']} Cards are in this pack\n"
+                      f"{item_type_crossref[item['type']]} Pack for **{item['price']} PokeCoins** ✨"
+            )
+            embed.set_footer(f"Page {viewing_page}/{len(all_items)}")
+        else:
+            shop_str = ""
+            for item in all_items:
+                shop_str += f"✨ *{item['item_id']}* - {item['amount']} Cards, {item_type_crossref[item['type']]} Pack for **{item['price']} PokeCoins** ✨"
 
-        stock_txt = ""
-        stock_item_ids = []
-        for item in page_stock:
-            stock_txt += f"{item['identifier']} - {item['name']}\n{rarity_crossref[item['rarity']]}\n"
-            stock_item_ids.append(item['identifier'])
-
-        stock_txt += (f"\n**PRICE: {botapp.d['pokeshop']['stock'][user_page]['price']} POKECOINS**\n\n"
-                      f"*To buy this, use the command:*\n"
-                      f"*/pokeshop buy {user_page}*")
-
-        embed.add_field(
-            f"Card Pack {user_page}",
-            stock_txt,
-        )
-
-        # Loads the byte data for the cards
-        img_bytes_list = []
-        for item_id in stock_item_ids:
-            img_bytes_list.append(dbcards.load_img_bytes(item_id))
-
-        # Combines the images
-        image = combine_image(img_bytes_pack=img_bytes_list)
-
-        embed.set_image(image)
+            embed.add_field(
+                name="Card Packs",
+                value=shop_str
+            )
+            embed.set_footer(
+                "All Offers available"
+            )
 
         return embed
 
@@ -60,22 +68,73 @@ class main_view:
     def init_view():
         # noinspection PyUnusedLocal
         class Menu_Init(miru.View):
-            @miru.button(label="Back", emoji="⬅️", style=hikari.ButtonStyle.SECONDARY)
-            async def back_btn(self, ctx: miru.ViewContext, button: miru.Button) -> None:
-                botapp.d['pokestore_page_cache'][int(ctx.author.id)] -= 1
+            @miru.button(label="Buy", emoji="💰", style=hikari.ButtonStyle.SUCCESS, custom_id="purchase", disabled=True)  # Disabled for page 1
+            async def buy_btn(self, ctx: miru.ViewContext, button: miru.Button) -> None:
                 embed = main_view.gen_embed(ctx.author.id)
+
+                # Get the pack, find what cards they got.
+                item_id = botapp.d['pokestore']['user_cache'][str(ctx.author.id)]
+                pack = pokemarket.get_all_items()[item_id - 1]
+
+                account = economy.account(ctx.author.id)
+                if account.pokecoins.balance() >= pack['price']:
+                    money_success = account.pokecoins.modify_balance(pack['price'], "subtract")
+                    if money_success is False:
+                        embed.add_field(
+                            name="Couldn't buy it!",
+                            value="Something went wrong when attempting to take payment.",
+                        )
+                    else:
+                        item_give_success = pokemarket.give_pack(ctx.author.id, pack['item_id'])
+                        if item_give_success:
+                            embed.add_field(
+                                name="Item Purchased!",
+                                value=f"You bought a new card pack <t:{int(datetime.datetime.now().timestamp())}:R>!\n",
+                            )
+                        else:
+                            money_success = account.pokecoins.modify_balance(pack['price'], "add")
+                            embed.add_field(
+                                name="Couldn't buy it!",
+                                value="Something went wrong when attempting to give you the item. You've been refunded.",
+                            )
+                else:
+                    embed.add_field(
+                        name="Couldn't buy it!",
+                        value=f"You don't have enough coins to buy this item!\n",
+                    )
+
                 await ctx.edit_response(embed=embed)
 
-            @miru.button(label="Next", emoji="➡️", style=hikari.ButtonStyle.PRIMARY)
-            async def next_btn(self, ctx: miru.ViewContext, button: miru.Button) -> None:
-                botapp.d['pokestore_page_cache'][int(ctx.author.id)] += 1
+            @miru.button(label="Back", emoji="◀️", style=hikari.ButtonStyle.SECONDARY, custom_id="backbtn", disabled=True)  # Disabled for page 1
+            async def back_btn(self, ctx: miru.ViewContext, button: miru.Button) -> None:
+                botapp.d['pokestore']['user_cache'][str(ctx.author.id)] -= 1
                 embed = main_view.gen_embed(ctx.author.id)
-                await ctx.edit_response(embed=embed)
+
+                if botapp.d['pokestore']['user_cache'][str(ctx.author.id)] == 0:
+                    # Disable self
+                    self.children[1].disabled = True
+                    # Disable purchasing
+                    self.children[0].disabled = True
+
+                await ctx.edit_response(embed=embed, components=self)
+
+            @miru.button(label="Next", emoji="▶️", style=hikari.ButtonStyle.SECONDARY)
+            async def Next_btn(self, ctx: miru.ViewContext, button: miru.Button) -> None:
+                botapp.d['pokestore']['user_cache'][str(ctx.author.id)] += 1
+                embed = main_view.gen_embed(ctx.author.id)
+
+                if botapp.d['pokestore']['user_cache'][str(ctx.author.id)] == 1:
+                    # Enable the ability to go back
+                    self.children[1].disabled = False
+                    # Enable purchasing
+                    self.children[0].disabled = False
+
+                await ctx.edit_response(embed=embed, components=self)
 
             # noinspection PyUnusedLocal
             @miru.button(label="Stop Browsing", style=hikari.ButtonStyle.DANGER)
             async def stop_button(self, ctx: miru.ViewContext, button: miru.Button) -> None:
-                botapp.d['pokestore_page_cache'][int(ctx.author.id)] = 1
+                botapp.d['pokestore']['user_cache'][str(ctx.author.id)] = 0
                 await ctx.edit_response(
                     embed=main_view.gen_embed(ctx.author.id),
                     components=[],

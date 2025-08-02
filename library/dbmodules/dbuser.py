@@ -25,11 +25,19 @@ def set_user_ban(ban_status:bool, user_id:int, reason:str="No reason provided.")
     finally:
         conn.close()
 
-def is_administrator(user_id):
+def is_administrator(users_roles:list, user_id):
+    admin_roles = botapp.d['admin_roles']
     admin_ids = botapp.d['admin_ids']
-    for admin_id in admin_ids:
-        if int(user_id) == int(admin_id):
+
+    for admin_user_id in admin_ids:
+        if admin_user_id == user_id:
             return True
+
+    for admin_role in admin_roles:
+        for user_role in users_roles:
+            if int(admin_role) == int(user_role):
+                return True
+
     return False
 
 def run_ban_check(user_id: int):

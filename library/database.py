@@ -38,6 +38,7 @@ class database:
                 'card_tier': 'INTEGER NOT NULL DEFAULT 1',  # Standard is 1. Event is 2. Limited is 3
                 'img_bytes': 'BLOB',
                 'pullable': 'BOOLEAN NOT NULL DEFAULT TRUE',
+                'card_group': 'TEXT NOT NULL DEFAULT "None"',
             },
             'banned_users': {
                 "user_id": "INTEGER NOT NULL PRIMARY KEY",
@@ -86,6 +87,13 @@ class database:
                 'amount': 'INTEGER NOT NULL',
                 'price': 'INTEGER NOT NULL',
                 'time_added': 'DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP',
+            },
+            'pokeshop_stock': {
+                'item_id': 'TEXT NOT NULL PRIMARY KEY',
+                'price': 'INTEGER NOT NULL',
+                'item_type': 'INTEGER NOT NULL',  # 0 = Variety pack, 1 = Random pack.
+                'amount': 'INTEGER NOT NULL',  # How many cards you get from the pack
+                'filter_arg': 'TEXT NOT NULL DEFAULT "<pullable=true><card_tier=1>"',
             }
         }
 

@@ -1,5 +1,6 @@
 from library.database import economy, dbcards
 from cogs.pokemarket.group import group
+from library import decorators as dc
 import lightbulb
 import hikari
 
@@ -8,7 +9,7 @@ plugin = lightbulb.Plugin(__name__)
 @group.child
 @lightbulb.app_command_permissions(dm_enabled=False)
 @lightbulb.option(
-    name="pack_id",
+    name="item_id",
     description="The pack ID of the card you wish to buy.",
     required=True,
     type=hikari.OptionType.INTEGER,
@@ -18,20 +19,11 @@ plugin = lightbulb.Plugin(__name__)
 )
 @lightbulb.command(name='buy', description="Buy a card from the pack market!")
 @lightbulb.implements(lightbulb.SlashSubCommand)
+@dc.check_bot_ban()
 async def bot_command(ctx: lightbulb.SlashContext):
-    if plugin.bot.d['pokeshop']['open'] is False:
-        await ctx.respond(
-            embed=(
-                hikari.Embed(
-                    title="PokeMarket",
-                    description="The card pack market is currently closed.",
-                )
-            )
-        )
-        return
-
     # Gets the price of the pack
-    card_pack = plugin.bot.d['pokeshop']['stock'][ctx.options.pack_id]
+    item_id = ctx.options.item_id
+    card_pack = plugin.bot.d['pokeshop']['stock'][item_id]
     pack_price = card_pack['price']
 
     account = economy.account(ctx.author.id)

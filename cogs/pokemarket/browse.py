@@ -1,8 +1,8 @@
 from cogs.pokemarket.browse_view.change_pack_view import main_view
 from cogs.pokemarket.group import group
 from library.botapp import miru_client
+from library import decorators as dc
 import lightbulb
-import hikari
 
 plugin = lightbulb.Plugin(__name__)
 
@@ -13,19 +13,10 @@ plugin = lightbulb.Plugin(__name__)
 )
 @lightbulb.command(name='browse', description="Browse the card pack market!")
 @lightbulb.implements(lightbulb.SlashSubCommand)
+@dc.check_bot_ban()
 async def bot_command(ctx: lightbulb.SlashContext):
-    if plugin.bot.d['pokeshop']['open'] is False:
-        await ctx.respond(
-            embed=(
-                hikari.Embed(
-                    title="PokeMarket",
-                    description="The card pack market is currently closed.",
-                )
-            )
-        )
-        return
-
     view = main_view()
+
     embed = view.gen_embed(ctx.author.id)
     viewmenu = view.init_view()
     await ctx.respond(embed=embed, components=viewmenu.build())

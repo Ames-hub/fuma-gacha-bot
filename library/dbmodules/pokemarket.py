@@ -1,33 +1,169 @@
+from library.dbmodules.dbcards import spawn_card
 from library.botapp import botapp
+import sqlite3
 import logging
+import re
 
-def randomise_stock():
-    from library.dbmodules.dbcards import pull_random_card
+DB_PATH = botapp.d['DB_PATH']
 
-    # The shop will have at all times 15 possible purchases
-    pack_stock = {}
-    for pack_id in range(16):  # It would generate to from 1 to 14 if it was set as 15
-        card_pack = []
-        for b in range(3):
-            card = pull_random_card(no_limited=True)
-            card_pack.append(card)
+class ItemNonexistence(Exception):
+    def __init__(self):
+        pass
 
-        pack_price = (card_pack[0]['rarity'] + card_pack[1]['rarity'] + card_pack[2]['rarity']) * 6 + (card_pack[0]['tier'] + card_pack[1]['tier'] + card_pack[2]['tier'])
+def add_item(name, price, amount, item_type):
+    if item_type not in [0,1]:
+        raise ValueError("Invalid item type!")
 
-        pack_stock[pack_id] = {
-            "price": pack_price,
-            "pack": card_pack,
-            "id": pack_id,
-        }
+    with sqlite3.connect(DB_PATH) as conn:
+        try:
+            cur = conn.cursor()
+            cur.execute(
+                """
+                INSERT INTO pokeshop_stock (item_id, price, amount, item_type)
+                VALUES (?, ?, ?, ?)
+                """,
+                (name, price, amount, item_type),
+            )
+            conn.commit()
+            return True
+        except sqlite3.OperationalError as err:
+            conn.rollback()
+            logging.error(err, exc_info=err)
+            return False
 
-    del b
+def get_item_exists(item_id):
+    with sqlite3.connect(DB_PATH) as conn:
+        try:
+            cur = conn.cursor()
+            cur.execute(
+                """
+                SELECT item_id FROM pokeshop_stock WHERE item_id = ?
+                """,
+                (item_id,),
+            )
+            data = cur.fetchone()
+            if data:
+                return True
+            else:
+                return False
+        except sqlite3.OperationalError as err:
+            conn.rollback()
+            logging.error(err, exc_info=err)
+            raise err
 
-    botapp.d['pokeshop']['stock'] = pack_stock
-    logging.info("PokeShop Stock randomised.")
+def get_all_items():
+    with sqlite3.connect(DB_PATH) as conn:
+        try:
+            cur = conn.cursor()
+            cur.execute(
+                """
+                SELECT item_id, price, amount, item_type FROM pokeshop_stock
+                """
+            )
+            data = cur.fetchall()
+            parsed_data = []
+            for item in data:
+                parsed_data.append({
+                    'item_id': item[0],
+                    'price': item[1],
+                    'amount': item[2],
+                    'type': item[3],
+                })
+            return parsed_data
+        except sqlite3.OperationalError as err:
+            conn.rollback()
+            logging.error(err, exc_info=err)
+            raise err
 
-def buy_pack(pack_id):
-    from library.dbmodules import economy
+def get_item(item_id):
+    with sqlite3.connect(DB_PATH) as conn:
+        try:
+            cur = conn.cursor()
+            cur.execute(
+                """
+                SELECT item_id, price, amount, item_type, filter_arg FROM pokeshop_stock WHERE item_id = ?
+                """,
+                (item_id,)
+            )
+            data = cur.fetchone()
+            return {
+                'item_id': data[0],
+                'price': data[1],
+                'amount': data[2],
+                'type': data[3],
+                'filter': data[4],
+            }
+        except sqlite3.OperationalError as err:
+            conn.rollback()
+            logging.error(err, exc_info=err)
+            raise err
 
-    bought_pack = botapp.d['pokeshop']['stock'][pack_id]
-    for card in bought_pack:
-        economy.account(card['owner']).pokecoins.modify_balance(card['price'], '+')
+def filtered_pull_card(filter_string=None, **filters):
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+
+    # Parse filter string like "<rarity=5><card_tier=2>"
+    if filter_string:
+        pattern = re.findall(r"<(.*?)>", filter_string)
+        for pair in pattern:
+            if '=' in pair:
+                key, val = pair.split('=', 1)
+                key = key.strip()
+                val = val.strip()
+                # Convert types for known integer/boolean fields
+                if key in ['rarity', 'card_tier']:
+                    val = int(val)
+                elif key == 'pullable':
+                    val = val.lower() in ['true', '1', 'yes']
+                filters[key] = val
+
+    # Build WHERE clause
+    conditions = []
+    values = []
+
+    for key, value in filters.items():
+        conditions.append(f"{key} = ?")
+        values.append(value)
+
+    where_clause = " AND ".join(conditions) if conditions else "1=1"
+
+    query = f"""
+    SELECT identifier, name, description, rarity, card_tier, pullable, "group"
+    FROM global_cards
+    WHERE {where_clause}
+    ORDER BY RANDOM()
+    LIMIT 1
+    """
+
+    cursor.execute(query, values)
+    data = cursor.fetchone()
+    if not data:
+        raise ItemNonexistence()
+
+    return {
+        "identifier": data[0],
+        "name": data[1],
+        "description": data[2],
+        "rarity": data[3],
+        "tier": data[4],
+        "pullable": data[5],
+        "group": data[6],
+    }
+
+def give_pack(user_id, item_id):
+    pack = get_item(item_id)
+
+    if pack['type'] == 0:  # Randomised pack
+        for i in range(pack['amount']):
+            card = filtered_pull_card(
+                filter_string=pack['filter'],
+            )
+
+            success = spawn_card(card['identifier'], amount=1, user_id=user_id)
+
+            if not success:
+                return False
+
+        return True
+    else:
+        raise ValueError("Invalid item type!")
