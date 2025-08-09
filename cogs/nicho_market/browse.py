@@ -1,5 +1,6 @@
 from cogs.nicho_market.group import group
 from library.database import nichoshop
+from library import decorators as dc
 import lightbulb
 import datetime
 import hikari
@@ -28,6 +29,7 @@ plugin = lightbulb.Plugin(__name__)
 )
 @lightbulb.command(name='browse', description="Browse the public card market!")
 @lightbulb.implements(lightbulb.SlashSubCommand)
+@dc.check_bot_ban()
 async def bot_command(ctx: lightbulb.SlashContext):
     all_stock = nichoshop.list_stock()
 
@@ -37,10 +39,11 @@ async def bot_command(ctx: lightbulb.SlashContext):
                 hikari.Embed(
                     title="Nicho Market",
                     description="There are no cards in the market yet.",
+                    colour=0xff0000,
                 )
                 .add_field(
                     "Nothing here!",
-                    "There's nothing sold in the market yet. Why don't you sell something? Make some money?"
+                    "There's nothing sold in the market yet.\nWhy don't you sell something? Make some money?"
                 )
             )
         )
@@ -49,33 +52,39 @@ async def bot_command(ctx: lightbulb.SlashContext):
     stock_count = len(all_stock)
 
     pageSize = 50
-    pageList = []
+    pageList = {}
 
     # Use a cache to make it so we aren't constantly reforming the pages
     if plugin.bot.d['nicho_shop']['cache']['last_update'] <= datetime.datetime.now() - datetime.timedelta(seconds=15):
         # Puts the entire thing into a page.
+        page_counter = 1
+        pageList[1] = []  # Initialise the page list.
         for item in all_stock:
-            item_txt = f"**{item['card_id']}, Sold by <@!{item['seller_id']}>**\n"
-            pageList[len(pageList) - 1].append(item_txt)
-            if len(pageList[len(pageList) - 1]) == pageSize:
-                pageList.append([])
+            item_txt = f"*{item['amount']}x {item['card_id']}* for {item['price']} PokeCoins, Sold by {item['seller_disp_name']}\nOffer ID: {item['offer_id']}"
+            if len(pageList[page_counter]) == pageSize:
+                pageList[page_counter] = []
+                page_counter += 1
+            pageList[page_counter].append(item_txt)
         plugin.bot.d['nicho_shop']['cache']['page_list'] = pageList
     else:
         pageList = plugin.bot.d['nicho_shop']['cache']['page_list']
 
-    page = str(pageList[ctx.options.page - 1])
+    page = pageList[ctx.options.page]
+    page_content = "\n".join(page)
+
     if len(page) > 1024:
-        page = page[:1000] + "... (trunciated)"
+        page_content = page[:1000] + "... (trunciated)"
 
     await ctx.respond(
         embed=(
             hikari.Embed(
                 title="Nicho Market",
                 description="Buy and sell cards! From users, for users.",
+                colour=0x00ff00,
             )
             .add_field(
                 name=f"Purchasable Cards ({stock_count})",
-                value=page,
+                value=page_content,
             )
         )
     )

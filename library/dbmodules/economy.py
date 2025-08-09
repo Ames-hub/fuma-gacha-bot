@@ -4,7 +4,7 @@ import logging
 
 DB_PATH = botapp.d['DB_PATH']
 
-class _pokecoins:
+class _fumacoins:
     def __init__(self, user_id:int,):
         self.user_id = int(user_id)
 
@@ -14,7 +14,7 @@ class _pokecoins:
                 cur = conn.cursor()
                 cur.execute(
                     """
-                    SELECT pk_balance FROM economy_bank WHERE user_id = ?
+                    SELECT fumacoins FROM economy_bank WHERE user_id = ?
                     """,
                     (self.user_id,)
                 )
@@ -47,9 +47,9 @@ class _pokecoins:
                 cur = conn.cursor()
                 cur.execute(
                     f"""
-                        INSERT INTO economy_bank (user_id, pk_balance)
+                        INSERT INTO economy_bank (user_id, fumacoins)
                         VALUES (?, ?)
-                        ON CONFLICT(user_id) DO UPDATE SET pk_balance = pk_balance {operator} EXCLUDED.pk_balance
+                        ON CONFLICT(user_id) DO UPDATE SET fumacoins = fumacoins {operator} EXCLUDED.fumacoins
                     """,
                     (self.user_id, amount)
                 )
@@ -72,7 +72,7 @@ class _nichocoins:
                 cur = conn.cursor()
                 cur.execute(
                     """
-                    SELECT nk_balance FROM economy_bank WHERE user_id = ?
+                    SELECT nichocoins FROM economy_bank WHERE user_id = ?
                     """,
                     (self.user_id,)
                 )
@@ -99,9 +99,9 @@ class _nichocoins:
                 cur = conn.cursor()
                 cur.execute(
                     f"""
-                        INSERT INTO economy_bank (user_id, nk_balance)
+                        INSERT INTO economy_bank (user_id, nichocoins)
                         VALUES (?, ?)
-                        ON CONFLICT(user_id) DO UPDATE SET nk_balance = nk_balance {operator} EXCLUDED.nk_balance
+                        ON CONFLICT(user_id) DO UPDATE SET nichocoins = nichocoins {operator} EXCLUDED.nichocoins
                     """,
                     (self.user_id, amount)
                 )
@@ -118,5 +118,10 @@ class account:
     def __init__(self, user_id):
         self.user_id = int(user_id)
 
-        self.pokecoins:_pokecoins = _pokecoins(user_id)
+        self.fumacoins:_fumacoins = _fumacoins(user_id)
         self.nichocoins:_nichocoins = _nichocoins(user_id)
+
+    class InsufficientFundsError(Exception):
+        def __init__(self, amount_needed, user_has):
+            self.amount_needed = amount_needed
+            self.user_has = user_has

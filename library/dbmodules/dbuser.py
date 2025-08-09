@@ -101,6 +101,20 @@ def get_inventory(user_id, search_for=None):
         logging.error(f"An error occurred while running a command: {err}", exc_info=err)
     finally:
         conn.close()
+class invent_errs:
+    class TooFewItemsError(Exception):
+        """For when an item exists, but you try to use more than you have of it."""
+        def __init__(self, amount_needed, user_has):
+            self.amount_needed = amount_needed
+            self.user_has = user_has
+
+        def __str__(self):
+            return f"You need {self.amount_needed - self.user_has} more item(s) of that type to do that"
+
+    class InventoryItemNotFound(Exception):
+        """For when an item does not exist in the inventory."""
+        def __init__(self):
+            pass
 
 # A class meant to make things slightly more convenient.
 class userdb:
@@ -108,13 +122,76 @@ class userdb:
         self.user_id = int(user_id)
         self.bank:account = account(user_id)
 
-    def add_to_inventory(self, card_id, amount=1):
+    def add_to_inventory(self, card_id, amount=1, allow_limited=False):
         from library.dbmodules.dbcards import spawn_card
         return spawn_card(
             card_id=card_id,
             user_id=self.user_id,
             amount=amount,
+            allow_limited=allow_limited
         )
+
+    def remove_from_inventory(self, card_id, amount):
+        """
+        Remove a specified amount of an item from the user's inventory.
+
+        Returns:
+            bool: True if the removal succeeded.
+        """
+        # Validate inputs
+        if card_id is None or str(card_id).strip() == "":
+            raise ValueError("card_id must be a non-empty value.")
+        try:
+            amt = int(amount)
+        except (TypeError, ValueError):
+            raise ValueError("amount must be an integer.")
+        if amt <= 0:
+            raise ValueError("amount must be greater than 0.")
+
+        item_identifier = str(card_id)
+
+        with sqlite3.connect(DB_PATH) as conn:
+            try:
+                # Manage transaction explicitly for safety against concurrent writers
+                cur = conn.cursor()
+
+                # Read the current amount
+                cur.execute(
+                    """
+                    SELECT amount
+                    FROM inventories
+                    WHERE user_id = ? AND item_identifier = ?
+                    """,
+                    (self.user_id, item_identifier),
+                )
+                row = cur.fetchone()
+                if row is None:
+                    conn.rollback()
+                    raise invent_errs.InventoryItemNotFound()
+
+                current_amount = int(row[0])
+                if current_amount < amt:
+                    conn.rollback()
+                    raise invent_errs.TooFewItemsError(amt, current_amount)
+
+                # Update ensures we never go below zero even with concurrency
+                cur.execute(
+                    """
+                    UPDATE inventories
+                    SET amount = amount - ?
+                    WHERE user_id = ? AND item_identifier = ? AND amount >= ?
+                    """,
+                    (amt, self.user_id, item_identifier, amt),
+                )
+                if cur.rowcount != 1:
+                    conn.rollback()
+                    return False
+
+                conn.commit()
+                return True
+            except sqlite3.OperationalError as err:
+                logging.error("Database operation failed while removing from inventory", exc_info=err)
+                return False
 
     def get_inventory(self):
         return get_inventory(self.user_id)

@@ -25,7 +25,7 @@ rarity_crossref = {
 @lightbulb.add_checks(
     lightbulb.guild_only
 )
-@lightbulb.command(name='pokedex', description="View a card!")
+@lightbulb.command(name='view', description="View a card!")
 @lightbulb.implements(lightbulb.SlashCommand)
 @dc.check_bot_ban()
 async def bot_command(ctx: lightbulb.SlashContext):

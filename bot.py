@@ -43,7 +43,7 @@ botapp.d['pokestore'] = {
     'user_cache': {}
 }
 
-botapp.d['nichomarket'] = {
+botapp.d['nicho_shop'] = {
     "cache": {
         "page_list": [],
         "last_update": datetime.datetime.now() - datetime.timedelta(seconds=30),

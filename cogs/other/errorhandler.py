@@ -67,6 +67,7 @@ async def on_error(event: lightbulb.CommandErrorEvent) -> None:
     else:
         print(f"An error occurred while running a command: {event.exception}")
         logging.error(f"An error occurred while running a command: {event.exception}", exc_info=event.exception)
+        # TODO: Have this auto-file a bug report
         raise event.exception
 
 def load(bot: lightbulb.BotApp) -> None:

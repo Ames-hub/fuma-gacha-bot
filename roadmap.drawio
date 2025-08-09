@@ -1,6 +1,6 @@
 <mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/27.0.2 Chrome/134.0.6998.205 Electron/35.3.0 Safari/537.36" version="27.0.2">
   <diagram name="Page-1" id="VuOHGxyIhAAINdgDTFCT">
-    <mxGraphModel dx="940" dy="893" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2450" pageHeight="1500" math="0" shadow="0">
+    <mxGraphModel dx="1097" dy="647" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2450" pageHeight="1500" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -330,7 +330,7 @@
             <Array as="points">
               <mxPoint x="820" y="530" />
               <mxPoint x="1160" y="530" />
-              <mxPoint x="1160" y="170" />
+              <mxPoint x="1160" y="180" />
             </Array>
           </mxGeometry>
         </mxCell>
@@ -685,13 +685,13 @@
             <mxPoint x="800" y="1370" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="TWwjKnk3flyv9fksDZWs-121" value="/nichoshop sell&lt;div&gt;command&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;place item from inventory for sale&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f0a30a;fontColor=#000000;strokeColor=#BD7000;" parent="1" vertex="1">
+        <mxCell id="TWwjKnk3flyv9fksDZWs-121" value="/nichoshop sell&lt;div&gt;command&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;place item from inventory for sale&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#008a00;fontColor=#ffffff;strokeColor=#005700;" parent="1" vertex="1">
           <mxGeometry x="740" y="1240" width="120" height="90" as="geometry" />
         </mxCell>
         <mxCell id="TWwjKnk3flyv9fksDZWs-132" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="TWwjKnk3flyv9fksDZWs-123" target="TWwjKnk3flyv9fksDZWs-131" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="TWwjKnk3flyv9fksDZWs-123" value="/nichoshop&amp;nbsp;buy command&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;buy an offered item from the market&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f0a30a;fontColor=#000000;strokeColor=#BD7000;" parent="1" vertex="1">
+        <mxCell id="TWwjKnk3flyv9fksDZWs-123" value="/nichoshop&amp;nbsp;buy command&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;buy an offered item from the market&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#008a00;fontColor=#ffffff;strokeColor=#005700;" parent="1" vertex="1">
           <mxGeometry x="1000" y="1240" width="120" height="90" as="geometry" />
         </mxCell>
         <mxCell id="TWwjKnk3flyv9fksDZWs-125" value="Market Memory" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#008a00;fontColor=#ffffff;strokeColor=#005700;" parent="1" vertex="1">
@@ -700,13 +700,13 @@
         <mxCell id="TWwjKnk3flyv9fksDZWs-138" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="TWwjKnk3flyv9fksDZWs-128" target="TWwjKnk3flyv9fksDZWs-125" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="TWwjKnk3flyv9fksDZWs-128" value="Add to market list sold item" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f0a30a;fontColor=#000000;strokeColor=#BD7000;" parent="1" vertex="1">
+        <mxCell id="TWwjKnk3flyv9fksDZWs-128" value="Add to market list sold item" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#008a00;fontColor=#ffffff;strokeColor=#005700;" parent="1" vertex="1">
           <mxGeometry x="600" y="1255" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="TWwjKnk3flyv9fksDZWs-134" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="TWwjKnk3flyv9fksDZWs-131" target="TWwjKnk3flyv9fksDZWs-133" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="TWwjKnk3flyv9fksDZWs-131" value="Verify enough nicho coins" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f0a30a;fontColor=#000000;strokeColor=#BD7000;" parent="1" vertex="1">
+        <mxCell id="TWwjKnk3flyv9fksDZWs-131" value="IF limited card, Verify enough nicho coins&lt;div&gt;Else, verify enough fumacoins&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#008a00;fontColor=#ffffff;strokeColor=#005700;" parent="1" vertex="1">
           <mxGeometry x="1140" y="1255" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="TWwjKnk3flyv9fksDZWs-141" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="TWwjKnk3flyv9fksDZWs-133" target="TWwjKnk3flyv9fksDZWs-135" edge="1">
@@ -724,10 +724,7 @@
         <mxCell id="TWwjKnk3flyv9fksDZWs-147" value="/pokeshop browse command&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;View all card packs offered&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#008a00;fontColor=#ffffff;strokeColor=#005700;" parent="1" vertex="1">
           <mxGeometry x="1330" y="1380" width="120" height="90" as="geometry" />
         </mxCell>
-        <mxCell id="TWwjKnk3flyv9fksDZWs-159" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="TWwjKnk3flyv9fksDZWs-149" target="TWwjKnk3flyv9fksDZWs-158" edge="1">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="TWwjKnk3flyv9fksDZWs-149" value="Random card pack generator" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#008a00;fontColor=#ffffff;strokeColor=#005700;" parent="1" vertex="1">
+        <mxCell id="TWwjKnk3flyv9fksDZWs-149" value="Add Cards Packs Command" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#008a00;fontColor=#ffffff;strokeColor=#005700;" parent="1" vertex="1">
           <mxGeometry x="1500" y="1150" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="TWwjKnk3flyv9fksDZWs-157" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="TWwjKnk3flyv9fksDZWs-153" target="TWwjKnk3flyv9fksDZWs-149" edge="1">
@@ -736,17 +733,7 @@
         <mxCell id="TWwjKnk3flyv9fksDZWs-153" value="Shop Items Memory" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#008a00;fontColor=#ffffff;strokeColor=#005700;" parent="1" vertex="1">
           <mxGeometry x="1500" y="1250" width="120" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="TWwjKnk3flyv9fksDZWs-160" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="TWwjKnk3flyv9fksDZWs-158" target="TWwjKnk3flyv9fksDZWs-153" edge="1">
-          <mxGeometry relative="1" as="geometry">
-            <Array as="points">
-              <mxPoint x="1700" y="1290" />
-            </Array>
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="TWwjKnk3flyv9fksDZWs-158" value="once per day task:&lt;div&gt;Randomise shop stock&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#008a00;fontColor=#ffffff;strokeColor=#005700;" parent="1" vertex="1">
-          <mxGeometry x="1640" y="1150" width="120" height="60" as="geometry" />
-        </mxCell>
-        <mxCell id="TWwjKnk3flyv9fksDZWs-161" value="/pokeshop buy command&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Buy a card pack&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#008a00;fontColor=#ffffff;strokeColor=#005700;" parent="1" vertex="1">
+        <mxCell id="TWwjKnk3flyv9fksDZWs-161" value="/pokeshop buy command&lt;div&gt;option: pack id&lt;br&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Buy a card pack&lt;/div&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#008a00;fontColor=#ffffff;strokeColor=#005700;" parent="1" vertex="1">
           <mxGeometry x="1470" y="1380" width="120" height="90" as="geometry" />
         </mxCell>
         <mxCell id="22NPlYDqhb8-uklPoqEk-7" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="22NPlYDqhb8-uklPoqEk-1" target="22NPlYDqhb8-uklPoqEk-6" edge="1">
@@ -803,7 +790,7 @@
             <mxPoint x="800" y="1370" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="TWwjKnk3flyv9fksDZWs-139" value="Remove item from seller inventory" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f0a30a;fontColor=#000000;strokeColor=#BD7000;" parent="1" vertex="1">
+        <mxCell id="TWwjKnk3flyv9fksDZWs-139" value="Remove item from seller inventory" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#008a00;fontColor=#ffffff;strokeColor=#005700;" parent="1" vertex="1">
           <mxGeometry x="740" y="1370" width="120" height="40" as="geometry" />
         </mxCell>
         <mxCell id="nOH1uKtNQENdLvDcyFZl-7" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="nOH1uKtNQENdLvDcyFZl-3" target="nOH1uKtNQENdLvDcyFZl-5" edge="1">
@@ -871,9 +858,6 @@
         </mxCell>
         <mxCell id="ayNVhUNwxRgXQm-94cKu-5" value="/pay command" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f0a30a;fontColor=#000000;strokeColor=#BD7000;" parent="1" vertex="1">
           <mxGeometry x="340" y="1140" width="120" height="60" as="geometry" />
-        </mxCell>
-        <mxCell id="ayNVhUNwxRgXQm-94cKu-7" value="Price Equation&lt;div&gt;(card1 P + card2 P + card3 P) * 6 + (card1 T + card2 T + card3 T)&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;P = Rarity, T = Tier&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
-          <mxGeometry x="1465" y="1065" width="190" height="75" as="geometry" />
         </mxCell>
         <mxCell id="ayNVhUNwxRgXQm-94cKu-8" value="Seller can put card up for any desired amount." style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
           <mxGeometry x="730" y="1420" width="140" height="30" as="geometry" />

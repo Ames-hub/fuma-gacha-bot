@@ -102,6 +102,7 @@ def get_tier(card_id: str, as_number=False):
 
 def spawn_card(card_id: str, amount: int, user_id: int, allow_limited:bool=False):
     if amount < 1:
+        logging.info(f"Someone tried to spawn the card with the ID {card_id}, but the amount is less than 1.")
         return False
 
     conn = sqlite3.connect(DB_PATH)
@@ -153,7 +154,7 @@ def spawn_card(card_id: str, amount: int, user_id: int, allow_limited:bool=False
     finally:
         conn.close()
 
-def add_card(card_id, name, description, rarity, card_tier, img_bytes, pullable:bool):
+def add_card(card_id, name:str, description:str, rarity:int, card_tier:int, img_bytes, pullable:bool, card_group:str):
     conn = sqlite3.connect(DB_PATH)
 
     assert card_tier in [1, 2, 3], "Card tier must be 1, 2, or 3. (1, Standard. 2, Event. 3, Limited)"
@@ -173,11 +174,11 @@ def add_card(card_id, name, description, rarity, card_tier, img_bytes, pullable:
         cur = conn.cursor()
         cur.execute(
             f"""
-            INSERT INTO global_cards (identifier, name, description, rarity, img_bytes, pullable, card_tier)
-            VALUES (?, ?, ?, ?, ?, ?, ?)
+            INSERT INTO global_cards (identifier, name, description, rarity, img_bytes, pullable, card_tier, card_group)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
             {"RETURNING global_cards.identifier" if card_id is None else ""}
             """,
-            (card_id, str(name), str(description), int(rarity), img_bytes, bool(pullable), int(card_tier)),
+            (card_id, str(name), str(description), int(rarity), img_bytes, bool(pullable), int(card_tier), str(card_group) if card_group is not None else None),
         )
         conn.commit()
         if card_id is None:
@@ -282,9 +283,6 @@ def view_card(name:str):
 
     # TODO: Reimplement viewing card by name. For now, we enforce "is id"
     is_id = True
-    #        is_id = " " not in name and name.lower().startswith("id:")
-    #        if is_id:
-    #            name = name.replace("id:", "")
 
     try:
         cur = conn.cursor()

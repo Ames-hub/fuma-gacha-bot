@@ -1,4 +1,4 @@
-from library.database import eventlogs, pokemarket
+from library.database import eventlogs, pokemarket, verify_filter_string
 from cogs.pokemarket.group import group
 from library import decorators as dc
 import lightbulb
@@ -64,12 +64,32 @@ async def bot_command(ctx: lightbulb.SlashContext, name, price, amount, pack_typ
                 )
             )
         )
+        return
+
+    filter_ok, filter_errors = verify_filter_string(filter_arg)
+    if not filter_ok:
+        error_text = ""
+        for error in filter_errors:
+            error_text += f"- {error}\n"
+
+        await ctx.respond(
+            embed=(
+                hikari.Embed(
+                    title="Filter Error",
+                    description="We cannot proceed because the following errors occured in your filter.\n"
+                                f"{error_text}",
+                )
+            ),
+            flags=hikari.MessageFlag.EPHEMERAL,
+        )
+        return
 
     success = pokemarket.add_item(
         name=name,
         amount=amount,
         item_type=pokeshop_type_crossref[pack_type],
         price=price,
+        filter_arg=filter_arg
     )
 
     if success:

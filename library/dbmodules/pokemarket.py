@@ -10,7 +10,7 @@ class ItemNonexistence(Exception):
     def __init__(self):
         pass
 
-def add_item(name, price, amount, item_type):
+def add_item(name, price, amount, item_type, filter_arg):
     if item_type not in [0,1]:
         raise ValueError("Invalid item type!")
 
@@ -19,10 +19,10 @@ def add_item(name, price, amount, item_type):
             cur = conn.cursor()
             cur.execute(
                 """
-                INSERT INTO pokeshop_stock (item_id, price, amount, item_type)
-                VALUES (?, ?, ?, ?)
+                INSERT INTO pokeshop_stock (item_id, price, amount, item_type, filter_arg)
+                VALUES (?, ?, ?, ?, ?)
                 """,
-                (name, price, amount, item_type),
+                (str(name), int(price), int(amount), int(item_type), str(filter_arg)),
             )
             conn.commit()
             return True
@@ -30,6 +30,23 @@ def add_item(name, price, amount, item_type):
             conn.rollback()
             logging.error(err, exc_info=err)
             return False
+
+def delete_item(item_id):
+    with sqlite3.connect(DB_PATH) as conn:
+        try:
+            cur = conn.cursor()
+            cur.execute(
+                """
+                DELETE FROM pokeshop_stock WHERE item_id = ?
+                """,
+                (item_id,),
+            )
+            conn.commit()
+            return True
+        except sqlite3.OperationalError as err:
+            conn.rollback()
+            logging.error(err, exc_info=err)
+            raise err
 
 def get_item_exists(item_id):
     with sqlite3.connect(DB_PATH) as conn:
@@ -57,7 +74,7 @@ def get_all_items():
             cur = conn.cursor()
             cur.execute(
                 """
-                SELECT item_id, price, amount, item_type FROM pokeshop_stock
+                SELECT item_id, price, amount, item_type, filter_arg FROM pokeshop_stock
                 """
             )
             data = cur.fetchall()
@@ -68,6 +85,7 @@ def get_all_items():
                     'price': item[1],
                     'amount': item[2],
                     'type': item[3],
+                    'filter': item[4],
                 })
             return parsed_data
         except sqlite3.OperationalError as err:
@@ -128,7 +146,7 @@ def filtered_pull_card(filter_string=None, **filters):
     where_clause = " AND ".join(conditions) if conditions else "1=1"
 
     query = f"""
-    SELECT identifier, name, description, rarity, card_tier, pullable, "group"
+    SELECT identifier, name, description, rarity, card_tier, pullable, card_group
     FROM global_cards
     WHERE {where_clause}
     ORDER BY RANDOM()
@@ -150,20 +168,23 @@ def filtered_pull_card(filter_string=None, **filters):
         "group": data[6],
     }
 
-def give_pack(user_id, item_id):
+def give_random_pack(user_id, item_id):
     pack = get_item(item_id)
 
-    if pack['type'] == 0:  # Randomised pack
-        for i in range(pack['amount']):
+    if pack['type'] != 0:  # Randomised pack
+        raise TypeError("This is not a randomised pack!")
+
+    for i in range(pack['amount']):
+        try:
             card = filtered_pull_card(
                 filter_string=pack['filter'],
             )
+        except ItemNonexistence:
+            return -1  # No cards fitting the criteria match.
 
-            success = spawn_card(card['identifier'], amount=1, user_id=user_id)
+        success = spawn_card(card['identifier'], amount=1, user_id=user_id, allow_limited=True)
 
-            if not success:
-                return False
+        if not success:
+            return False
 
-        return True
-    else:
-        raise ValueError("Invalid item type!")
+    return True

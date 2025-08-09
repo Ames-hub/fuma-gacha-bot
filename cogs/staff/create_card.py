@@ -3,6 +3,7 @@ from cogs.staff.group import staff_group
 from library import decorators as dc
 import lightbulb
 import mimetypes
+import datetime
 import sqlite3
 import logging
 import hikari
@@ -20,6 +21,13 @@ rarity_crossref = {
 
 @staff_group.child
 @lightbulb.app_command_permissions(dm_enabled=False)
+@lightbulb.option(
+    name="group",
+    description="What group is this card in?",
+    required=False,
+    default=None,
+    type=hikari.OptionType.STRING,
+)
 @lightbulb.option(
     name="rarity",
     description="How rare is it?",
@@ -79,6 +87,19 @@ async def bot_command(ctx: lightbulb.SlashContext):
             )
             return
 
+    card_group = ctx.options.group
+    if card_group is None:
+        card_group = datetime.datetime.now().strftime("%Y")  # Gets the year.
+    elif " " in card_group:
+        await ctx.respond(
+            embed=hikari.Embed(
+                title="Bad Format",
+                description="You cannot have spaces in your card group!",
+            ),
+            flags=hikari.MessageFlag.EPHEMERAL
+        )
+        return
+
     attachment: hikari.Attachment = ctx.options.icon
     img_mime, _ = mimetypes.guess_type(attachment.filename)
     if not img_mime:
@@ -120,6 +141,7 @@ async def bot_command(ctx: lightbulb.SlashContext):
             card_tier=card_tier,
             img_bytes=img_bytes,
             pullable=True if card_tier == 1 else False,
+            card_group=card_group,
         )
     except sqlite3.IntegrityError as err:
         logging.warning(f"User {ctx.author.id} has attempted to make a card with the pre-existing ID {card_id}. Err: {err}")

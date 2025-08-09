@@ -52,7 +52,7 @@ class main_view:
         else:
             shop_str = ""
             for item in all_items:
-                shop_str += f"✨ *{item['item_id']}* - {item['amount']} Cards, {item_type_crossref[item['type']]} Pack for **{item['price']} PokeCoins** ✨"
+                shop_str += f"✨ *{item['item_id']}* - {item['amount']} Cards, {item_type_crossref[item['type']]} Pack for **{item['price']} PokeCoins** ✨\n\n"
 
             embed.add_field(
                 name="Card Packs",
@@ -77,22 +77,29 @@ class main_view:
                 pack = pokemarket.get_all_items()[item_id - 1]
 
                 account = economy.account(ctx.author.id)
-                if account.pokecoins.balance() >= pack['price']:
-                    money_success = account.pokecoins.modify_balance(pack['price'], "subtract")
+                if account.fumacoins.balance() >= pack['price']:
+                    money_success = account.fumacoins.modify_balance(pack['price'], "subtract")
                     if money_success is False:
                         embed.add_field(
                             name="Couldn't buy it!",
                             value="Something went wrong when attempting to take payment.",
                         )
                     else:
-                        item_give_success = pokemarket.give_pack(ctx.author.id, pack['item_id'])
-                        if item_give_success:
+                        item_give_success = pokemarket.give_random_pack(ctx.author.id, pack['item_id'])
+                        if item_give_success is True:
                             embed.add_field(
                                 name="Item Purchased!",
                                 value=f"You bought a new card pack <t:{int(datetime.datetime.now().timestamp())}:R>!\n",
                             )
+                        elif item_give_success == -1:
+                            embed.add_field(
+                                name="Couldn't buy it!",
+                                value="No items that fit the criteria that this pack can get you can be found!\n"
+                                      "(There's no qualified cards.)",
+                            )
                         else:
-                            money_success = account.pokecoins.modify_balance(pack['price'], "add")
+                            # TODO: Make this remove any cards it DID give you if it failed.
+                            money_success = account.fumacoins.modify_balance(pack['price'], "add")
                             embed.add_field(
                                 name="Couldn't buy it!",
                                 value="Something went wrong when attempting to give you the item. You've been refunded.",

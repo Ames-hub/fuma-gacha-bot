@@ -38,7 +38,7 @@ class database:
                 'card_tier': 'INTEGER NOT NULL DEFAULT 1',  # Standard is 1. Event is 2. Limited is 3
                 'img_bytes': 'BLOB',
                 'pullable': 'BOOLEAN NOT NULL DEFAULT TRUE',
-                'card_group': 'TEXT NOT NULL DEFAULT "None"',
+                'card_group': 'TEXT',
             },
             'banned_users': {
                 "user_id": "INTEGER NOT NULL PRIMARY KEY",
@@ -78,15 +78,18 @@ class database:
             },
             'economy_bank': {
                 "user_id": "INTEGER NOT NULL PRIMARY KEY",
-                "pk_balance": "INTEGER NOT NULL DEFAULT 0",
-                "nk_balance": "INTEGER NOT NULL DEFAULT 0",
+                "fumacoins": "INTEGER NOT NULL DEFAULT 0",
+                "nichocoins": "INTEGER NOT NULL DEFAULT 0",
             },
             'nicho_market_stock': {
-                'seller_id': 'INTEGER NOT NULL PRIMARY KEY',
+                'offer_id': 'INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT',
+                'seller_disp_name': 'TEXT NOT NULL',  # Used for showing who's selling cross-server where resource access is lessened.
+                'seller_id': 'INTEGER NOT NULL',
                 'card_id': 'TEXT NOT NULL',
                 'amount': 'INTEGER NOT NULL',
                 'price': 'INTEGER NOT NULL',
                 'time_added': 'DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP',
+                'available': 'BOOLEAN NOT NULL DEFAULT TRUE',
             },
             'pokeshop_stock': {
                 'item_id': 'TEXT NOT NULL PRIMARY KEY',

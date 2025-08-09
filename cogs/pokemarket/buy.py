@@ -1,4 +1,4 @@
-from library.database import economy, dbcards
+from library.database import economy, pokemarket
 from cogs.pokemarket.group import group
 from library import decorators as dc
 import lightbulb
@@ -23,11 +23,12 @@ plugin = lightbulb.Plugin(__name__)
 async def bot_command(ctx: lightbulb.SlashContext):
     # Gets the price of the pack
     item_id = ctx.options.item_id
-    card_pack = plugin.bot.d['pokeshop']['stock'][item_id]
+
+    card_pack = pokemarket.get_item(item_id)
     pack_price = card_pack['price']
 
     account = economy.account(ctx.author.id)
-    cur_bal = account.pokecoins.balance()
+    cur_bal = account.fumacoins.balance()
     if cur_bal < pack_price:
         await ctx.respond(
             embed=(
@@ -39,7 +40,7 @@ async def bot_command(ctx: lightbulb.SlashContext):
         )
         return
 
-    success = account.pokecoins.modify_balance(pack_price, operator="subtract")
+    success = account.fumacoins.modify_balance(pack_price, operator="subtract")
     if not success:
         await ctx.respond(
             embed=(
@@ -51,26 +52,18 @@ async def bot_command(ctx: lightbulb.SlashContext):
         )
         return
 
-    notice_msg = ""
-    for number in [0,1,2]:
-        spawn_success = dbcards.spawn_card(
-            amount=1,
-            card_id=card_pack['pack'][number]['identifier'],
-            user_id=ctx.author.id,
-        )
-        if not spawn_success:
-            card_price = (card_pack['pack'][number]['rarity'] * 6) + card_pack['pack'][number]['tier']
-            account.pokecoins.modify_balance(card_price, operator="add")
-            notice_msg += (f"\n**Card #{number + 1} with ID {card_pack['pack'][number]['identifier']} could not be spawned.\n"
-                           f"You've been refunded its full price of {card_price}.**\n")
-            continue
+    success = pokemarket.give_random_pack(
+        user_id=ctx.author.id,
+        item_id=item_id,
+    )
 
-    if len(notice_msg) == 0:
+    if success:
         await ctx.respond(
             embed=(
                 hikari.Embed(
                     title="Success!",
-                    description=f"You've successfully bought a card pack for {pack_price} PokeCoins.",
+                    description="You bought the new card pack!",
+                    color=0x00ff00,
                 )
             )
         )
@@ -78,8 +71,8 @@ async def bot_command(ctx: lightbulb.SlashContext):
         await ctx.respond(
             embed=(
                 hikari.Embed(
-                    title="Hmm..",
-                    description=f"You've bought a card pack for {pack_price} PokeCoins.\n\nHowever, {notice_msg}",
+                    title="Error!",
+                    description="There was an error while buying the card pack.",
                 )
             )
         )
