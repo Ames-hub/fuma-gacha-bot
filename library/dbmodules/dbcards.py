@@ -3,6 +3,7 @@ import sqlite3
 import secrets
 import logging
 import io
+import re
 
 DB_PATH = botapp.d['DB_PATH']
 
@@ -277,6 +278,62 @@ def gift_card(cardname: str, giving_amount: int, giver_id: int, receiver_id: int
         return f"Database error: {err}"
     finally:
         conn.close()
+
+class ItemNonexistence(Exception):
+    def __init__(self):
+        pass
+
+def filtered_pull_card(filter_string=None, **filters):
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+
+    # Parse filter string like "<rarity=5><card_tier=2>"
+    if filter_string:
+        pattern = re.findall(r"<(.*?)>", filter_string)
+        for pair in pattern:
+            if '=' in pair:
+                key, val = pair.split('=', 1)
+                key = key.strip()
+                val = val.strip()
+                # Convert types for known integer/boolean fields
+                if key in ['rarity', 'card_tier']:
+                    val = int(val)
+                elif key == 'pullable':
+                    val = val.lower() in ['true', '1', 'yes']
+                filters[key] = val
+
+    # Build WHERE clause
+    conditions = []
+    values = []
+
+    for key, value in filters.items():
+        conditions.append(f"{key} = ?")
+        values.append(value)
+
+    where_clause = " AND ".join(conditions) if conditions else "1=1"
+
+    query = f"""
+    SELECT identifier, name, description, rarity, card_tier, pullable, card_group
+    FROM global_cards
+    WHERE {where_clause}
+    ORDER BY RANDOM()
+    LIMIT 1
+    """
+
+    cursor.execute(query, values)
+    data = cursor.fetchone()
+    if not data:
+        raise ItemNonexistence()
+
+    return {
+        "identifier": data[0],
+        "name": data[1],
+        "description": data[2],
+        "rarity": data[3],
+        "tier": data[4],
+        "pullable": data[5],
+        "group": data[6],
+    }
 
 def view_card(name:str):
     conn = sqlite3.connect(DB_PATH)
