@@ -16,7 +16,7 @@ plugin = lightbulb.Plugin(__name__)
 )
 @lightbulb.command(name='pull', description="Pull a selection of 3 cards!")
 @lightbulb.implements(lightbulb.SlashCommand)
-@dc.check_bot_ban()
+@dc.prechecks()
 async def bot_command(ctx: lightbulb.SlashContext):
     cards = []
     card_names = []

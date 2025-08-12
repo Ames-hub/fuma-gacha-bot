@@ -22,7 +22,7 @@ pokeshop_type_crossref = {
 @lightbulb.command(name='rmitem', description="Remove an item from the pokemarket!", pass_options=True)
 @lightbulb.implements(lightbulb.SlashSubCommand)
 @dc.check_admin_status()
-@dc.check_bot_ban()
+@dc.prechecks()
 async def bot_command(ctx: lightbulb.SlashContext, name):
     success = pokemarket.delete_item(name)
     if success:

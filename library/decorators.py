@@ -2,8 +2,12 @@ from library.database import dbuser
 import functools
 import lightbulb
 import hikari
+import json
 
-def check_bot_ban():
+def prechecks():
+    """
+    Checks all basic preconditions for the bot to allow the user to use the command.
+    """
     def decorator(func):
         @functools.wraps(func)
         async def wrapper(ctx: lightbulb.SlashContext, *args, **kwargs):

@@ -97,7 +97,18 @@ class database:
                 'item_type': 'INTEGER NOT NULL',  # 0 = Variety pack, 1 = Random pack.
                 'amount': 'INTEGER NOT NULL',  # How many cards you get from the pack
                 'filter_arg': 'TEXT NOT NULL DEFAULT "<pullable=true><card_tier=1>"',
-            }
+            },
+            'authbook': {
+                'username': 'TEXT PRIMARY KEY',
+                'password': 'TEXT NOT NULL',
+                'arrested': 'BOOLEAN NOT NULL DEFAULT FALSE',
+            },
+            'user_sessions': {
+                'username': 'TEXT',
+                'token': 'TEXT NOT NULL PRIMARY KEY',
+                'created_at': 'DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP',
+                'expires_at': 'DATETIME NOT NULL',
+            },
         }
 
         for table_name, columns in table_dict.items():

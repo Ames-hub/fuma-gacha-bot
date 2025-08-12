@@ -20,7 +20,7 @@ plugin = lightbulb.Plugin(__name__)
 @lightbulb.command(name='create', description="Create a new limited event that can be scheduled for later", pass_options=True)
 @lightbulb.implements(lightbulb.SlashSubCommand)
 @dc.check_admin_status()
-@dc.check_bot_ban()
+@dc.prechecks()
 async def bot_command(ctx: lightbulb.SlashContext, name):
     try:
         success = lmtd_events.create(

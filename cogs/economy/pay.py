@@ -33,7 +33,7 @@ plugin = lightbulb.Plugin(__name__)
 )
 @lightbulb.command(name='pay', description="Send some money to someone!", pass_options=True)
 @lightbulb.implements(lightbulb.SlashSubCommand)
-@dc.check_bot_ban()
+@dc.prechecks()
 async def bot_command(ctx: lightbulb.SlashContext, coin_type: str, amount: int, user: hikari.User):
     sender_acc = economy.account(ctx.author.id)
     target_acc = economy.account(user.id)

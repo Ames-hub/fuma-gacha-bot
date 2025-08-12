@@ -9,7 +9,7 @@ plugin = lightbulb.Plugin(__name__)
 @lightbulb.app_command_permissions(dm_enabled=False)
 @lightbulb.command(name='fumabot', description="Get an invite to the server, or add the bot to your own server!")
 @lightbulb.implements(lightbulb.SlashCommand)
-@dc.check_bot_ban()
+@dc.prechecks()
 async def bot_command(ctx: lightbulb.SlashContext):
     embed = (
         hikari.Embed(

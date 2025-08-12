@@ -13,7 +13,7 @@ plugin = lightbulb.Plugin(__name__)
 )
 @lightbulb.command(name='browse', description="Browse the card pack market!")
 @lightbulb.implements(lightbulb.SlashSubCommand)
-@dc.check_bot_ban()
+@dc.prechecks()
 async def bot_command(ctx: lightbulb.SlashContext):
     view = main_view()
 

@@ -12,7 +12,7 @@ plugin = lightbulb.Plugin(__name__)
 )
 @lightbulb.command(name='help', description="Browse the public card market!", pass_options=True)
 @lightbulb.implements(lightbulb.SlashSubCommand)
-@dc.check_bot_ban()
+@dc.prechecks()
 async def bot_command(ctx: lightbulb.SlashContext):
     await ctx.respond(
         embed=hikari.Embed(

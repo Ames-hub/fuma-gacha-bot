@@ -20,7 +20,7 @@ plugin = lightbulb.Plugin(__name__)
 )
 @lightbulb.command(name='buy', description="Buy an item offer!", pass_options=True)
 @lightbulb.implements(lightbulb.SlashSubCommand)
-@dc.check_bot_ban()
+@dc.prechecks()
 async def bot_command(ctx: lightbulb.SlashContext, offer_id):
     try:
         purchase_data = nichoshop.purchase_offer(

@@ -29,7 +29,7 @@ plugin = lightbulb.Plugin(__name__)
 )
 @lightbulb.command(name='browse', description="Browse the public card market!")
 @lightbulb.implements(lightbulb.SlashSubCommand)
-@dc.check_bot_ban()
+@dc.prechecks()
 async def bot_command(ctx: lightbulb.SlashContext):
     all_stock = nichoshop.list_stock()
 

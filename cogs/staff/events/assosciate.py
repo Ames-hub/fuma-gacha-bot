@@ -25,7 +25,7 @@ plugin = lightbulb.Plugin(__name__)
 @lightbulb.command(name='assosciate', description="Assosciate a card with an event.", pass_options=True)
 @lightbulb.implements(lightbulb.SlashSubCommand)
 @dc.check_admin_status()
-@dc.check_bot_ban()
+@dc.prechecks()
 async def bot_command(ctx: lightbulb.SlashContext, event_name, card_id):
     # Check card exists
     card_exists = dbcards.check_exists(card_id=card_id)

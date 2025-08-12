@@ -26,7 +26,7 @@ rarity_crossref = {
 @lightbulb.command(name='rmcard', description="Delete a card.")
 @lightbulb.implements(lightbulb.SlashSubCommand)
 @dc.check_admin_status()
-@dc.check_bot_ban()
+@dc.prechecks()
 async def bot_command(ctx: lightbulb.SlashContext):
     custom_id = ctx.options.custom_id
     if " " in custom_id:

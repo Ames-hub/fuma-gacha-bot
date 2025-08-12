@@ -14,6 +14,32 @@ class NonexistantCard(Exception):
     def __str__(self):
         return "Nonexistant card."
 
+def list_all():
+    with sqlite3.connect(DB_PATH) as conn:
+        try:
+            cur = conn.cursor()
+            cur.execute(
+                """
+                SELECT identifier, name, description, rarity, card_tier, pullable, card_group FROM global_cards
+                """
+            )
+            data = cur.fetchall()
+            parsed_data = []
+            for row in data:
+                parsed_data.append({
+                    "identifier": row[0],
+                    "name": row[1],
+                    "description": row[2],
+                    "rarity": row[3],
+                    "tier": row[4],
+                    "pullable": bool(row[5]),
+                    "group": row[6],
+                })
+            return parsed_data
+        except sqlite3.OperationalError:
+            conn.rollback()
+            return False
+
 def get_assosciations(card_id:str, expected_card_tier:int=None):
     card_tier = get_tier(card_id, as_number=True)
 
@@ -361,12 +387,12 @@ def view_card(name:str):
             parsed_data = []
             for item in data:
                 parsed_data.append({
-                    'identifier': item[0],
+                    'identifier': str(item[0]),
                     'name': item[1],
                     'description': item[2],
-                    'rarity': item[3],
+                    'rarity': int(item[3]),
                     'img_bytes': item[4],
-                    'tier': item[5],
+                    'tier': int(item[5]),
                     'pullable': bool(item[6]),
                 })
             return parsed_data

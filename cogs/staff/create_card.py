@@ -71,7 +71,7 @@ rarity_crossref = {
 @lightbulb.command(name='mkcard', description="Add a new card to the collection (bot admin only)")
 @lightbulb.implements(lightbulb.SlashSubCommand)
 @dc.check_admin_status()
-@dc.check_bot_ban()
+@dc.prechecks()
 async def bot_command(ctx: lightbulb.SlashContext):
     rarity = rarity_crossref[ctx.options.rarity.lower()]
     card_id = ctx.options.custom_id

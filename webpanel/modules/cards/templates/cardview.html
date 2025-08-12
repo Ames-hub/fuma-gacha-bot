@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Gacha Card Management</title>
+    <link rel="stylesheet" href="/static/cards/css/cardview.css">
+    <link rel="stylesheet" href="/static/home/css/sidebar.css">
+</head>
+<body>
+<aside class="sidebar">
+    <h1>Bot Panel</h1>
+    <nav class="nav">
+        <a href="/">Dashboard</a>
+        <a href="/ctrl/commands">Commands</a>
+        <a href="/bot/logs">Bot Logs</a>
+        <a href="/bot/feedback">Feedback</a>
+        <a href="/bot/reports">Bug Reports</a>
+        <a href="/ctrl/settings">Settings</a>
+    </nav>
+</aside>
+
+<main class="main">
+    <h1>Manage Card</h1>
+    <div class="card-details">
+        <!-- Card Image -->
+        <div class="card-image">
+            <img src="data:image/png;base64,{{ card.img_bytes }}" alt="{{ card.name }}">
+        </div>
+
+        <!-- Card Info -->
+        <div class="card-info">
+            <h2>{{ card.name }}</h2>
+            <div class="info-row">
+                <span class="label">ID:</span>
+                <span class="value">{{ card.identifier }}</span>
+            </div>
+            <div class="info-row">
+                <span class="label">Name:</span>
+                <span class="value">{{ card.name }}</span>
+            </div>
+            <div class="info-row">
+                <span class="label">Description:</span>
+                <span class="value">{{ card.description }}</span>
+            </div>
+            <div class="info-row">
+                <span class="label">Rarity:</span>
+                <span class="value">{{ card.rarity }}</span>
+            </div>
+            <div class="info-row">
+                <span class="label">Tier:</span>
+                <span class="value">{{ card.tier }}</span>
+            </div>
+            <div class="info-row">
+                <span class="label">Pullable:</span>
+                <span class="value">{{ "Yes" if card.pullable else "No" }}</span>
+            </div>
+
+            <!-- Actions -->
+            <div class="actions">
+                <button id="btn-toggle">
+                    {{ "Disable Pull" if card.pullable else "Enable Pull" }}
+                </button>
+                <button id="btn-delete">Delete Card</button>
+            </div>
+        </div>
+    </div>
+    <script src="/static/cards/js/cardview/view_pullability.js"></script>
+    <script src="/static/cards/js/cardview/carddelete.js"></script>
+</main>
+</body>
+</html>

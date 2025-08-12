@@ -35,7 +35,7 @@ plugin = lightbulb.Plugin(__name__)
 )
 @lightbulb.command(name='inv', description="See your current inventory!")
 @lightbulb.implements(lightbulb.SlashCommand)
-@dc.check_bot_ban()
+@dc.prechecks()
 async def bot_command(ctx: lightbulb.SlashContext):
     search = ctx.options.query
     page_number = int(ctx.options.page) - 1  # index at 0.

@@ -19,7 +19,7 @@ plugin = lightbulb.Plugin(__name__)
 )
 @lightbulb.command(name='howl', description="Earn some rare cards, fumacoins and nichocoins!", pass_options=True)
 @lightbulb.implements(lightbulb.SlashSubCommand)
-@dc.check_bot_ban()
+@dc.prechecks()
 async def bot_command(ctx: lightbulb.SlashContext):
     target_acc = economy.account(ctx.author.id)
 

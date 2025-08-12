@@ -20,7 +20,7 @@ plugin = lightbulb.Plugin(__name__)
 @lightbulb.command(name='set', description="Set where we should log stuff.", pass_options=True)
 @lightbulb.implements(lightbulb.SlashSubCommand)
 @dc.check_admin_status()
-@dc.check_bot_ban()
+@dc.prechecks()
 async def bot_command(ctx: lightbulb.SlashContext, channel:hikari.GuildChannel):
     success = eventlogs.set_channel(int(channel.id))
     if success:

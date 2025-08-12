@@ -19,7 +19,7 @@ plugin = lightbulb.Plugin(__name__)
 )
 @lightbulb.command(name='battle', description="Earn some FumaCoins and a card!")
 @lightbulb.implements(lightbulb.SlashSubCommand)
-@dc.check_bot_ban()
+@dc.prechecks()
 async def bot_command(ctx: lightbulb.SlashContext):
     user_account = economy.account(ctx.author.id)
     money_gained = random.randint(10, 150)

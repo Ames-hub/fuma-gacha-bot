@@ -19,9 +19,6 @@ def parse_time_string(time_str:str):
         return False
 
 def combine_image(img_bytes_pack):
-    if not len(img_bytes_pack) == 3:
-        raise ValueError("Invalid number of images provided.")
-
     pil_imgs = [Image.open(img).convert("RGBA") for img in img_bytes_pack]
 
     gap = 20

@@ -49,21 +49,33 @@ def delete_schedule(entry_id):
             conn.rollback()
             return False
 
-def get_all_events():
+def get_all_events(active_only: bool = False):
     with sqlite3.connect(DB_PATH) as conn:
         try:
             cur = conn.cursor()
-            cur.execute(
+
+            if active_only:
+                query = """
+                SELECT e.name
+                FROM stdn_events AS e
+                WHERE e.schedulable = True
+                  AND EXISTS (
+                      SELECT 1
+                      FROM stdn_events_schedule AS s
+                      WHERE s.event_name = e.name
+                        AND s.start_time <= datetime('now')
+                        AND s.end_time   >= datetime('now')
+                  )
                 """
-                SELECT name FROM stdn_events
-                """
-            )
+                cur.execute(query)
+            else:
+                query = "SELECT name FROM stdn_events"
+                cur.execute(query)
+
             data = cur.fetchall()
-            parsed_data = []
-            for item in data:
-                parsed_data.append(item[0])
-            return parsed_data
-        except sqlite3.OperationalError:
+            return [row[0] for row in data]
+        except sqlite3.OperationalError as err:
+            logging.error(err, exc_info=err)
             conn.rollback()
             return False
 

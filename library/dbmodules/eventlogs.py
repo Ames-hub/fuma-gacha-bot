@@ -4,18 +4,15 @@ import hikari
 import json
 
 def set_channel(channel_id):
-    data = {
-        "event_channel": {
-            "id": channel_id,
-        }
-    }
-    with open('library/config.json', 'w') as f:
+    data = botapp.d['config']
+    data["event_channel"]["id"] = channel_id
+    with open('config.json', 'w') as f:
         json.dump(data, f, indent=4)
 
     return True
 
 def get_channel():
-    with open('library/config.json', 'r') as f:
+    with open('config.json', 'r') as f:
         data = json.load(f)
         return data["event_channel"]["id"]
 
@@ -33,8 +30,11 @@ async def log_event(event_title, event_text):
         )
     )
 
-    await botapp.rest.create_message(
-        get_channel(),
-        embed=embed,
-    )
+    try:
+        await botapp.rest.create_message(
+            get_channel(),
+            embed=embed,
+        )
+    except hikari.errors.ComponentStateConflictError:
+        return False  # Bot isn't started. Likely working on web or smth
     return True

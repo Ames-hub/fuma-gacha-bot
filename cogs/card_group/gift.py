@@ -32,7 +32,7 @@ plugin = lightbulb.Plugin(__name__)
 )
 @lightbulb.command(name='gift', description="Gift someone a card!", pass_options=True)
 @lightbulb.implements(lightbulb.SlashCommand)
-@dc.check_bot_ban()
+@dc.prechecks()
 async def bot_command(ctx: lightbulb.SlashContext, name_or_id:str, target:hikari.Member, amount:int):
     success = dbcards.gift_card(
         cardname=str(name_or_id),

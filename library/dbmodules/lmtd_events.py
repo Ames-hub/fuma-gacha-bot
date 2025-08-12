@@ -49,21 +49,28 @@ def delete_schedule(entry_id):
             conn.rollback()
             return False
 
-def get_all_events():
+def get_all_events(active_only: bool = False):
     with sqlite3.connect(DB_PATH) as conn:
         try:
             cur = conn.cursor()
-            cur.execute(
+
+            if active_only:
+                # Only events currently active (now between start_time and end_time)
+                query = """
+                SELECT DISTINCT event_name
+                FROM limited_events_schedule
+                WHERE start_time <= CURRENT_TIMESTAMP
+                  AND end_time >= CURRENT_TIMESTAMP
                 """
-                SELECT name FROM limited_events
-                """
-            )
+                cur.execute(query)
+            else:
+                # All limited events, regardless of the current schedule
+                cur.execute("SELECT name FROM limited_events")
+
             data = cur.fetchall()
-            parsed_data = []
-            for item in data:
-                parsed_data.append(item[0])
-            return parsed_data
-        except sqlite3.OperationalError:
+            return [row[0] for row in data]
+        except sqlite3.OperationalError as err:
+            logging.error(err, exc_info=err)
             conn.rollback()
             return False
 

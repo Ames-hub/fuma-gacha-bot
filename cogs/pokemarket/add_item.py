@@ -53,7 +53,7 @@ pokeshop_type_crossref = {
 @lightbulb.command(name='additem', description="Add an item to the market to be purchased!", pass_options=True)
 @lightbulb.implements(lightbulb.SlashSubCommand)
 @dc.check_admin_status()
-@dc.check_bot_ban()
+@dc.prechecks()
 async def bot_command(ctx: lightbulb.SlashContext, name, price, amount, pack_type, filter_arg):
     if filter_arg.lower() == "help":
         await ctx.respond(
