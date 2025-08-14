@@ -72,7 +72,7 @@ async def main():
 
     await asyncio.gather(
         server.serve(),
-        # botapp.start()
+        botapp.start()
     )
 
 if __name__ == "__main__":
