@@ -152,6 +152,7 @@ def spawn_card(card_id: str, amount: int, user_id: int, allow_limited:bool=False
                     return False
 
         item_identifier, item_name = card_data['identifier'], card_data['name']
+        item_tier, item_rarity, item_group = card_data['tier'], card_data['rarity'], card_data['group']
 
         # Step 2: Check if the user already has it
         cur.execute("""
@@ -170,7 +171,7 @@ def spawn_card(card_id: str, amount: int, user_id: int, allow_limited:bool=False
             cur.execute("""
                 INSERT INTO inventories (item_identifier, item_name, user_id, amount, item_group, item_rarity, item_tier)
                 VALUES (?, ?, ?, ?, ?, ?, ?)
-            """, (item_identifier, item_name, user_id, amount))
+            """, (item_identifier, item_name, user_id, amount, item_group, item_rarity, item_tier))
 
         conn.commit()
         return True
@@ -266,13 +267,9 @@ class gift_errors:
         def __str__(self):
             return f"Memory error in gifting the card! {self.err}"
 
-def gift_card(cardname: str, giving_amount: int, giver_id: int, receiver_id: int):
+def gift_card(card_id: str, giving_amount: int, giver_id: int, receiver_id: int):
     if giving_amount < 1:
         raise gift_errors.BadAmount()
-
-    is_id = " " not in cardname and cardname.lower().startswith("id:")
-    if is_id:
-        cardname = cardname.replace("id:", "")
 
     conn = sqlite3.connect(DB_PATH)
     try:
@@ -281,8 +278,8 @@ def gift_card(cardname: str, giving_amount: int, giver_id: int, receiver_id: int
         # Step 1: Fetch item from the giver
         cur.execute(f"""
             SELECT item_identifier, item_name, amount FROM inventories
-            WHERE user_id = ? AND {'item_identifier' if is_id else 'item_name'} = ?
-        """, (giver_id, cardname))
+            WHERE user_id = ? AND item_identifier = ?
+        """, (giver_id, card_id))
 
         item = cur.fetchone()
         if not item:

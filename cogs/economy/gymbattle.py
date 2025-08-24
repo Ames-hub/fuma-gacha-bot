@@ -30,7 +30,13 @@ async def bot_command(ctx: lightbulb.SlashContext):
             card = dbcards.filtered_pull_card(
                 filter_string="<rarity=5><card_tier=1><pullable=True>",
             )
-            str_rare_cards += f"{card['name']} ({card['identifier']})\n"
+            dbcards.spawn_card(
+                amount=1,
+                card_id=card['identifier'],
+                user_id=ctx.author.id,
+                allow_limited=True
+            )
+            str_rare_cards += f"\n{card['name']} ({card['identifier']})"
         except dbcards.ItemNonexistence:
             rare_cards.append(False)
             continue

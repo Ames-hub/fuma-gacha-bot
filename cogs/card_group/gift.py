@@ -57,7 +57,7 @@ async def bot_command(ctx: lightbulb.SlashContext, card_id:str, target:hikari.Me
 
     try:
         success = dbcards.gift_card(
-            cardname=str(card_id),
+            card_id=str(card_id),
             giver_id=int(ctx.author.id),
             receiver_id=int(target),
             giving_amount=int(amount),
@@ -105,7 +105,7 @@ async def bot_command(ctx: lightbulb.SlashContext, card_id:str, target:hikari.Me
         await ctx.respond(
             embed=hikari.Embed(
                 title=f"{card['identifier']} Sent!",
-                description=f"The card has been sent to {target.mention}.",
+                description=f"The card has been sent to <@{target}>.",
                 color=0x00FF00
             )
             .set_image(
