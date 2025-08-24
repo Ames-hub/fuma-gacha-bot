@@ -63,7 +63,7 @@ async def main():
     config = uvicorn.Config(
         "webpanel.webpanel:fastapp",
         host="0.0.0.0" if not DEBUG else "127.0.0.1",
-        port=8080,
+        port=8010,
         loop="asyncio",
         lifespan="on",
         reload=False  # <- important

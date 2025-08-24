@@ -24,11 +24,13 @@ async def bot_command(ctx: lightbulb.SlashContext):
     target_acc = economy.account(ctx.author.id)
 
     rare_cards = []
+    str_rare_cards = ""
     for i in range(3):  # Get 3 random cards that are rare.
         try:
             card = dbcards.filtered_pull_card(
                 filter_string="<rarity=5><card_tier=1><pullable=True>",
             )
+            str_rare_cards += f"{card['name']} ({card['identifier']})\n"
         except dbcards.ItemNonexistence:
             rare_cards.append(False)
             continue
@@ -44,17 +46,16 @@ async def bot_command(ctx: lightbulb.SlashContext):
         )
     )
 
-    str_rare_cards = [str(item) for item in rare_cards]
     if False in rare_cards:
         embed.add_field(
             name="Sorry!",
             value="It seems that for one or more of the cards we gave you, we couldn't because none were fit!\n\n"
-                  f"The cards you got were:\n{", ".join(str_rare_cards)}"
+                  f"The cards you got were:\n{str_rare_cards}"
         )
     else:
         embed.add_field(
             name="~ Rare Cards ~",
-            value=f"You got 3 rare cards! {", ".join(str_rare_cards)}"
+            value=f"You got 3 rare cards! {str_rare_cards}"
         )
 
     await ctx.respond(embed)

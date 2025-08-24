@@ -36,7 +36,7 @@ plugin = lightbulb.Plugin(__name__)
 @lightbulb.implements(lightbulb.SlashCommand)
 @dc.prechecks()
 async def bot_command(ctx: lightbulb.SlashContext, card_id:str, target:hikari.Member, amount:int):
-    if target.id == ctx.author.id:
+    if target == ctx.author.id:
         await ctx.respond(
             embed=hikari.Embed(
                 title="Self-gifting",
@@ -45,7 +45,7 @@ async def bot_command(ctx: lightbulb.SlashContext, card_id:str, target:hikari.Me
             )
         )
         return
-    elif target.id == botapp.get_me().id:
+    elif target == botapp.get_me().id:
         await ctx.respond(
             embed=hikari.Embed(
                 title="Invalid Target",
