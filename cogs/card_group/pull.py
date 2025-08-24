@@ -1,4 +1,4 @@
-from library.database import dbcards, combine_image
+from library.database import dbcards, combine_image, dbuser
 from library import decorators as dc
 from library.botapp import botapp
 import lightbulb
@@ -52,9 +52,14 @@ async def bot_command(ctx: lightbulb.SlashContext):
     )
 
     for card in cards:
+        own_count = dbuser.get_inventory(ctx.author.id, card_id=card['identifier'])[card['identifier']]['amount']
+        if own_count != 0:
+            own_text = f"You own {own_count} of these"
+        else:
+            own_text = "✨ *! New Card Unlocked !* ✨"
         embed.add_field(
             name=card['name'],
-            value=f"{card['description']}\nRarity: {card['rarity']}",
+            value=f"{own_text}\n\n{card['description']}\nRarity: {card['rarity']}",
             inline=True,
         )
 

@@ -47,8 +47,10 @@ async def bot_command(ctx: lightbulb.SlashContext):
                     title="Card Located!",
                 )
                 .add_field(
-                    name=card['name'],
-                    value=f"{card['description']}",
+                    name=f"{card['name']} - {card['identifier']}",
+                    value=f"{card['description']}\n\n"
+                          f"*ID: {card['identifier']}*\n"
+                          f"Group: {card['group']}"
                 )
                 .add_field(
                     name="Rarity",

@@ -15,7 +15,7 @@ plugin = lightbulb.Plugin(__name__)
     required=True,
     type=hikari.OptionType.INTEGER,
     min_value=0,
-    max_value=1500
+    max_value=1500  # TODO: Make this controllable by admins.
 )
 @lightbulb.option(
     name="amount",

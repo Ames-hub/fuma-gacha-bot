@@ -136,21 +136,22 @@ def spawn_card(card_id: str, amount: int, user_id: int, allow_limited:bool=False
     try:
         cur = conn.cursor()
 
-        card_id = card_id.replace("id:", "")
-
         # Step 1: Get the item details from global_cards
-        cur.execute(f"""
-            SELECT identifier, name FROM global_cards
-            WHERE identifier = ? {"AND card_tier IS NOT 3" if not allow_limited else ""}
-        """, (card_id,))
+        # noinspection PyTypeChecker
+        card_data:list = view_card(card_id)
 
-        card_data = cur.fetchone()
-
-        if not card_data:
-            logging.info(f"Someone tried to spawn the card with the ID {card_id}, but it doesn't exist or its a tier 3 card.")
+        if len(card_data) == 0 or card_data is None:
+            logging.info(f"Someone tried to spawn the card with the ID {card_id}, but it doesn't exist.")
             return False
 
-        item_identifier, item_name = card_data
+        if len(card_data) == 1:
+            card_data:dict = card_data[0]
+            if card_data["tier"] == 3:
+                if not allow_limited:
+                    logging.info(f"Someone tried to spawn the card with the ID {card_id}, but it's limited which isn't allowed to be spawned by the user.")
+                    return False
+
+        item_identifier, item_name = card_data['identifier'], card_data['name']
 
         # Step 2: Check if the user already has it
         cur.execute("""
@@ -167,8 +168,8 @@ def spawn_card(card_id: str, amount: int, user_id: int, allow_limited:bool=False
             """, (amount, user_id, item_identifier))
         else:
             cur.execute("""
-                INSERT INTO inventories (item_identifier, item_name, user_id, amount)
-                VALUES (?, ?, ?, ?)
+                INSERT INTO inventories (item_identifier, item_name, user_id, amount, item_group, item_rarity, item_tier)
+                VALUES (?, ?, ?, ?, ?, ?, ?)
             """, (item_identifier, item_name, user_id, amount))
 
         conn.commit()
@@ -237,9 +238,37 @@ def rm_card(card_id):
     finally:
         conn.close()
 
+class gift_errors:
+    class BadAmount(Exception):
+        def __init__(self):
+            self.err_code = 1
+        def __str__(self):
+            return "Amount must be at least 1."
+
+    class GiverDoesNotOwnCard(Exception):
+        def __init__(self):
+            self.err_code = 2
+        def __str__(self):
+            return "Giver doesn't own the card."
+
+    class NotEnoughOfItem(Exception):
+        def __init__(self, giving, needed):
+            self.err_code = 3
+            self.giving = giving
+            self.needed = needed
+        def __str__(self):
+            return f"You do not have enough quantity of that card to give. You have {self.giving}/{self.needed}."
+
+    class GiftDBError(Exception):
+        def __init__(self, err):
+            self.err_code = 4
+            self.err = err
+        def __str__(self):
+            return f"Memory error in gifting the card! {self.err}"
+
 def gift_card(cardname: str, giving_amount: int, giver_id: int, receiver_id: int):
     if giving_amount < 1:
-        return "Amount must be at least 1."
+        raise gift_errors.BadAmount()
 
     is_id = " " not in cardname and cardname.lower().startswith("id:")
     if is_id:
@@ -257,12 +286,12 @@ def gift_card(cardname: str, giving_amount: int, giver_id: int, receiver_id: int
 
         item = cur.fetchone()
         if not item:
-            return "Giver doesn't own the item."
+            raise gift_errors.GiverDoesNotOwnCard()
 
         item_identifier, item_name, giver_amount = item
 
         if giver_amount < giving_amount:
-            return f"Not enough quantity to give. You have {giver_amount}."
+            raise gift_errors.NotEnoughOfItem(giver_amount, giving_amount)
 
         # Step 2: Deduct from giver
         if giver_amount == giving_amount:
@@ -297,11 +326,11 @@ def gift_card(cardname: str, giving_amount: int, giver_id: int, receiver_id: int
             """, (item_identifier, item_name, receiver_id, giving_amount))
 
         conn.commit()
-        return "Transfer successful."
+        return True
 
     except sqlite3.OperationalError as err:
         conn.rollback()
-        return f"Database error: {err}"
+        return gift_errors.GiftDBError(err)
     finally:
         conn.close()
 
@@ -371,7 +400,7 @@ def view_card(name:str):
         cur = conn.cursor()
         cur.execute(
             f"""
-            SELECT identifier, name, description, rarity, img_bytes, card_tier, pullable
+            SELECT identifier, name, description, rarity, img_bytes, card_tier, pullable, card_group
             FROM global_cards
             WHERE {'name' if not is_id else 'identifier'} = ?
             """,
@@ -394,6 +423,7 @@ def view_card(name:str):
                     'img_bytes': item[4],
                     'tier': int(item[5]),
                     'pullable': bool(item[6]),
+                    'group': item[7],
                 })
             return parsed_data
         else:
@@ -406,6 +436,7 @@ def view_card(name:str):
                 'img_bytes': data[4],
                 'tier': data[5],
                 'pullable': bool(data[6]),
+                'group': data[7],
             }]
     except sqlite3.OperationalError:
         conn.rollback()
@@ -413,6 +444,9 @@ def view_card(name:str):
         return False
 
 def load_img_bytes(card_id):
+    """
+    Gets img_bytes from the database and returns it as a BytesIO object.
+    """
     conn = sqlite3.connect(DB_PATH)
     try:
         cur = conn.cursor()

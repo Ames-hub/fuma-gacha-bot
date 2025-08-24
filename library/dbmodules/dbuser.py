@@ -59,32 +59,38 @@ def run_ban_check(user_id: int):
     finally:
         conn.close()
 
-def get_inventory(user_id, search_for=None):
+def get_inventory(user_id, card_id=None, card_name=None, card_group=None, card_rarity=None, card_tier=None):
     conn = sqlite3.connect(DB_PATH)
+    user_id = int(user_id)
+
+    args = (user_id,)
+    if card_id is not None:
+        args += (card_id,)
+    if card_name is not None:
+        args += (card_name,)
+    if card_group is not None:
+        args += (card_group,)
+    if card_rarity is not None:
+        args += (card_rarity,)
+    if card_tier is not None:
+        args += (card_tier,)
 
     try:
         cursor = conn.cursor()
-        if search_for is None:
-            cursor.execute(
-                """
-                SELECT item_name, item_identifier, amount FROM inventories WHERE user_id = ?
-                """,
-                (user_id,)
-            )
-        else:
-            search_is_id = " " not in search_for and search_for.lower().startswith("id:")
-            if search_is_id:
-                search_for = search_for.replace("id:", "")
-
-            cursor.execute(
-                f"""
-                SELECT item_name, item_identifier, amount
-                FROM inventories
-                WHERE user_id = ?
-                AND {"item_name" if not search_is_id else "item_identifier"} = ?
-                """,
-                (user_id, search_for,)
-            )
+        cursor.execute(
+            f"""
+            SELECT item_name, item_identifier, amount
+            FROM inventories
+            WHERE user_id = ?
+            {"AND item_identifier = ?" if card_id is not None else ""}
+            {"AND item_name = ?" if card_name is not None else ""}
+            {"AND item_group = ?" if card_group is not None else ""}
+            {"AND item_rarity = ?" if card_rarity is not None else ""}
+            {"AND item_tier = ?" if card_tier is not None else ""}
+            ORDER BY amount DESC
+            """,
+            args,
+        )
         data = cursor.fetchall()
 
         inventory = {}

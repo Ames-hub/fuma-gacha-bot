@@ -11,14 +11,6 @@ import hikari
 
 plugin = lightbulb.Plugin(__name__)
 
-rarity_crossref = {
-    "common": 1,
-    "uncommon": 2,
-    "difficult": 3,
-    "rare": 4,
-    "fictional": 5,
-}
-
 @staff_group.child
 @lightbulb.app_command_permissions(dm_enabled=False)
 @lightbulb.option(
@@ -32,7 +24,7 @@ rarity_crossref = {
     name="rarity",
     description="How rare is it?",
     required=True,
-    choices=[item.capitalize() for item in rarity_crossref.keys()],
+    choices=["1P", "2P", "3P", "4P", "5P"],
 )
 @lightbulb.option(
     name="icon",
@@ -73,7 +65,7 @@ rarity_crossref = {
 @dc.check_admin_status()
 @dc.prechecks()
 async def bot_command(ctx: lightbulb.SlashContext):
-    rarity = rarity_crossref[ctx.options.rarity.lower()]
+    rarity = int(ctx.options.rarity[0])
     card_id = ctx.options.custom_id
 
     if card_id is not None:
