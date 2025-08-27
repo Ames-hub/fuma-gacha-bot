@@ -98,14 +98,13 @@ async def bot_command(ctx: lightbulb.SlashContext, card_id:str, target:hikari.Me
         )
         return
 
-
     if success:
         card = dbcards.view_card(card_id)[0]
         image = dbcards.load_img_bytes(card['identifier'])
         await ctx.respond(
             embed=hikari.Embed(
                 title=f"{card['identifier']} Sent!",
-                description=f"The card has been sent to <@{target}>.",
+                description=f"{amount}x of the card has been sent to <@{target}>.",
                 color=0x00FF00
             )
             .set_image(
