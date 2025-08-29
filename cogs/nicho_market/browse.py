@@ -29,15 +29,20 @@ plugin = lightbulb.Plugin(__name__)
 )
 @lightbulb.command(name='browse', description="Browse the public card market!")
 @lightbulb.implements(lightbulb.SlashSubCommand)
-@dc.prechecks()
+@dc.prechecks('nicho browse')
 async def bot_command(ctx: lightbulb.SlashContext):
     all_stock = nichoshop.list_stock()
 
-    if len(all_stock) == 0:
+    # Remove unavailable stock
+    all_stock = [item for item in all_stock if bool(item['available']) == True]
+
+    stock_count = len(all_stock)
+
+    if stock_count == 0:
         await ctx.respond(
             embed=(
                 hikari.Embed(
-                    title="Nicho Market",
+                    title="Nicho Shop",
                     description="There are no cards in the market yet.",
                     colour=0xff0000,
                 )
@@ -48,8 +53,6 @@ async def bot_command(ctx: lightbulb.SlashContext):
             )
         )
         return
-
-    stock_count = len(all_stock)
 
     pageSize = 50
     pageList = {}
@@ -78,7 +81,7 @@ async def bot_command(ctx: lightbulb.SlashContext):
     await ctx.respond(
         embed=(
             hikari.Embed(
-                title="Nicho Market",
+                title="Nicho Shop",
                 description="Buy and sell cards! From users, for users.",
                 colour=0x00ff00,
             )

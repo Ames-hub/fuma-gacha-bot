@@ -112,6 +112,23 @@ class database:
                 'created_at': 'DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP',
                 'expires_at': 'DATETIME NOT NULL',
             },
+            "commands": {
+                "identifier": "TEXT NOT NULL PRIMARY KEY",
+                "enabled": "BOOLEAN NOT NULL DEFAULT TRUE",
+            },
+            "bug_reports": {
+                "bugid": "INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT",
+                "stated_bug": "TEXT NOT NULL",
+                "reproduction_steps": "TEXT NOT NULL",
+                "problem_section": "TEXT NOT NULL",
+                "expected_result": "TEXT NOT NULL",
+                "extra_info": "TEXT",
+                "reporter_id": "INTEGER NOT NULL",
+                "report_date": "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP",
+                "resolved": "BOOLEAN NOT NULL DEFAULT FALSE",
+                "resolved_at": "DATETIME",
+                "severity": "TEXT NOT NULL DEFAULT 'medium'"
+            }
         }
 
         for table_name, columns in table_dict.items():

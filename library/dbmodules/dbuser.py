@@ -79,7 +79,7 @@ def get_inventory(user_id, card_id=None, card_name=None, card_group=None, card_r
         cursor = conn.cursor()
         cursor.execute(
             f"""
-            SELECT item_name, item_identifier, amount
+            SELECT item_name, item_identifier, amount, item_group, item_rarity, item_tier
             FROM inventories
             WHERE user_id = ?
             {"AND item_identifier = ?" if card_id is not None else ""}
@@ -99,6 +99,9 @@ def get_inventory(user_id, card_id=None, card_name=None, card_group=None, card_r
                 "name": row[0],
                 "identifier": row[1],
                 "amount": row[2],
+                "group": row[3],
+                "rarity": row[4],
+                "tier": row[5],
             }
 
         return inventory

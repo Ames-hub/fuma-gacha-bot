@@ -1,10 +1,12 @@
 from library.database import dbuser
+from library.botapp import botapp
+from library.commands import cmd
 import functools
 import lightbulb
+import datetime
 import hikari
-import json
 
-def prechecks():
+def prechecks(cmd_id, cooldown_s=0):
     """
     Checks all basic preconditions for the bot to allow the user to use the command.
     """
@@ -22,6 +24,29 @@ def prechecks():
                     )
                 )
                 return None
+
+            is_enabled = cmd(cmd_id).is_enabled()
+            if not is_enabled:
+                await ctx.respond(
+                    embed=hikari.Embed(
+                        title="Forbidden",
+                        description="Sorry, this command is temporarily disabled.",
+                    )
+                )
+                return None
+
+            if cooldown_s != 0:
+                # Cooldown system
+                timenow = datetime.datetime.now().timestamp()
+                last_used = botapp.d['cooldowns'].get(ctx.author.id, {}).get(cmd_id, 0)
+
+                if timenow < last_used + cooldown_s:
+                    raise lightbulb.errors.CommandIsOnCooldown(
+                        retry_after=last_used + cooldown_s - timenow
+                    )
+
+                botapp.d['cooldowns'].setdefault(ctx.author.id, {})[cmd_id] = timenow
+
             return await func(ctx, *args, **kwargs)
         return wrapper
     return decorator

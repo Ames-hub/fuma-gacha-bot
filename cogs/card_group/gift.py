@@ -34,7 +34,7 @@ plugin = lightbulb.Plugin(__name__)
 )
 @lightbulb.command(name='gift', description="Gift someone a card!", pass_options=True)
 @lightbulb.implements(lightbulb.SlashCommand)
-@dc.prechecks()
+@dc.prechecks('card gift')
 async def bot_command(ctx: lightbulb.SlashContext, card_id:str, target:hikari.Member, amount:int):
     if target == ctx.author.id:
         await ctx.respond(

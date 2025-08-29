@@ -11,7 +11,7 @@ database.modernize()
 # Load all extensions
 botapp.load_extensions_from("cogs/card_group")
 botapp.load_extensions_from("cogs/nicho_market")
-botapp.load_extensions_from("cogs/pokemarket")
+botapp.load_extensions_from("cogs/pokeshop")
 botapp.load_extensions_from("cogs/economy")
 botapp.load_extensions_from("cogs/staff")
 botapp.load_extensions_from("cogs/staff/events")
@@ -56,8 +56,9 @@ botapp.d['config'] = {  # The default config
     "event_channel": {
         "id": None,
     },
-    "commands": {}  # TODO: Use this to allow command toggling
 }
+
+botapp.d['cooldowns'] = {}
 
 async def main():
     config = uvicorn.Config(
@@ -75,8 +76,13 @@ async def main():
         botapp.start()
     )
 
+bot_only = False
+
 if __name__ == "__main__":
-    try:
-        asyncio.run(main())
-    except KeyboardInterrupt:
-        print("Ending process.")
+    if bot_only:
+        botapp.run()
+    else:
+        try:
+            asyncio.run(main())
+        except KeyboardInterrupt:
+            print("Ending process.")

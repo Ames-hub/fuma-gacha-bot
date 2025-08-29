@@ -32,7 +32,7 @@ plugin = lightbulb.Plugin(__name__)
 @lightbulb.command(name='schedule', description="Schedule a new limited event", pass_options=True)
 @lightbulb.implements(lightbulb.SlashSubCommand)
 @dc.check_admin_status()
-@dc.prechecks()
+@dc.prechecks('event_schedule')
 async def bot_command(ctx: lightbulb.SlashContext, name, start_time, end_time):
     try:
         success = lmtd_events.schedule(

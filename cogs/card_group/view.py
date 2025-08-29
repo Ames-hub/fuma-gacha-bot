@@ -27,7 +27,7 @@ rarity_crossref = {
 )
 @lightbulb.command(name='view', description="View a card!")
 @lightbulb.implements(lightbulb.SlashCommand)
-@dc.prechecks()
+@dc.prechecks('view card')
 async def bot_command(ctx: lightbulb.SlashContext):
     card = dbcards.view_card(ctx.options.id)
 

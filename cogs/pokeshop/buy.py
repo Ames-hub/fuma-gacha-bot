@@ -1,5 +1,5 @@
 from library.database import economy, pokemarket
-from cogs.pokemarket.group import group
+from cogs.pokeshop.group import group
 from library import decorators as dc
 import lightbulb
 import hikari
@@ -17,9 +17,9 @@ plugin = lightbulb.Plugin(__name__)
 @lightbulb.add_checks(
     lightbulb.guild_only
 )
-@lightbulb.command(name='buy', description="Buy a card from the pack market!")
+@lightbulb.command(name='buy', description="Buy a card from the pack shop!")
 @lightbulb.implements(lightbulb.SlashSubCommand)
-@dc.prechecks()
+@dc.prechecks('poke buy')
 async def bot_command(ctx: lightbulb.SlashContext):
     # Gets the price of the pack
     item_id = ctx.options.item_id

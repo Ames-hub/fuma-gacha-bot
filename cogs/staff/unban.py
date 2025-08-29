@@ -17,7 +17,7 @@ plugin = lightbulb.Plugin(__name__)
 @lightbulb.command(name='unban_user', description="Allow a user to use the bot after being banned! (bot admin only)", pass_options=True)
 @lightbulb.implements(lightbulb.SlashSubCommand)
 @dc.check_admin_status()
-@dc.prechecks()
+@dc.prechecks('unban')
 async def bot_command(ctx: lightbulb.SlashContext, user: hikari.User):
     success = dbuser.set_user_ban(
         ban_status=False,

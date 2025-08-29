@@ -12,14 +12,9 @@ plugin = lightbulb.Plugin(__name__)
 @lightbulb.add_checks(
     lightbulb.guild_only
 )
-@lightbulb.add_cooldown(
-    length=10_080,  # 1 week in seconds.
-    bucket=lightbulb.buckets.UserBucket,
-    uses=1
-)
 @lightbulb.command(name='gymbattle', description="Fight for some money and cards!", pass_options=True)
 @lightbulb.implements(lightbulb.SlashSubCommand)
-@dc.prechecks()
+@dc.prechecks('gymbattle', cooldown_s=604800)  # A week in seconds
 async def bot_command(ctx: lightbulb.SlashContext):
     target_acc = economy.account(ctx.author.id)
 
@@ -42,7 +37,7 @@ async def bot_command(ctx: lightbulb.SlashContext):
             continue
         rare_cards.append(card)
 
-    gained_fc = random.randint(120, 320)
+    gained_fc = random.randint(5000, 6000)
     target_acc.fumacoins.modify_balance(gained_fc, 'add')
 
     embed = (

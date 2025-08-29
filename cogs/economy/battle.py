@@ -19,10 +19,10 @@ plugin = lightbulb.Plugin(__name__)
 )
 @lightbulb.command(name='battle', description="Earn some FumaCoins and a card!")
 @lightbulb.implements(lightbulb.SlashSubCommand)
-@dc.prechecks()
+@dc.prechecks('economy battle')
 async def bot_command(ctx: lightbulb.SlashContext):
     user_account = economy.account(ctx.author.id)
-    money_gained = random.randint(10, 150)
+    money_gained = random.randint(1000, 1500)
     failed = random.randint(1, 100) == 50
 
     splash_text = "You earned some PokeCoins!"
@@ -90,7 +90,7 @@ async def bot_command(ctx: lightbulb.SlashContext):
 
         user_account.fumacoins.modify_balance(money_gained, operator="+")
     else:
-        splash_text = ("You threw a rat at Arceus (God of Gods) and barely got away with it, and only because it let you. "
+        splash_text = ("You threw a rat at Arceus and barely got away with it, and only because it let you. "
                        f"You had to offer {money_gained // 2} FumaCoins to its shrine for its forgiveness.")
         user_account.fumacoins.modify_balance(money_gained // 2, operator="-")
 

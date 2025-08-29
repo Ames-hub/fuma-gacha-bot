@@ -34,7 +34,7 @@ plugin = lightbulb.Plugin(__name__)
 @lightbulb.command(name='gift', description="Spawn a card for someone (bot admin only)", pass_options=True)
 @lightbulb.implements(lightbulb.SlashSubCommand)
 @dc.check_admin_status()
-@dc.prechecks()
+@dc.prechecks('spawn card')
 async def bot_command(ctx: lightbulb.SlashContext, card_id: str, target_user: hikari.Member, amount: int):
     success = dbcards.spawn_card(card_id=card_id, user_id=int(target_user), amount=amount)
     card = dbcards.view_card(card_id)[0]

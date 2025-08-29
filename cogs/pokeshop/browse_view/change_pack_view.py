@@ -36,6 +36,14 @@ class main_view:
         )
 
         all_items = pokemarket.get_all_items()
+        if len(all_items) == 0:
+            embed.add_field(
+                name="Card Packs",
+                value="No cards found!"
+            )
+            embed.set_footer("No offers available")
+            return embed
+
         if viewing_page != 0:
             try:
                 item = all_items[viewing_page - 1]

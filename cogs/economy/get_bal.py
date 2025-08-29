@@ -13,7 +13,7 @@ plugin = lightbulb.Plugin(__name__)
 )
 @lightbulb.command(name='bal', description="Check how many coins you have!")
 @lightbulb.implements(lightbulb.SlashSubCommand)
-@dc.prechecks()
+@dc.prechecks('get bal')
 async def bot_command(ctx: lightbulb.SlashContext):
     user_account = economy.account(ctx.author.id)
 

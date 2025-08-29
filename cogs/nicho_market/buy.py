@@ -1,4 +1,4 @@
-from library.database import nichoshop, economy
+from library.database import nichoshop, economy, dbcards
 from cogs.nicho_market.group import group
 from library import decorators as dc
 import lightbulb
@@ -20,7 +20,7 @@ plugin = lightbulb.Plugin(__name__)
 )
 @lightbulb.command(name='buy', description="Buy an item offer!", pass_options=True)
 @lightbulb.implements(lightbulb.SlashSubCommand)
-@dc.prechecks()
+@dc.prechecks('nicho buy')
 async def bot_command(ctx: lightbulb.SlashContext, offer_id):
     try:
         purchase_data = nichoshop.purchase_offer(
@@ -67,6 +67,7 @@ async def bot_command(ctx: lightbulb.SlashContext, offer_id):
     success = purchase_data.get('success')
 
     if success:
+        image = dbcards.load_img_bytes(purchase_data['transaction']['given_card_id'])
         await ctx.respond(
             embed=hikari.Embed(
                 title="Success!",
@@ -78,6 +79,7 @@ async def bot_command(ctx: lightbulb.SlashContext, offer_id):
                 value=f"Card \"{purchase_data['transaction']['given_card_id']}\", Amount: {purchase_data['transaction']['given_amount']}",
                 inline=True,
             )
+            .set_image(hikari.Bytes(image, "cardphoto.png"))
         )
     else:
         await ctx.respond(

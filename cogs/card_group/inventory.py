@@ -6,6 +6,20 @@ import hikari
 
 plugin = lightbulb.Plugin(__name__)
 
+rarity_crossref = {
+    1: "<:loveball:1389313177392513034>",
+    2: "<:loveball:1389313177392513034>" * 2,
+    3: "<:loveball:1389313177392513034>" * 3,
+    4: "<:loveball:1389313177392513034>" * 4,
+    5: "<:loveball:1389313177392513034>" * 5,
+}
+
+card_tier_crossref = {
+    1: "Standard",
+    2: "Event",
+    3: "Limited",
+}
+
 @botapp.command()
 @lightbulb.app_command_permissions(dm_enabled=False)
 @lightbulb.option(
@@ -63,7 +77,7 @@ plugin = lightbulb.Plugin(__name__)
 )
 @lightbulb.command(name='inv', description="See your current inventory!", pass_options=True)
 @lightbulb.implements(lightbulb.SlashCommand)
-@dc.prechecks()
+@dc.prechecks('inventory')
 async def bot_command(ctx: lightbulb.SlashContext, page, target_user, card_id, card_name, card_group, card_tier, card_rarity):
     page_number = int(page) - 1  # index at 0.
 
@@ -78,14 +92,17 @@ async def bot_command(ctx: lightbulb.SlashContext, page, target_user, card_id, c
     )
     if is_search:
         search_txt = (f"Searching for a tier {card_tier if card_tier is not None else "any"} card with {card_name if card_name is not None else "any"} name,"
-                      f" assosciated with {card_group if card_group is not None else "any"} group, at {f"rarity {card_rarity}" if card_rarity is not None else "any rarity"} with"
+                      f" assosciated with {card_group if card_group is not None else "any"} group, at {f"rarity {card_rarity}" if card_rarity is not None else "any rarity"} with "
                       f"{f"the ID \"{card_id}\"" if card_id is not None else 'any ID.'}")
     else:
         search_txt = "Showing your inventory."
 
     invent_str = f"Your Inventory has {len(inventory)} Items."
     for item_identifier in inventory:
-        invent_str += f"\n*__{inventory[item_identifier]['name']}__* - {item_identifier}\n**Amount** {inventory[item_identifier]['amount']}\n"
+        rarity_txt = rarity_crossref[inventory[item_identifier]['rarity']]
+        invent_str += f"\n{rarity_txt} *__{inventory[item_identifier]['name']}__* - {item_identifier}\n**Amount** {inventory[item_identifier]['amount']}\n"
+        if inventory[item_identifier]['tier'] > 1:
+            invent_str += f"**Card Tier** {card_tier_crossref[inventory[item_identifier]['tier']]}\n"
 
     lines = invent_str.split("\n")
 

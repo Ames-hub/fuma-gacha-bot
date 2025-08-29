@@ -66,7 +66,7 @@ def purchase_offer(offer_id, buyer_id):
     buyer_bank = account(buyer_id)
 
     # Limited packs charge Nicho Coins instead of Fuma Coins.
-    offered_card = view_card(offer['card_id'])
+    offered_card = view_card(offer['card_id'])[0]
     is_limited_pack = offered_card['tier'] == 3
 
     # Verifies the buyer has enough money.
@@ -75,8 +75,8 @@ def purchase_offer(offer_id, buyer_id):
     else:
         cur_bal = buyer_bank.nichocoins.balance()
 
-    if cur_bal < offered_card['price']:
-        raise buyer_bank.InsufficientFundsError(offered_card['price'], cur_bal)
+    if cur_bal < offer['price']:
+        raise buyer_bank.InsufficientFundsError(offer['price'], cur_bal)
 
     with sqlite3.connect(DB_PATH) as conn:
         try:

@@ -24,7 +24,7 @@ plugin = lightbulb.Plugin(__name__)
 @lightbulb.command(name='ban_user', description="Ban a user from using the bot (bot admin only)", pass_options=True)
 @lightbulb.implements(lightbulb.SlashSubCommand)
 @dc.check_admin_status()
-@dc.prechecks()
+@dc.prechecks('ban')
 async def bot_command(ctx: lightbulb.SlashContext, user: hikari.User, reason: str):
     success = dbuser.set_user_ban(
         ban_status=True,

@@ -1,5 +1,5 @@
 from library.database import eventlogs, pokemarket, verify_filter_string
-from cogs.pokemarket.group import group
+from cogs.pokeshop.group import group
 from library import decorators as dc
 import lightbulb
 import hikari
@@ -53,7 +53,7 @@ pokeshop_type_crossref = {
 @lightbulb.command(name='additem', description="Add an item to the market to be purchased!", pass_options=True)
 @lightbulb.implements(lightbulb.SlashSubCommand)
 @dc.check_admin_status()
-@dc.prechecks()
+@dc.prechecks('pokeshop_additem')
 async def bot_command(ctx: lightbulb.SlashContext, name, price, amount, pack_type, filter_arg):
     if filter_arg.lower() == "help":
         await ctx.respond(
@@ -104,14 +104,14 @@ async def bot_command(ctx: lightbulb.SlashContext, name, price, amount, pack_typ
         )
         await eventlogs.log_event(
             event_title="Item Added to PokeShop",
-            event_text=f"A {pack_type} {amount} Pack with the name {name} has been added to the market for {price} PokeCoins."
+            event_text=f"A {pack_type} {amount} Pack with the name {name} has been added to the shop for {price} PokeCoins."
         )
     else:
         await ctx.respond(
             embed=(
                 hikari.Embed(
                     title="Error!",
-                    description="There was an error adding your item to the market.",
+                    description="There was an error adding your item to the shop.",
                 )
             ),
             flags=hikari.MessageFlag.EPHEMERAL,

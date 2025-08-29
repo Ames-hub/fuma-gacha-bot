@@ -12,11 +12,11 @@ plugin = lightbulb.Plugin(__name__)
 )
 @lightbulb.command(name='help', description="Browse the public card market!", pass_options=True)
 @lightbulb.implements(lightbulb.SlashSubCommand)
-@dc.prechecks()
+@dc.prechecks('nicho help')
 async def bot_command(ctx: lightbulb.SlashContext):
     await ctx.respond(
         embed=hikari.Embed(
-            title="Nicho Market Help",
+            title="Nicho Shop Help",
             description="This is a basic guide to what the nichomarket is!"
         )
         .add_field(

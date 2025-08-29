@@ -63,7 +63,7 @@ plugin = lightbulb.Plugin(__name__)
 @lightbulb.command(name='mkcard', description="Add a new card to the collection (bot admin only)")
 @lightbulb.implements(lightbulb.SlashSubCommand)
 @dc.check_admin_status()
-@dc.prechecks()
+@dc.prechecks('mkcard')
 async def bot_command(ctx: lightbulb.SlashContext):
     rarity = int(ctx.options.rarity[0])
     card_id = ctx.options.custom_id

@@ -35,7 +35,7 @@ plugin = lightbulb.Plugin(__name__)
 )
 @lightbulb.command(name='sell', description="Sell an item on the public card market!", pass_options=True)
 @lightbulb.implements(lightbulb.SlashSubCommand)
-@dc.prechecks()
+@dc.prechecks('nicho sell')
 async def bot_command(ctx: lightbulb.SlashContext, card_id, amount, price):
     exists = dbcards.check_exists(card_id=card_id)
     if not exists:

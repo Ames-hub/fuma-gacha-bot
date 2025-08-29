@@ -12,14 +12,9 @@ plugin = lightbulb.Plugin(__name__)
 @lightbulb.add_checks(
     lightbulb.guild_only
 )
-@lightbulb.add_cooldown(
-    length=2_678_400,  # 1 Month in seconds.
-    bucket=lightbulb.buckets.UserBucket,
-    uses=1
-)
 @lightbulb.command(name='howl', description="Earn some rare cards, fumacoins and nichocoins!", pass_options=True)
 @lightbulb.implements(lightbulb.SlashSubCommand)
-@dc.prechecks()
+@dc.prechecks('economy howl', cooldown_s=2_678_400)  # One month in seconds
 async def bot_command(ctx: lightbulb.SlashContext):
     target_acc = economy.account(ctx.author.id)
 
@@ -49,10 +44,10 @@ async def bot_command(ctx: lightbulb.SlashContext):
     except dbcards.ItemNonexistence:
         event_card = False
 
-    gained_fc = random.randint(300, 500)
+    gained_fc = random.randint(20_000, 30_000)
     target_acc.fumacoins.modify_balance(gained_fc, 'add')
 
-    gained_nc = random.randint(2, 12)
+    gained_nc = random.randint(2, 5)
     target_acc.nichocoins.modify_balance(gained_nc, 'add')
 
     embed = (

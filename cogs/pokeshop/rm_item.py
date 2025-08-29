@@ -1,5 +1,5 @@
 from library.database import eventlogs, pokemarket
-from cogs.pokemarket.group import group
+from cogs.pokeshop.group import group
 from library import decorators as dc
 import lightbulb
 import hikari
@@ -22,7 +22,7 @@ pokeshop_type_crossref = {
 @lightbulb.command(name='rmitem', description="Remove an item from the pokemarket!", pass_options=True)
 @lightbulb.implements(lightbulb.SlashSubCommand)
 @dc.check_admin_status()
-@dc.prechecks()
+@dc.prechecks('pokeshop rmitem')
 async def bot_command(ctx: lightbulb.SlashContext, name):
     success = pokemarket.delete_item(name)
     if success:
