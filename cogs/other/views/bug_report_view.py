@@ -19,7 +19,8 @@ class main_view:
                 name="How to report a bug",
                 value="1. You need to Click the button below to open the reporting screen.\n\n"
                       "2. When you see the screen, fill out the fields to the best of your ability. Please be specific and detailed ^^\n\n"
-                      "3. Once you're done, click the submit button!"
+                      "3. Once you're done, click the submit button!\n\n"
+                      "By sending us this bug report, you are explicitly allowing us to send one message from the bot to you when this bug is fixed to let you know."
             )
         )
 

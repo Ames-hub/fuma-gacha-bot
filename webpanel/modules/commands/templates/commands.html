@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Bot Control Panel · Commands</title>
+    <link rel="stylesheet" href="/static/commands/css/commands.css">
+    <link rel="stylesheet" href="/static/home/css/sidebar.css">
+    <style>
+        .commands-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 2rem;
+        }
+        .commands-table th, .commands-table td {
+            padding: 0.75rem;
+            border-bottom: 1px solid #ccc;
+            text-align: left;
+        }
+        .commands-table th {
+            background: #f5f5f5;
+        }
+        .toggle-btn {
+            padding: 0.4rem 0.8rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        .enabled {
+            background: #4caf50;
+            color: #fff;
+        }
+        .disabled {
+            background: #f44336;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+<aside class="sidebar">
+    <h1>Bot Panel</h1>
+    <nav class="nav">
+        <a href="/">Dashboard</a>
+        <a href="/ctrl/commands" class="active">Commands</a>
+        <a href="/bot/logs">Bot Logs</a>
+        <a href="/bot/feedback">Feedback</a>
+        <a href="/bot/errors">Bug Reports</a>
+        <a href="/ctrl/settings">Settings</a>
+    </nav>
+</aside>
+
+<main class="main">
+    <h2>Bot Commands</h2>
+    <div id="commands-container">
+        <div id="commands-list" class="commands-grid">
+            <!-- Commands will be dynamically inserted here -->
+        </div>
+    </div>
+</main>
+
+<script src="/static/commands/js/fetch_commands.js"></script>
+</body>
+</html>

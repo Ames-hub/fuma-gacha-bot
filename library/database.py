@@ -1,4 +1,3 @@
-from library.botapp import botapp
 import sqlite3
 import logging
 

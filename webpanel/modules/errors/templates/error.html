@@ -45,7 +45,9 @@
       </div>
       <div class="field">
         <label>Status</label>
-        <span>{{ bug.status }}</span>
+        <span id="bugStatus" class="status-{{ 'closed' if bug.status == 'closed' else 'open' }}">
+          {{ bug.status }}
+        </span>
       </div>
       <div class="field">
         <label>Severity</label>
@@ -84,6 +86,9 @@
       <button id="toggleResolveBtn" class="action-btn">
         {{ 'Unresolve' if bug.status == 'closed' else 'Resolve' }}
       </button>
+      <button id="SendMsgBtn" class="action-btn">Send Message</button>
+      <button id="ToggleResolveNoMsgBtn" class="action-btn">Resolve w/o message</button>
+      <button id="DeleteBtn" class="action-btn action-delete">Ignore</button>
       <input type="text" id="adminResponse" placeholder="Add a message"/>
     </section>
   </main>
@@ -92,5 +97,6 @@
     let isResolved = "{{ bug.status }}" === "closed";  // true if Closed, false otherwise
   </script>
   <script src="/static/errors/js/resolve.js"></script>
+  <script src="/static/errors/js/ignore.js"></script>
 </body>
 </html>

@@ -197,7 +197,7 @@ async def on_error(event: lightbulb.CommandErrorEvent) -> None:
         return
     else:
         print(f"An error occurred while running a command: {event.exception}")
-        logging.error(f"An error occurred while running a command: {event.exception}", exc_info=event.exception)
+        logging.error(f"A ({type(event.exception)}) error occurred while {event.context.author.id} was running a command: {event.exception}", exc_info=event.exception)
 
         try:
             await alert_maintainer_and_report_bug(event)

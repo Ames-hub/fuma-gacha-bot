@@ -73,7 +73,7 @@ async def main():
 
     await asyncio.gather(
         server.serve(),
-        botapp.start()
+        botapp.start(shard_count=1)
     )
 
 bot_only = False

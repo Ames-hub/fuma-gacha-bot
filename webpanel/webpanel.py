@@ -30,6 +30,15 @@ async def unauthorized_handler(request: Request, exc):
     """
     return HTMLResponse(content, status_code=401)
 
+
+# noinspection PyUnusedLocal
+@fastapp.exception_handler(404)
+async def custom_404_handler(request: Request, exc):
+    with open("webpanel/404.html") as f:
+        notfoundpage = f.read()
+
+    return HTMLResponse(notfoundpage, status_code=404)
+
 @fastapp.get("/favicon.ico", include_in_schema=False)
 async def favicon():
     image_path = "webpanel/favicon.png"

@@ -1,4 +1,4 @@
-from library.dbmodules.bugsdb import get_bug_report, create_bug_report_ticket
+from library.dbmodules.bugsdb import get_bug_report
 from library.botapp import botapp
 from io import BytesIO
 from PIL import Image
@@ -30,9 +30,17 @@ async def update_user_on_bug(bug_id:int, message:str=None):
         .add_field(
             name=f"Bug Report {bug_id}",
             value=f"Status: {"RESOLVED" if bool(report['resolved']) else "Still unresolved."}\n"
-                  f"Stated Bug: {report['stated_bug']}"
+        )
+        .add_field(
+            name="Stated Bug",
+            value=f"\"{report['stated_bug']}\""
+        )
+        .add_field(
+            name="Extra Info",
+            value=f"{report['extra_info']}"
         )
     )
+
     if message is not None:
         embed.add_field(name="Message", value=message)
 

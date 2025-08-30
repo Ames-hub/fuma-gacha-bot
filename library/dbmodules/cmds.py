@@ -26,3 +26,37 @@ def get_cmd_enabled(cmd_id:str):
         except sqlite3.OperationalError as err:
             logging.error(err, exc_info=err)
             raise err
+
+def set_cmd_enabled(cmd_id:str, enabled:bool):
+    with sqlite3.connect(DB_PATH) as conn:
+        try:
+            cur = conn.cursor()
+            cur.execute(
+                "UPDATE commands SET enabled = ? WHERE identifier = ?",
+                (enabled, cmd_id)
+            )
+            conn.commit()
+            return True
+        except sqlite3.OperationalError as err:
+            logging.error(err, exc_info=err)
+            raise err
+
+def list_commands():
+    with sqlite3.connect(DB_PATH) as conn:
+        try:
+            cur = conn.cursor()
+            cur.execute(
+                "SELECT identifier, enabled FROM commands"
+            )
+            data = cur.fetchall()
+
+            parsed_data = {}
+            for item in data:
+                parsed_data[item[0]] = {
+                    'identifier': item[0],
+                    'enabled': item[1],
+                }
+            return parsed_data
+        except sqlite3.OperationalError as err:
+            logging.error(err, exc_info=err)
+            raise err
