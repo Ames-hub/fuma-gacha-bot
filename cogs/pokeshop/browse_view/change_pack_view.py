@@ -30,7 +30,7 @@ class main_view:
 
         embed = (
             hikari.Embed(
-                title="PokeMarket",
+                title="PokeShop",
                 description="View below the great card packs available for purchase!",
             )
         )
