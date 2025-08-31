@@ -1,4 +1,4 @@
-from library.dbmodules.bugsdb import list_bug_reports, get_bug_report, mark_bug_report_unresolved, mark_bug_report_resolved
+from library.dbmodules.bugsdb import list_bug_reports, get_bug_report, mark_bug_report_unresolved, mark_bug_report_resolved, get_traceback
 from webpanel.library.auth import require_valid_token, authbook
 from library.dbmodules.shared import update_user_on_bug
 from fastapi import APIRouter, Request, Depends
@@ -45,6 +45,8 @@ async def load_error(request: Request, error_id: int, token: str = Depends(requi
 
     status = "open" if bool(report['resolved']) is False else "closed"
 
+    tb = get_traceback(error_id)
+
     return templates.TemplateResponse(request, "error.html", {
         "bug": {
             "id": error_id,
@@ -57,6 +59,8 @@ async def load_error(request: Request, error_id: int, token: str = Depends(requi
             "additional_info": report['extra_info'],
             "problem_section": report['problem_section'],
             "expected_result": report['expected_result'],
+            "traceback": tb['traceback'] if tb else False,
+            "exc_type": tb['exc_type'] if tb else False
         }
     })
 

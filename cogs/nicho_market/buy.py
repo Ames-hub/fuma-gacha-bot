@@ -68,6 +68,9 @@ async def bot_command(ctx: lightbulb.SlashContext, offer_id):
 
     if success:
         image = dbcards.load_img_bytes(purchase_data['transaction']['given_card_id'])
+        price = purchase_data['transaction']['price']
+        amount_bought = purchase_data['transaction']['given_amount']
+        bought_card_id = purchase_data['transaction']['given_card_id']
         await ctx.respond(
             embed=hikari.Embed(
                 title="Success!",
@@ -76,7 +79,7 @@ async def bot_command(ctx: lightbulb.SlashContext, offer_id):
             )
             .add_field(
                 name="You accepted this offer!",
-                value=f"Card \"{purchase_data['transaction']['given_card_id']}\", Amount: {purchase_data['transaction']['given_amount']}",
+                value=f"Card \"{bought_card_id}\", Amount: {amount_bought} for {price} pokecoins",
                 inline=True,
             )
             .set_image(hikari.Bytes(image, "cardphoto.png"))

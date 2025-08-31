@@ -1,4 +1,5 @@
 from library.botapp import botapp
+import traceback
 import sqlite3
 import logging
 
@@ -115,4 +116,54 @@ def create_bug_report_ticket(stated_bug, reproduction_steps, problem_section, ex
             return True
         except Exception as e:
             logging.error(f"Error while creating bug report ticket: {e}", exc_info=e)
+            return False
+
+def save_traceback(bug_id, exception):
+    # unwrap Lightbulb cmd invocation error thing
+    actual_exc = exception
+    while hasattr(actual_exc, "__cause__") and actual_exc.__cause__:
+        actual_exc = actual_exc.__cause__
+
+    exc_type = type(actual_exc).__name__
+    exc_traceback = traceback.format_exception(
+        type(actual_exc), actual_exc, actual_exc.__traceback__
+    )
+    exc_traceback_str = "".join(exc_traceback)
+
+    with sqlite3.connect(DB_PATH) as conn:
+        try:
+            cur = conn.cursor()
+            cur.execute(
+                """
+                INSERT INTO bug_tracebacks (bugid, traceback, exc_type)
+                VALUES (?, ?, ?)
+                """,
+                (bug_id, exc_traceback_str, exc_type)
+            )
+            conn.commit()
+            return True
+        except Exception as e:
+            logging.error(f"Error while saving traceback: {e}", exc_info=e)
+            return False
+
+def get_traceback(bug_id):
+    with sqlite3.connect(DB_PATH) as conn:
+        try:
+            cur = conn.cursor()
+            cur.execute(
+                """
+                SELECT traceback, exc_type FROM bug_tracebacks WHERE bugid = ?
+                """,
+                (bug_id,)
+            )
+            row = cur.fetchone()
+            if row:
+                return {
+                    "traceback": str(row[0]).splitlines(),
+                    "exc_type": str(row[1]),
+                }
+            else:
+                return None
+        except Exception as e:
+            logging.error(f"Error while getting bug traceback: {e}", exc_info=e)
             return False

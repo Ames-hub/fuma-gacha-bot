@@ -1,4 +1,4 @@
-from library.dbmodules.bugsdb import create_bug_report_ticket, get_bug_report
+from library.dbmodules.bugsdb import create_bug_report_ticket, get_bug_report, save_traceback
 from library.botapp import botapp
 import traceback
 import lightbulb
@@ -90,7 +90,7 @@ async def alert_maintainer_and_report_bug(event:lightbulb.CommandErrorEvent):
         expected_result="N/A: Automated Report.",
         problem_section=command_name,
         reproduction_steps=f"Run the command with options {event.context.options.items()}",
-        extra_info="This bug report was sent automatically!",
+        extra_info="This bug report was sent automatically when you tried to use the bot, but encountered an error!",
         severity="medium",
         return_ticket=True
     )
@@ -133,6 +133,8 @@ async def alert_maintainer_and_report_bug(event:lightbulb.CommandErrorEvent):
         .add_field(name="How to reproduce", value=report['reproduction_steps']),
         attachment=attachment
     )
+
+    return bug_id
 
 plugin = lightbulb.Plugin(__name__)
 
@@ -199,8 +201,21 @@ async def on_error(event: lightbulb.CommandErrorEvent) -> None:
         print(f"An error occurred while running a command: {event.exception}")
         logging.error(f"A ({type(event.exception)}) error occurred while {event.context.author.id} was running a command: {event.exception}", exc_info=event.exception)
 
+        await event.context.respond(
+            embed=hikari.Embed(
+                title="Error!",
+                description="An error occurred while running this command.",
+                colour=0xff0000,
+            )
+            .add_field(
+                name="Auto-Reporting",
+                value="A Bug report has been automatically filed and sent to the maintainer.",
+            )
+        )
+
         try:
-            await alert_maintainer_and_report_bug(event)
+            bug_id = await alert_maintainer_and_report_bug(event)
+            save_traceback(bug_id, event.exception)
         except Exception as err:
             logging.error(f"Failed to alert maintainer and report bug: {err}", exc_info=err)
 

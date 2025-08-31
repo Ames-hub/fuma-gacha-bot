@@ -127,6 +127,11 @@ class database:
                 "resolved": "BOOLEAN NOT NULL DEFAULT FALSE",
                 "resolved_at": "DATETIME",
                 "severity": "TEXT NOT NULL DEFAULT 'medium'"
+            },
+            "bug_tracebacks": {
+                "bugid": "INTEGER NOT NULL REFERENCES bug_reports(bugid) PRIMARY KEY",
+                "traceback": "TEXT NOT NULL",  # Tracebacks for bugs that were auto-reported.
+                "exc_type": "TEXT NOT NULL"
             }
         }
 

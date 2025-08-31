@@ -84,7 +84,7 @@ async def bot_command(ctx: lightbulb.SlashContext, card_id, amount, price):
             )
             .add_field(
                 name="Offer ID",
-                value=f"The offer ID used for others to purchase the offer is: **{offer_id}**",
+                value=f"The offer ID used for others to purchase the offer for {price} pokecoins is: **{offer_id}**",
                 inline=True,
             )
         )
