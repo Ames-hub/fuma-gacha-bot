@@ -14,6 +14,19 @@ plugin = lightbulb.Plugin(__name__)
 @staff_group.child
 @lightbulb.app_command_permissions(dm_enabled=False)
 @lightbulb.option(
+    name="is_custom",
+    description="Is this card made custom for a user?",
+    required=True,
+    type=hikari.OptionType.BOOLEAN,
+)
+@lightbulb.option(
+    name="era",
+    description="What era is this card from?",
+    required=False,
+    default=None,
+    type=hikari.OptionType.STRING,
+)
+@lightbulb.option(
     name="group",
     description="What group is this card in?",
     required=False,
@@ -25,6 +38,12 @@ plugin = lightbulb.Plugin(__name__)
     description="How rare is it?",
     required=True,
     choices=["1P", "2P", "3P", "4P", "5P"],
+)
+@lightbulb.option(
+    name="idol",
+    description="Which Idol is in this card?",
+    required=True,
+    type=hikari.OptionType.STRING,
 )
 @lightbulb.option(
     name="icon",
@@ -123,6 +142,9 @@ async def bot_command(ctx: lightbulb.SlashContext):
     }
 
     card_tier = card_tier_crossref[card_tier]
+    era = ctx.options.era
+    is_custom = ctx.options.is_custom
+    card_idol = ctx.options.idol
 
     try:
         addresult = dbcards.add_card(
@@ -134,6 +156,9 @@ async def bot_command(ctx: lightbulb.SlashContext):
             img_bytes=img_bytes,
             pullable=True if card_tier == 1 else False,
             card_group=card_group,
+            era=era,
+            is_custom=is_custom,
+            card_idol=card_idol
         )
     except sqlite3.IntegrityError as err:
         logging.warning(f"User {ctx.author.id} has attempted to make a card with the pre-existing ID {card_id}. Err: {err}")

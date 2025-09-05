@@ -50,7 +50,8 @@ async def bot_command(ctx: lightbulb.SlashContext):
                     name=f"{card['name']} - {card['identifier']}",
                     value=f"{card['description']}\n\n"
                           f"*ID: {card['identifier']}*\n"
-                          f"Group: {card['group']}"
+                          f"Idol member: {card['idol']}\n"
+                          f"Group: {card['group']} - Era: {card['era']}"
                 )
                 .add_field(
                     name="Rarity",
@@ -69,6 +70,11 @@ async def bot_command(ctx: lightbulb.SlashContext):
                     name="Unobtainable",
                     value="This card cannot be pulled randomly.",
                     inline=True,
+                )
+            if card['is_custom'] is True:
+                embed.add_field(
+                    name="Custom Card",
+                    value="This card is extremely rare, and extremely special. One of a kind, and made for one being.",
                 )
 
             await ctx.respond(

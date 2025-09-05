@@ -190,13 +190,16 @@ def spawn_card(card_id: str, amount: int, user_id: int, allow_limited:bool=False
     finally:
         conn.close()
 
-def add_card(card_id, name:str, description:str, rarity:int, card_tier:int, img_bytes, pullable:bool, card_group:str):
+def add_card(card_id, name:str, description:str, rarity:int, card_tier:int, img_bytes, pullable:bool, card_group:str, era:str, is_custom:bool, card_idol:str):
     conn = sqlite3.connect(DB_PATH)
 
     assert card_tier in [1, 2, 3], "Card tier must be 1, 2, or 3. (1, Standard. 2, Event. 3, Limited)"
     assert type(name) is str, "Name must be a string."
     assert type(description) is str, "Description must be a string."
     assert type(rarity) is int, "Rarity must be an integer from 1 to 5."
+    assert type(era) is str, "Era must be a string."
+    assert type(is_custom) is bool, "Is custom must be a boolean."
+    assert type(card_idol) is str, "Card idol must be a string."
 
     if card_id is not None:
         if type(card_id) is not str:
@@ -210,11 +213,23 @@ def add_card(card_id, name:str, description:str, rarity:int, card_tier:int, img_
         cur = conn.cursor()
         cur.execute(
             f"""
-            INSERT INTO global_cards (identifier, name, description, rarity, img_bytes, pullable, card_tier, card_group)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+            INSERT INTO global_cards (identifier, name, description, rarity, img_bytes, pullable, card_tier, card_group, card_era, is_custom, card_idol)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             {"RETURNING global_cards.identifier" if card_id is None else ""}
             """,
-            (card_id, str(name), str(description), int(rarity), img_bytes, bool(pullable), int(card_tier), str(card_group) if card_group is not None else None),
+            (
+                str(card_id),
+                str(name),
+                str(description),
+                int(rarity),
+                img_bytes,
+                bool(pullable),
+                int(card_tier),
+                str(card_group) if card_group is not None else None,
+                str(era),
+                bool(is_custom),
+                str(card_idol),
+            ),
         )
         conn.commit()
         if card_id is None:
@@ -404,7 +419,7 @@ def view_card(name:str):
         cur = conn.cursor()
         cur.execute(
             f"""
-            SELECT identifier, name, description, rarity, img_bytes, card_tier, pullable, card_group
+            SELECT identifier, name, description, rarity, img_bytes, card_tier, pullable, card_group, card_era, is_custom, card_idol
             FROM global_cards
             WHERE {'name' if not is_id else 'identifier'} = ?
             """,
@@ -428,6 +443,9 @@ def view_card(name:str):
                     'tier': int(item[5]),
                     'pullable': bool(item[6]),
                     'group': item[7],
+                    'era': item[8],
+                    'is_custom': bool(item[9]),
+                    'idol': item[10],
                 })
             return parsed_data
         else:
@@ -441,6 +459,9 @@ def view_card(name:str):
                 'tier': data[5],
                 'pullable': bool(data[6]),
                 'group': data[7],
+                'era': data[8],
+                'is_custom': bool(data[9]),
+                'idol': data[10],
             }]
     except sqlite3.OperationalError:
         conn.rollback()

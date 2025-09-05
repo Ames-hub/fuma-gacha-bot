@@ -41,6 +41,9 @@ class database:
                 'img_bytes': 'BLOB',
                 'pullable': 'BOOLEAN NOT NULL DEFAULT TRUE',
                 'card_group': 'TEXT',
+                'card_era': 'TEXT',
+                'is_custom': 'BOOLEAN NOT NULL DEFAULT FALSE',
+                'card_idol': 'TEXT',
             },
             'banned_users': {
                 "user_id": "INTEGER NOT NULL PRIMARY KEY",
