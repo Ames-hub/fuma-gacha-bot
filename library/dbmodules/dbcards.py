@@ -14,15 +14,22 @@ class NonexistantCard(Exception):
     def __str__(self):
         return "Nonexistant card."
 
-def list_all():
+def list_all(pullable_only=False):
     with sqlite3.connect(DB_PATH) as conn:
         try:
             cur = conn.cursor()
-            cur.execute(
-                """
-                SELECT identifier, name, description, rarity, card_tier, pullable, card_group FROM global_cards
-                """
-            )
+            if not pullable_only:
+                cur.execute(
+                    """
+                    SELECT identifier, name, description, rarity, card_tier, pullable, card_group FROM global_cards
+                    """
+                )
+            else:
+                cur.execute(
+                    """
+                    SELECT identifier, name, description, rarity, card_tier, pullable, card_group FROM global_cards WHERE pullable = true
+                    """
+                )
             data = cur.fetchall()
             parsed_data = []
             for row in data:

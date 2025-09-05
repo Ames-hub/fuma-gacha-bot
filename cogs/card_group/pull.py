@@ -27,6 +27,14 @@ async def bot_command(ctx: lightbulb.SlashContext):
     card_names = []
     card_imgs = []
 
+    if len(dbcards.list_all(pullable_only=True)) != 0:
+        await ctx.respond(
+            embed=hikari.Embed(
+                title="Pulling cards...",
+                description="Drumroll please! 🥁🥁🥁",
+            )
+        )
+
     for i in range(3):
         rcard = dbcards.pull_random_card(exception_names=card_names)
         if rcard is False:
@@ -72,7 +80,7 @@ async def bot_command(ctx: lightbulb.SlashContext):
         image
     )
 
-    await ctx.respond(embed=embed)
+    await ctx.edit_last_response(embed=embed)
 
 def load(bot: lightbulb.BotApp) -> None:
     bot.add_plugin(plugin)
