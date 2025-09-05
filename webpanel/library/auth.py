@@ -186,7 +186,7 @@ class UserLogin:
             self.password = None
             self.token = details["token"]
 
-        if self.token is not None:
+        if self.token is None:
             valid = authbook.check_password(self.username, self.password)
             if not valid:
                 raise autherrors.InvalidPassword(self.password)

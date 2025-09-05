@@ -3,3 +3,5 @@ __pycache__
 logs
 .$roadmap.drawio.bkp
 config.json
+venv
+.idea
