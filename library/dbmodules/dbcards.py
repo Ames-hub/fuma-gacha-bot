@@ -14,6 +14,39 @@ class NonexistantCard(Exception):
     def __str__(self):
         return "Nonexistant card."
 
+def edit_card(card_id, description:str=None, icon_bytes:bytes=None, card_tier:int=None, card_rarity:int=None, card_era:str=None, group:str=None):
+    # If none, assume it was unedited and use what's already set.
+    card = view_card(card_id)[0]
+    if not description:
+        description = card['description']
+    if not icon_bytes:
+        icon_bytes = card['img_bytes']
+    if not card_tier:
+        card_tier = card['tier']
+    if not card_rarity:
+        card_rarity = card['rarity']
+    if not card_era:
+        card_era = card['era']
+    if not group:
+        group = card['group']
+
+    with sqlite3.connect(DB_PATH) as conn:
+        try:
+            cur = conn.cursor()
+            cur.execute(
+                """
+                UPDATE global_cards
+                SET description = ?, img_bytes = ?, card_tier = ?, rarity = ?, era = ?, group = ?
+                WHERE identifier = ?
+                """,
+                (description, icon_bytes, card_tier, card_rarity, card_era, group, card_id)
+            )
+            conn.commit()
+            return True
+        except sqlite3.OperationalError as err:
+            logging.error(f"Error while editting card with ID {card_id}!", exc_info=err)
+            return False
+
 def list_all(pullable_only=False):
     with sqlite3.connect(DB_PATH) as conn:
         try:

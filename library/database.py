@@ -135,6 +135,10 @@ class database:
                 "bugid": "INTEGER NOT NULL REFERENCES bug_reports(bugid) PRIMARY KEY",
                 "traceback": "TEXT NOT NULL",  # Tracebacks for bugs that were auto-reported.
                 "exc_type": "TEXT NOT NULL"
+            },
+            "user_notifs": {
+                "user_id": "INTEGER NOT NULL PRIMARY KEY",
+                "enabled": "BOOLEAN NOT NULl DEFAULT FALSE"
             }
         }
 

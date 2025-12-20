@@ -12,14 +12,9 @@ plugin = lightbulb.Plugin(__name__)
 @lightbulb.add_checks(
     lightbulb.guild_only
 )
-@lightbulb.add_cooldown(
-    length=86400, # 1 Day
-    bucket=lightbulb.buckets.UserBucket,
-    uses=1
-)
 @lightbulb.command(name='battle', description="Earn some FumaCoins and a card!")
 @lightbulb.implements(lightbulb.SlashSubCommand)
-@dc.prechecks('economy battle')
+@dc.prechecks('economy battle', cooldown_s=86400)
 async def bot_command(ctx: lightbulb.SlashContext):
     user_account = economy.account(ctx.author.id)
     money_gained = random.randint(1000, 1500)

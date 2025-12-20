@@ -18,6 +18,8 @@ botapp.load_extensions_from("cogs/staff/events")
 botapp.load_extensions_from("cogs/staff/limited_events")
 botapp.load_extensions_from("cogs/staff/botlogging")
 botapp.load_extensions_from("cogs/other")
+botapp.load_extensions_from("cogs/notifs")
+botapp.load_extensions_from("cogs/botworkers")
 
 botapp.d['maintainer'] = 913574723475083274
 botapp.d['admin_ids'] = [
@@ -63,6 +65,19 @@ botapp.d['cooldowns'] = {}
 botapp.d['packtypes'] = {
     'random': 0,
     'choice': 1,
+}
+
+botapp.d['card_tier_names'] = {
+    "numeric": {
+        1: "Standard",
+        2: "Event",
+        3: "Limited",
+    },
+    "text": {
+        "Standard": 1,
+        "Event": 2,
+        "Limited": 3
+    }
 }
 
 async def main():
