@@ -18,7 +18,7 @@ plugin = lightbulb.Plugin(__name__)
 @lightbulb.add_checks(
     lightbulb.guild_only
 )
-@lightbulb.command(name='toggle', description="Sell an item on the public card market!", pass_options=True)
+@lightbulb.command(name='toggle', description="Toggle on/off notifications.", pass_options=True)
 @lightbulb.implements(lightbulb.SlashSubCommand)
 @dc.prechecks('notifs toggle', cooldown_s=5)
 async def bot_command(ctx: lightbulb.SlashContext, status:str):

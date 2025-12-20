@@ -8,7 +8,7 @@ plugin = lightbulb.Plugin(__name__)
 
 @group.child
 @lightbulb.app_command_permissions(dm_enabled=True)
-@lightbulb.command(name='test', description="Sell an item on the public card market!", pass_options=True)
+@lightbulb.command(name='test', description="Test to see if you can receive notifications!", pass_options=True)
 @lightbulb.implements(lightbulb.SlashSubCommand)
 @dc.prechecks('notifs test', cooldown_s=5)
 async def bot_command(ctx: lightbulb.SlashContext):
