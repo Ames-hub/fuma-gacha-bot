@@ -101,15 +101,6 @@ async def bot_command(ctx: lightbulb.SlashContext):
     card_group = ctx.options.group
     if card_group is None:
         card_group = datetime.datetime.now().strftime("%Y")  # Gets the year.
-    elif " " in card_group:
-        await ctx.respond(
-            embed=hikari.Embed(
-                title="Bad Format",
-                description="You cannot have spaces in your card group!",
-            ),
-            flags=hikari.MessageFlag.EPHEMERAL
-        )
-        return
 
     attachment: hikari.Attachment = ctx.options.icon
     img_mime, _ = mimetypes.guess_type(attachment.filename)

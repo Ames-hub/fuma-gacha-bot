@@ -26,8 +26,8 @@ BATTLE_SPLASHES = [
         "max": 1200,
         "texts": [
             "You fought hard and lost, but your opponent respected your skill and gave you {coins} FumaCoins.",
-            "Your opponent’s Pokémon tripped at the last second. You seized the moment and won {coins} FumaCoins.",
-            "You both placed a bet, but your opponent’s Pokémon refused to fight. You won {coins} FumaCoins by default."
+            "Your opponent's Pokémon tripped at the last second. You seized the moment and won {coins} FumaCoins.",
+            "You both placed a bet, but your opponent's Pokémon refused to fight. You won {coins} FumaCoins by default."
         ]
     },
     {
