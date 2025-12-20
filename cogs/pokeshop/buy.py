@@ -1,5 +1,8 @@
+from cogs.pokeshop.buy_view.buy_choice_pack_view import main_view
 from library.database import economy, pokemarket
+from library.botapp import miru_client
 from cogs.pokeshop.group import group
+from library.dbmodules import dbcards
 from library import decorators as dc
 import lightbulb
 import hikari
@@ -10,9 +13,9 @@ plugin = lightbulb.Plugin(__name__)
 @lightbulb.app_command_permissions(dm_enabled=False)
 @lightbulb.option(
     name="item_id",
-    description="The pack ID of the card you wish to buy.",
+    description="The pack name of the card you wish to buy.",
     required=True,
-    type=hikari.OptionType.INTEGER,
+    type=hikari.OptionType.STRING,
 )
 @lightbulb.add_checks(
     lightbulb.guild_only
@@ -52,30 +55,78 @@ async def bot_command(ctx: lightbulb.SlashContext):
         )
         return
 
-    success = pokemarket.give_random_pack(
-        user_id=ctx.author.id,
-        item_id=item_id,
-    )
+    if card_pack['type'] == 0:
+        success = pokemarket.give_random_pack(
+            user_id=ctx.author.id,
+            item_id=item_id,
+        )
 
-    if success:
-        await ctx.respond(
-            embed=(
-                hikari.Embed(
-                    title="Success!",
-                    description="You bought the new card pack!",
-                    color=0x00ff00,
+        if success:
+            await ctx.respond(
+                embed=(
+                    hikari.Embed(
+                        title="Success!",
+                        description="You bought the new card pack!",
+                        color=0x00ff00,
+                    )
                 )
             )
+        else:
+            await ctx.respond(
+                embed=(
+                    hikari.Embed(
+                        title="Error!",
+                        description="There was an error while buying the card pack.",
+                    )
+                )
+            )
+    elif card_pack['type'] == 1:
+        success = pokemarket.give_choice_pack(
+            user_id=ctx.author.id,
+            item_id=item_id
         )
+        if not success:
+            await ctx.respond(
+                embed=(
+                    hikari.Embed(
+                        title="Uh oh!",
+                        description="For some reason, we couldn't do this! Please file a bug report :("
+                    )
+                )
+            )
+            return
+
+        embed = hikari.Embed(
+            title="Thank you for your PokeShop purchase!",
+            description=f"You bought the choice pack {item_id} for {card_pack['price']} Coins, which lets you pick {card_pack['amount']} cards!"
+            "Click the button below to start picking!"
+        )
+
+        view = main_view(card_pack['item_id'])
+        
+        try:
+            embed = view.gen_embed()
+        except dbcards.ItemNonexistence:
+            await ctx.respond(
+                embed=(
+                    hikari.Embed(
+                        title="No cards!",
+                        description="There's no cards we can use for this!"
+                    )
+                )
+            )
+            return
+
+        viewmenu = view.init_view()
+        await ctx.respond(
+            embed=embed,
+            components=viewmenu.build(),
+            flags=hikari.MessageFlag.EPHEMERAL
+        )
+        miru_client.start_view(viewmenu)
+        await viewmenu.wait()
     else:
-        await ctx.respond(
-            embed=(
-                hikari.Embed(
-                    title="Error!",
-                    description="There was an error while buying the card pack.",
-                )
-            )
-        )
+        raise ValueError("Wrong card pack type!")
 
 def load(bot: lightbulb.BotApp) -> None:
     bot.add_plugin(plugin)

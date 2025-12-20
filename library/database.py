@@ -99,7 +99,7 @@ class database:
             'pokeshop_stock': {
                 'item_id': 'TEXT NOT NULL PRIMARY KEY',
                 'price': 'INTEGER NOT NULL',
-                'item_type': 'INTEGER NOT NULL',  # 0 = Variety pack, 1 = Random pack.
+                'item_type': 'INTEGER NOT NULL',  # 0 = Random pack, 1 = Choice pack.
                 'amount': 'INTEGER NOT NULL',  # How many cards you get from the pack
                 'filter_arg': 'TEXT NOT NULL DEFAULT "<pullable=true><card_tier=1>"',
             },

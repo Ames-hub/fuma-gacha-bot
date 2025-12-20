@@ -3,10 +3,13 @@ import lightbulb
 import datetime
 import logging
 import hikari
+import dotenv
 import miru
 import os
 
 os.makedirs('logs', exist_ok=True)
+
+dotenv.load_dotenv(".env")
 
 logging.basicConfig(
     level=logging.INFO,

@@ -2,6 +2,7 @@ from library.database import eventlogs, pokemarket, verify_filter_string
 from cogs.pokeshop.group import group
 from library import decorators as dc
 import lightbulb
+import sqlite3
 import hikari
 
 plugin = lightbulb.Plugin(__name__)
@@ -84,13 +85,22 @@ async def bot_command(ctx: lightbulb.SlashContext, name, price, amount, pack_typ
         )
         return
 
-    success = pokemarket.add_item(
-        name=name,
-        amount=amount,
-        item_type=pokeshop_type_crossref[pack_type],
-        price=price,
-        filter_arg=filter_arg
-    )
+    try:
+        success = pokemarket.add_item(
+            name=name,
+            amount=amount,
+            item_type=pokeshop_type_crossref[pack_type],
+            price=price,
+            filter_arg=filter_arg
+        )
+    except sqlite3.IntegrityError:
+        await ctx.respond(
+            embed=hikari.Embed(
+                title="That name already exists!",
+                description="Please pick another name for the pack name."
+            )
+        )
+        return
 
     if success:
         await ctx.respond(

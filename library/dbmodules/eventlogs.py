@@ -2,21 +2,46 @@ from library.botapp import botapp
 import datetime
 import hikari
 import json
+import os
+
+conf_file = "config.json"
+
+
+def _ensure_config():
+    if not os.path.exists(conf_file):
+        with open(conf_file, "w") as f:
+            json.dump(botapp.d["config"], f, indent=4)
+
+    try:
+        with open(conf_file, "r") as f:
+            return json.load(f)
+    except json.JSONDecodeError:
+        # File exists but is empty or broken
+        with open(conf_file, "w") as f:
+            json.dump(botapp.d["config"], f, indent=4)
+        return botapp.d["config"]
+
 
 def set_channel(channel_id):
-    data = botapp.d['config']
+    data = _ensure_config()
     data["event_channel"]["id"] = channel_id
-    with open('config.json', 'w') as f:
+
+    with open(conf_file, "w") as f:
         json.dump(data, f, indent=4)
 
     return True
 
+
 def get_channel():
-    with open('config.json', 'r') as f:
-        data = json.load(f)
-        return data["event_channel"]["id"]
+    data = _ensure_config()
+    return data["event_channel"]["id"]
+
 
 async def log_event(event_title, event_text):
+    channel_id = get_channel()
+    if not channel_id:
+        return False
+
     embed = (
         hikari.Embed(
             title="Event Log",
@@ -26,15 +51,13 @@ async def log_event(event_title, event_text):
         .add_field(
             name=event_title,
             value=event_text,
-            inline=False
+            inline=False,
         )
     )
 
     try:
-        await botapp.rest.create_message(
-            get_channel(),
-            embed=embed,
-        )
-    except hikari.errors.ComponentStateConflictError:
-        return False  # Bot isn't started. Likely working on web or smth
+        await botapp.rest.create_message(channel_id, embed=embed)
+    except hikari.HikariError:
+        return False
+
     return True

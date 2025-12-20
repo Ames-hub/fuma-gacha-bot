@@ -60,6 +60,11 @@ botapp.d['config'] = {  # The default config
 
 botapp.d['cooldowns'] = {}
 
+botapp.d['packtypes'] = {
+    'random': 0,
+    'choice': 1,
+}
+
 async def main():
     config = uvicorn.Config(
         "webpanel.webpanel:fastapp",
@@ -80,9 +85,12 @@ bot_only = False
 
 if __name__ == "__main__":
     if bot_only:
-        botapp.run()
+        try:
+            botapp.run()
+        except KeyboardInterrupt:
+            print("Ending process.")
     else:
         try:
             asyncio.run(main())
         except KeyboardInterrupt:
-            print("Ending process.")
+            print("Ending processes.")

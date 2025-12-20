@@ -22,7 +22,7 @@ async def bot_command(ctx: lightbulb.SlashContext):
     str_rare_cards = ""
     for i in range(6):  # Get 6 random cards that are rare.
         try:
-            card = dbcards.filtered_pull_card(
+            card = dbcards.filtered_get_card(
                 filter_string="<rarity=5><card_tier=1><pullable=True>",
             )
             dbcards.spawn_card(
@@ -38,7 +38,7 @@ async def bot_command(ctx: lightbulb.SlashContext):
         rare_cards.append(card)
 
     try:
-        event_card = dbcards.filtered_pull_card(
+        event_card = dbcards.filtered_get_card(
             filter_string="<card_tier=2><pullable=True>",
         )
     except dbcards.ItemNonexistence:

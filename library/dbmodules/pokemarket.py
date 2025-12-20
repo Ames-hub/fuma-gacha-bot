@@ -1,7 +1,10 @@
+from cogs.pokeshop.buy_view.buy_choice_pack_view import main_view
+from library.botapp import botapp, miru_client
 from library.dbmodules import dbcards
-from library.botapp import botapp
+import lightbulb
 import sqlite3
 import logging
+import hikari
 
 DB_PATH = botapp.d['DB_PATH']
 
@@ -114,12 +117,12 @@ def get_item(item_id):
 def give_random_pack(user_id, item_id):
     pack = get_item(item_id)
 
-    if pack['type'] != 0:  # Randomised pack
+    if pack['type'] != botapp.d['packtypes']['random']:  # Randomised pack
         raise TypeError("This is not a randomised pack!")
 
     for i in range(pack['amount']):
         try:
-            card = dbcards.filtered_pull_card(
+            card = dbcards.filtered_get_card(
                 filter_string=pack['filter'],
             )
         except dbcards.ItemNonexistence:
@@ -129,5 +132,44 @@ def give_random_pack(user_id, item_id):
 
         if not success:
             return False
+
+    return True
+
+class choicepack_errors:
+    class NotChoicePack(Exception):
+        def __init__(self, pack_id):
+            self.msg = f"Pack {pack_id} is not a choice pack"
+            self.pack_id = pack_id
+        def __str__(self):
+            return self.msg
+
+async def give_choice_pack(item_id, user_id=None, context:lightbulb.SlashContext=None):
+    """
+    Gives a user a 'choice' card pack, asks them what cards they want from the available options and then gives those cards.
+    
+    :param user_id: Description
+    :param item_id: Description
+    """
+    user_id = int(user_id)
+    item_id = int(item_id)
+    if user_id is None and context is None:
+        raise TypeError("user ID and context cannot both be None.")
+    
+    # If context is not none, send the message in the channel they bought from as ephemeral
+    card_pack = get_item(item_id)
+    if int(card_pack['type']) != botapp.d['packtypes']['choice']:
+        # This should've never been handed to this function
+        raise choicepack_errors.NotChoicePack(card_pack['item_id'])
+
+    view = main_view()
+    embed = view.gen_embed()
+    viewmenu = view.init_view()
+    await context.respond(
+        embed=embed,
+        components=viewmenu.build(),
+        flags=hikari.MessageFlag.EPHEMERAL
+    )
+    miru_client.start_view(viewmenu)
+    await viewmenu.wait()
 
     return True

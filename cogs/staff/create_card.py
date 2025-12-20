@@ -22,14 +22,14 @@ plugin = lightbulb.Plugin(__name__)
 @lightbulb.option(
     name="era",
     description="What era is this card from?",
-    required=False,
+    required=True,
     default=None,
     type=hikari.OptionType.STRING,
 )
 @lightbulb.option(
     name="group",
     description="What group is this card in?",
-    required=False,
+    required=True,
     default=None,
     type=hikari.OptionType.STRING,
 )

@@ -357,8 +357,7 @@ class ItemNonexistence(Exception):
     def __init__(self):
         pass
 
-def filtered_pull_card(filter_string=None, **filters):
-    conn = sqlite3.connect(DB_PATH)
+def pull_filtered_args(conn: sqlite3.Connection, filter_string, **filters) -> sqlite3.Cursor:
     cursor = conn.cursor()
 
     # Parse filter string like "<rarity=5><card_tier=2>"
@@ -395,19 +394,44 @@ def filtered_pull_card(filter_string=None, **filters):
     """
 
     cursor.execute(query, values)
-    data = cursor.fetchone()
-    if not data:
-        raise ItemNonexistence()
+    return cursor
 
-    return {
-        "identifier": data[0],
-        "name": data[1],
-        "description": data[2],
-        "rarity": data[3],
-        "tier": data[4],
-        "pullable": data[5],
-        "group": data[6],
-    }
+def filtered_get_card(filter_string=None, fetch_one:bool=True, **filters):
+    conn = sqlite3.connect(DB_PATH)
+    cursor = pull_filtered_args(conn, filter_string, **filters)
+
+    if fetch_one:
+        datum = cursor.fetchone()
+        if not datum:
+            raise ItemNonexistence()
+
+        return {
+            "identifier": datum[0],
+            "name": datum[1],
+            "description": datum[2],
+            "rarity": datum[3],
+            "tier": datum[4],
+            "pullable": datum[5],
+            "group": datum[6],
+        }
+    else:
+        data = cursor.fetchall()
+        if not data:
+            raise ItemNonexistence()
+        
+        dict_list = []
+        for datum in data:
+            dict_list.append({
+                "identifier": datum[0],
+                "name": datum[1],
+                "description": datum[2],
+                "rarity": datum[3],
+                "tier": datum[4],
+                "pullable": datum[5],
+                "group": datum[6],
+            })
+        return dict_list
+
 
 def view_card(name:str):
     conn = sqlite3.connect(DB_PATH)

@@ -93,24 +93,30 @@ class main_view:
                             value="Something went wrong when attempting to take payment.",
                         )
                     else:
-                        item_give_success = pokemarket.give_random_pack(ctx.author.id, pack['item_id'])
-                        if item_give_success is True:
-                            embed.add_field(
-                                name="Item Purchased!",
-                                value=f"You bought a new card pack <t:{int(datetime.datetime.now().timestamp())}:R>!\n",
-                            )
-                        elif item_give_success == -1:
+                        if pack['type'] == botapp.d['packtypes']['random']:
+                            item_give_success = pokemarket.give_random_pack(ctx.author.id, pack['item_id'])
+                            if item_give_success is True:
+                                embed.add_field(
+                                    name="Item Purchased!",
+                                    value=f"You bought a new card pack <t:{int(datetime.datetime.now().timestamp())}:R>!\n",
+                                )
+                            elif item_give_success == -1:
+                                embed.add_field(
+                                    name="Couldn't buy it!",
+                                    value="No items that fit the criteria that this pack can get you can be found!\n"
+                                        "(There's no qualified cards.)",
+                                )
+                            else:
+                                # TODO: Make this remove any cards it DID give you if it failed.
+                                money_success = account.fumacoins.modify_balance(pack['price'], "add")
+                                embed.add_field(
+                                    name="Couldn't buy it!",
+                                    value="Something went wrong when attempting to give you the item. You've been refunded.",
+                                )
+                        elif pack['type'] == botapp.d['packtypes']['choice']:
                             embed.add_field(
                                 name="Couldn't buy it!",
-                                value="No items that fit the criteria that this pack can get you can be found!\n"
-                                      "(There's no qualified cards.)",
-                            )
-                        else:
-                            # TODO: Make this remove any cards it DID give you if it failed.
-                            money_success = account.fumacoins.modify_balance(pack['price'], "add")
-                            embed.add_field(
-                                name="Couldn't buy it!",
-                                value="Something went wrong when attempting to give you the item. You've been refunded.",
+                                value="Buying choice packs in browse is still a work in progress! Please use the `/pokeshop buy` command for that instead!"
                             )
                 else:
                     embed.add_field(

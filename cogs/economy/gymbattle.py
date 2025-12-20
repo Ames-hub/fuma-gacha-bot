@@ -22,7 +22,7 @@ async def bot_command(ctx: lightbulb.SlashContext):
     str_rare_cards = ""
     for i in range(3):  # Get 3 random cards that are rare.
         try:
-            card = dbcards.filtered_pull_card(
+            card = dbcards.filtered_get_card(
                 filter_string="<rarity=5><card_tier=1><pullable=True>",
             )
             dbcards.spawn_card(
