@@ -23,14 +23,14 @@ async def bot_command(ctx: lightbulb.SlashContext):
     splash_text = "You earned some PokeCoins!"
     if not failed:
         splash_randomizer = random.randint(1, 3)
-        if money_gained == 10:
+        if money_gained == 1000:
             if splash_randomizer == 1:
                 splash_text = "You fought hard, fumbling around cluelessly and won on pure dumb luck, earnt 10 FumaCoins."
             elif splash_randomizer == 2:
                 splash_text = "You sent out your pokemon and it immediately tripped over its tail and died on the spot. Your opponent gave you 10 FumaCoins out of pity."
             elif splash_randomizer == 3:
                 splash_text = "You tried to send out your pokemon but accidentally hit the back of your head and knocked some FumaCoins out of your hat and got 10 coins!"
-        elif money_gained > 10 and money_gained <= 30:
+        elif money_gained > 1100 and money_gained <= 1200:
             if splash_randomizer == 1:
                 splash_text = f"You fought hard, and lost! but your opponent gave you {money_gained} FumaCoins out of a mild respect for your skill."
             elif splash_randomizer == 2:
@@ -40,7 +40,7 @@ async def bot_command(ctx: lightbulb.SlashContext):
                                f"solid blow. You won {money_gained} FumaCoins!")
             elif splash_randomizer == 3:
                 splash_text = f"You both put a bet on who'd win a fight, and your opponents pokemon refused to fight! They had to give you {money_gained} FumaCoins by default."
-        elif money_gained > 30 and money_gained <= 60:
+        elif money_gained > 1200 and money_gained <= 1300:
             if splash_randomizer == 1:
                 splash_text = f"You fought well, and won! Your opponent gave you a good fight, and the opponent gave you {money_gained} FumaCoins for your skill."
             elif splash_randomizer == 2:
@@ -48,7 +48,7 @@ async def bot_command(ctx: lightbulb.SlashContext):
             elif splash_randomizer == 3:
                 splash_text = (f"You stared awkwardly at your opponent's pokemon uncomfortably for a while, "
                                f"and it gave up out of social anxiety. You stole {money_gained} FumaCoins from its wallet.")
-        elif money_gained > 60 and money_gained < 100:
+        elif money_gained > 1300 and money_gained < 1400:
             if splash_randomizer == 1:
                 splash_text = (f"You fought a fair and honest battle, and your opponent lost. "
                                f"They were so amazed by your battle honor, that they gave you {money_gained} FumaCoins for it!")
@@ -58,7 +58,7 @@ async def bot_command(ctx: lightbulb.SlashContext):
             elif splash_randomizer == 3:
                 splash_text = (f"You had a good time fighting and laughed with your opponent, they far outmatched you however and you lost. "
                                f"They gave you {money_gained} FumaCoins because they really liked you!")
-        elif money_gained >= 100 and money_gained < 150:
+        elif money_gained >= 1400 and money_gained < 1500:
             if splash_randomizer == 1:
                 splash_text = ("You glared at your opponents pokemon like the Gigachad you are, "
                                f"and it decided not to oppose you out of respect, and gave you {money_gained} FumaCoins for your respectableness.")
@@ -69,7 +69,7 @@ async def bot_command(ctx: lightbulb.SlashContext):
                 splash_text = ("You fought hard against a thief with 3 pokemon with your single pokemon. "
                                "After the smoke cleared, it was obvious you were victorious. "
                                f"They gave you {money_gained} FumaCoins to persuade you to not call the cops.")
-        elif money_gained == 150:
+        elif money_gained == 1500:
             if splash_randomizer == 1:
                 splash_text = ("You stood forth, and crossed your arms without sending out a pokemon to oppose the opposer.\n"
                                f"It shuddered, and gave up immediately and gave you {money_gained} in propitiation for their salvation.")

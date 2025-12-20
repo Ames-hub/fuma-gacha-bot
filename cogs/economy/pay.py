@@ -39,9 +39,25 @@ async def bot_command(ctx: lightbulb.SlashContext, coin_type: str, amount: int, 
     target_acc = economy.account(user.id)
 
     if coin_type == "FumaCoin":
+        if sender_acc.fumacoins.balance() < amount:
+            await ctx.respond(
+                embed=hikari.Embed(
+                    title="Insufficient Funds!",
+                    description="You don't have enough fumacoins to do that!"
+                )
+            )
+            return
         send_ok = sender_acc.fumacoins.modify_balance(amount, 'subtract')
         tgt_ok = target_acc.fumacoins.modify_balance(amount, 'add')
     else:
+        if sender_acc.nichocoins.balance() < amount:
+            await ctx.respond(
+                embed=hikari.Embed(
+                    title="Insufficient Funds!",
+                    description="You don't have enough nichocoins to do that!"
+                )
+            )
+            return
         send_ok = sender_acc.nichocoins.modify_balance(amount, 'subtract')
         tgt_ok = target_acc.nichocoins.modify_balance(amount, 'add')
 
