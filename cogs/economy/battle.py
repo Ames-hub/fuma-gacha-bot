@@ -7,102 +7,116 @@ import random
 
 plugin = lightbulb.Plugin(__name__)
 
+# -----------------------------
+# Splash text configuration
+# -----------------------------
+
+BATTLE_SPLASHES = [
+    {
+        "min": 1000,
+        "max": 1000,
+        "texts": [
+            "You fought hard, fumbling around cluelessly and won on pure dumb luck, earning 10 FumaCoins.",
+            "You sent out your Pokémon and it immediately tripped over its tail and died. Your opponent gave you 10 FumaCoins out of pity.",
+            "You tried to send out your Pokémon but hit the back of your head and knocked 10 FumaCoins out of your hat."
+        ]
+    },
+    {
+        "min": 1101,
+        "max": 1200,
+        "texts": [
+            "You fought hard and lost, but your opponent respected your skill and gave you {coins} FumaCoins.",
+            "Your opponent’s Pokémon tripped at the last second. You seized the moment and won {coins} FumaCoins.",
+            "You both placed a bet, but your opponent’s Pokémon refused to fight. You won {coins} FumaCoins by default."
+        ]
+    },
+    {
+        "min": 1201,
+        "max": 1300,
+        "texts": [
+            "You fought well and won. Your opponent rewarded your skill with {coins} FumaCoins.",
+            "You lured your opponent into a trap and won the fight bet, earning {coins} FumaCoins.",
+            "You stared so awkwardly that the opposing Pokémon quit out of social anxiety. You stole {coins} FumaCoins."
+        ]
+    },
+    {
+        "min": 1301,
+        "max": 1399,
+        "texts": [
+            "You fought an honorable battle and were rewarded {coins} FumaCoins.",
+            "You exploited a weakness mid-fight. Your opponent admired the insight and paid you {coins} FumaCoins.",
+            "You lost the fight, but your opponent liked you enough to give you {coins} FumaCoins anyway."
+        ]
+    },
+    {
+        "min": 1400,
+        "max": 1499,
+        "texts": [
+            "You glared at your opponent like a Gigachad. They surrendered and paid you {coins} FumaCoins.",
+            "You commanded your Pokémon flawlessly. Your opponent saluted and paid {coins} FumaCoins.",
+            "You defeated a thief and their three Pokémon. They paid you {coins} FumaCoins to keep quiet."
+        ]
+    },
+    {
+        "min": 1500,
+        "max": 1500,
+        "texts": [
+            "You crossed your arms. The battle surrendered itself and paid you {coins} FumaCoins.",
+            "You nearly obliterated your opponent but stopped short. They paid you {coins} FumaCoins in fear.",
+            "The idea of battling you fled. Your opponent fundraised {coins} FumaCoins out of sheer terror."
+        ]
+    }
+]
+
+
+def get_battle_splash(coins: int) -> str:
+    for tier in BATTLE_SPLASHES:
+        if tier["min"] <= coins <= tier["max"]:
+            return random.choice(tier["texts"]).format(coins=coins)
+    return "You fought bravely and earned your reward."
+
+
+# -----------------------------
+# Command
+# -----------------------------
+
 @group.child
 @lightbulb.app_command_permissions(dm_enabled=False)
-@lightbulb.add_checks(
-    lightbulb.guild_only
+@lightbulb.add_checks(lightbulb.guild_only)
+@lightbulb.command(
+    name="battle",
+    description="Earn some FumaCoins and a card!"
 )
-@lightbulb.command(name='battle', description="Earn some FumaCoins and a card!")
 @lightbulb.implements(lightbulb.SlashSubCommand)
-@dc.prechecks('economy battle', cooldown_s=86400)
+@dc.prechecks("economy battle", cooldown_s=86400)
 async def bot_command(ctx: lightbulb.SlashContext):
     user_account = economy.account(ctx.author.id)
+
     money_gained = random.randint(1000, 1500)
-    failed = random.randint(1, 100) == 50
+    failed = random.random() < 0.01  # 1% failure chance
 
-    splash_text = "You earned some PokeCoins!"
-    if not failed:
-        splash_randomizer = random.randint(1, 3)
-        if money_gained == 1000:
-            if splash_randomizer == 1:
-                splash_text = "You fought hard, fumbling around cluelessly and won on pure dumb luck, earnt 10 FumaCoins."
-            elif splash_randomizer == 2:
-                splash_text = "You sent out your pokemon and it immediately tripped over its tail and died on the spot. Your opponent gave you 10 FumaCoins out of pity."
-            elif splash_randomizer == 3:
-                splash_text = "You tried to send out your pokemon but accidentally hit the back of your head and knocked some FumaCoins out of your hat and got 10 coins!"
-        elif money_gained > 1100 and money_gained <= 1200:
-            if splash_randomizer == 1:
-                splash_text = f"You fought hard, and lost! but your opponent gave you {money_gained} FumaCoins out of a mild respect for your skill."
-            elif splash_randomizer == 2:
-                splash_text = (f"You almost lost the battle, but at the last moment, "
-                               f"your opponent's pokemon tripped over, "
-                               f"giving you a chance for the needed, "
-                               f"solid blow. You won {money_gained} FumaCoins!")
-            elif splash_randomizer == 3:
-                splash_text = f"You both put a bet on who'd win a fight, and your opponents pokemon refused to fight! They had to give you {money_gained} FumaCoins by default."
-        elif money_gained > 1200 and money_gained <= 1300:
-            if splash_randomizer == 1:
-                splash_text = f"You fought well, and won! Your opponent gave you a good fight, and the opponent gave you {money_gained} FumaCoins for your skill."
-            elif splash_randomizer == 2:
-                splash_text = f"You lured your opponent into a trap during a fight, and won the fight bet, earning you {money_gained} FumaCoins!"
-            elif splash_randomizer == 3:
-                splash_text = (f"You stared awkwardly at your opponent's pokemon uncomfortably for a while, "
-                               f"and it gave up out of social anxiety. You stole {money_gained} FumaCoins from its wallet.")
-        elif money_gained > 1300 and money_gained < 1400:
-            if splash_randomizer == 1:
-                splash_text = (f"You fought a fair and honest battle, and your opponent lost. "
-                               f"They were so amazed by your battle honor, that they gave you {money_gained} FumaCoins for it!")
-            elif splash_randomizer == 2:
-                splash_text = ("You were fighting when you realized a weakness in your opponent's pokemon, and exploited it. "
-                               f"They commended you for your keen observation and gave you {money_gained} FumaCoins.")
-            elif splash_randomizer == 3:
-                splash_text = (f"You had a good time fighting and laughed with your opponent, they far outmatched you however and you lost. "
-                               f"They gave you {money_gained} FumaCoins because they really liked you!")
-        elif money_gained >= 1400 and money_gained < 1500:
-            if splash_randomizer == 1:
-                splash_text = ("You glared at your opponents pokemon like the Gigachad you are, "
-                               f"and it decided not to oppose you out of respect, and gave you {money_gained} FumaCoins for your respectableness.")
-            elif splash_randomizer == 2:
-                splash_text = ("You commanded your pokemon in its fight with a strong smile and pure efficiency, arms crossed, and won. "
-                               f"Your opponent paid you {money_gained} FumaCoins for existing and saluted you.")
-            elif splash_randomizer == 3:
-                splash_text = ("You fought hard against a thief with 3 pokemon with your single pokemon. "
-                               "After the smoke cleared, it was obvious you were victorious. "
-                               f"They gave you {money_gained} FumaCoins to persuade you to not call the cops.")
-        elif money_gained == 1500:
-            if splash_randomizer == 1:
-                splash_text = ("You stood forth, and crossed your arms without sending out a pokemon to oppose the opposer.\n"
-                               f"It shuddered, and gave up immediately and gave you {money_gained} in propitiation for their salvation.")
-            elif splash_randomizer == 2:
-                splash_text = ("You stood forth to oppose the opposer, and almost hammered your opponent into the ground, but stopped right before the impact. "
-                               f"Your opponent, seeing it was no match, gave up and gave you {money_gained} FumaCoins out of propitiation.")
-            elif splash_randomizer == 3:
-                splash_text = ("You looked at your opponent before the battle had even thought to begin, and they walked away. The concept of the battle also walked away. "
-                               "The next day, your opponent woke up with a black eye and horrible nightmares of opposing you."
-                               f"They desperately fund raised {money_gained} FumaCoins and gave it to you out of fear.")
-        else:
-            splash_text = "SPLASH_TEXT_ERROR"
-
-        user_account.fumacoins.modify_balance(money_gained, operator="+")
-    else:
-        splash_text = ("You threw a rat at Arceus and barely got away with it, and only because it let you. "
-                       f"You had to offer {money_gained // 2} FumaCoins to its shrine for its forgiveness.")
-        user_account.fumacoins.modify_balance(money_gained // 2, operator="-")
-
-    if money_gained >= 40:
-        embed_colour = 0x00ff00
-    else:
-        embed_colour = 0x0000ff
     if failed:
-        embed_colour = 0xff0000
+        loss = money_gained // 2
+        splash_text = (
+            "You threw a rat at Arceus and barely escaped. "
+            f"You offered {loss} FumaCoins at its shrine for forgiveness."
+        )
+        user_account.fumacoins.modify_balance(loss, operator="-")
+        embed_colour = 0xFF0000
+    else:
+        splash_text = get_battle_splash(money_gained)
+        user_account.fumacoins.modify_balance(money_gained, operator="+")
+        embed_colour = 0x00FF00
+
+    # -----------------------------
+    # Card reward
+    # -----------------------------
 
     obtained_card = dbcards.pull_random_card()
-    img_bytes = dbcards.load_img_bytes(obtained_card['identifier'])
+    img_bytes = dbcards.load_img_bytes(obtained_card["identifier"])
 
-    if obtained_card['rarity'] >= 3:
-        embed_colour = 0x00ff00
-    elif obtained_card['tier'] > 1:
-        embed_colour = 0x00ff00
+    if obtained_card["rarity"] >= 3 or obtained_card["tier"] > 1:
+        embed_colour = 0x00FF00
 
     image = hikari.Bytes(img_bytes, f"{obtained_card['name']}.png")
 
@@ -110,18 +124,19 @@ async def bot_command(ctx: lightbulb.SlashContext):
         hikari.Embed(
             title="⚔️ Battle Result ⚔️",
             description=splash_text,
-            color=embed_colour,
+            color=embed_colour
         )
         .add_field(
-            "Card Obtained!",
-            "At the end of the fight, you found a new card in your pokedex."
+            name="Card Obtained!",
+            value="At the end of the fight, you found a new card in your Pokédex."
         )
         .set_image(image)
     )
 
     await ctx.respond(embed)
 
+
 def load(bot: lightbulb.BotApp) -> None:
     bot.add_plugin(plugin)
-def unload(bot):
+def unload(bot: lightbulb.BotApp) -> None:
     bot.remove_plugin(plugin)

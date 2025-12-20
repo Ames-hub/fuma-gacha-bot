@@ -54,6 +54,12 @@ class main_view:
                                 value=self.feedback.value
                             )
                         )
+                        await ctx.respond(
+                            hikari.Embed(
+                                title="Feedback sent!",
+                                description="Thank you for the feedback!"
+                            )
+                        )
 
                 modal = MyModal()
                 builder = modal.build_response(miru_client)
