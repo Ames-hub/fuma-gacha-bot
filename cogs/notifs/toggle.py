@@ -20,7 +20,7 @@ plugin = lightbulb.Plugin(__name__)
 )
 @lightbulb.command(name='toggle', description="Toggle on/off notifications.", pass_options=True)
 @lightbulb.implements(lightbulb.SlashSubCommand)
-@dc.prechecks('notifs toggle', cooldown_s=5)
+@dc.prechecks('notifs toggle')
 async def bot_command(ctx: lightbulb.SlashContext, status:str):
     status = True if status == "Notifications On" else False
     success = set_notifs(ctx.author.id, state=status)

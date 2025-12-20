@@ -29,96 +29,73 @@ rarity_crossref = {
 @lightbulb.implements(lightbulb.SlashCommand)
 @dc.prechecks('view card')
 async def bot_command(ctx: lightbulb.SlashContext):
-    card = dbcards.view_card(ctx.options.id)
-
-    if type(card) is list:
-        if len(card) == 1:
-            image_bytes = dbcards.load_img_bytes(card[0].get('identifier'))
-            card = card[0]
-
-            card_tier_crossref = {
-                1: "Standard",
-                2: "Event",
-                3: "Limited",
-            }
-
-            embed = (
-                hikari.Embed(
-                    title="Card Located!",
-                )
-                .add_field(
-                    name=f"{card['name']} - {card['identifier']}",
-                    value=f"{card['description']}\n\n"
-                          f"*ID: {card['identifier']}*\n"
-                          f"Idol member: {card['idol']}\n"
-                          f"Group: {card['group']} - Era: {card['era']}"
-                )
-                .add_field(
-                    name="Rarity",
-                    value=f"*{rarity_crossref[card['rarity']]}*",
-                )
-                .set_image(hikari.Bytes(image_bytes, "cardphoto.png"))
-            )
-            if card['tier'] != 1:
-                embed.add_field(
-                    name="Special Type ✨",
-                    value=f"{card_tier_crossref[card['tier']]} Card",
-                    inline=True
-                )
-            if card['pullable'] is False:
-                embed.add_field(
-                    name="Unobtainable",
-                    value="This card cannot be pulled randomly.",
-                    inline=True,
-                )
-            if card['is_custom'] is True:
-                embed.add_field(
-                    name="Custom Card",
-                    value="This card is extremely rare, and extremely special. One of a kind, and made for one being.",
-                )
-
-            await ctx.respond(
-                embed
-            )
-        elif len(card) == 0:
-            await ctx.respond(
-                embed=(
-                    hikari.Embed(
-                        title="Card Not Found!",
-                        description=f"The card you requested was not found.\nIs the capitalization correct?",
-                    )
-                )
-            )
-        elif len(card) > 1:
-            embed = (
-                hikari.Embed(
-                    title="Too many Found!",
-                    description=f"We found {len(card) - 1} card(s) more than what's ideal.\nPlease run this command using one of these IDs below instead.",
-                )
-            )
-
-            cards_text = ""
-            for item in card:
-                # noinspection PyTypeChecker
-                cards_text += f"{item['description']}\nName: {item['name']} | ID: {item['identifier']}\n\n"
-
-            embed.add_field(
-                name="Cards",
-                value=cards_text
-            )
-
-            await ctx.respond(
-                embed=embed
-            )
-    else:
+    card = dbcards.view_card(ctx.options.id)[0]
+    if not card:
         await ctx.respond(
             embed=(
                 hikari.Embed(
-                    title="There was a problem.",
-                    description="Something went wrong, please alert the developers!",
+                    title="Card Not Found!",
+                    description=f"The card you requested was not found.\nIs the capitalization correct?",
                 )
             )
         )
+        return
+
+    try:
+        image_bytes = dbcards.load_img_bytes(card.get('identifier'))
+    except ValueError:
+        await ctx.respond(
+            hikari.Embed(
+                title="Card Error!",
+                description="This card doesn't seem to have an assosciated image, so we can't load it!"
+            )
+        )
+        return
+
+    card_tier_crossref = {
+        1: "Standard",
+        2: "Event",
+        3: "Limited",
+    }
+
+    embed = (
+        hikari.Embed(
+            title="Card Located!",
+        )
+        .add_field(
+            name=f"{card['name']} - {card['identifier']}",
+            value=f"{card['description']}\n\n"
+                    f"*ID: {card['identifier']}*\n"
+                    f"Idol member: {card['idol']}\n"
+                    f"Group: {card['group']} - Era: {card['era']}"
+        )
+        .add_field(
+            name="Rarity",
+            value=f"*{rarity_crossref[card['rarity']]}*",
+        )
+        .set_image(hikari.Bytes(image_bytes, "cardphoto.png"))
+    )
+    if card['tier'] != 1:
+        embed.add_field(
+            name="Special Type ✨",
+            value=f"{card_tier_crossref[card['tier']]} Card",
+            inline=True
+        )
+    if card['pullable'] is False:
+        embed.add_field(
+            name="Unobtainable",
+            value="This card cannot be pulled randomly.",
+            inline=True,
+        )
+    if card['is_custom'] is True:
+        embed.add_field(
+            name="Custom Card",
+            value="This card is extremely rare, and extremely special. One of a kind, and made for one being.",
+        )
+
+    await ctx.respond(
+        embed
+    )
 
 def load(bot: lightbulb.BotApp) -> None:
     bot.add_plugin(plugin)

@@ -10,7 +10,7 @@ plugin = lightbulb.Plugin(__name__)
 @lightbulb.app_command_permissions(dm_enabled=True)
 @lightbulb.command(name='test', description="Test to see if you can receive notifications!", pass_options=True)
 @lightbulb.implements(lightbulb.SlashSubCommand)
-@dc.prechecks('notifs test', cooldown_s=5)
+@dc.prechecks('notifs test')
 async def bot_command(ctx: lightbulb.SlashContext):
     success = await send_notification(ctx.author.id, "You've asked us to test if you can get notifications, did you get this one? Hope so!")
     if success:
