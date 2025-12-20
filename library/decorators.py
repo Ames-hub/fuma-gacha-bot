@@ -5,6 +5,8 @@ import functools
 import lightbulb
 import datetime
 import hikari
+import time
+
 
 def prechecks(cmd_id, cooldown_s=0):
     """
@@ -13,9 +15,13 @@ def prechecks(cmd_id, cooldown_s=0):
     def decorator(func):
         @functools.wraps(func)
         async def wrapper(ctx: lightbulb.SlashContext, *args, **kwargs):
-            if not type(ctx) == lightbulb.SlashContext:
+            if not isinstance(ctx, lightbulb.SlashContext):
                 raise TypeError("This decorator can only be used on slash commands!")
-            if dbuser.run_ban_check(int(ctx.author.id)) is True:
+
+            user_id = int(ctx.author.id)
+
+            # Ban check
+            if dbuser.run_ban_check(user_id):
                 await ctx.respond(
                     embed=hikari.Embed(
                         title="Forbidden",
@@ -25,8 +31,8 @@ def prechecks(cmd_id, cooldown_s=0):
                 )
                 return None
 
-            is_enabled = cmd(cmd_id).is_enabled()
-            if not is_enabled:
+            # Command enabled check
+            if not cmd(cmd_id).is_enabled():
                 await ctx.respond(
                     embed=hikari.Embed(
                         title="Forbidden",
@@ -35,29 +41,33 @@ def prechecks(cmd_id, cooldown_s=0):
                 )
                 return None
 
-            if cooldown_s != 0:
-                # Cooldown system
-                timenow = datetime.datetime.now().timestamp()
-                last_used = botapp.d['cooldowns'].get(ctx.author.id, {}).get(cmd_id, 0)
+            # Cooldown check
+            if cooldown_s > 0:
+                now = time.time()
+                user_cooldowns = botapp.d.setdefault("cooldowns", {}).setdefault(user_id, {})
+                expiry = user_cooldowns.get(cmd_id, 0)
 
-                if timenow < last_used + cooldown_s:
+                if now < expiry:
                     raise lightbulb.errors.CommandIsOnCooldown(
-                        retry_after=last_used + cooldown_s - timenow
+                        retry_after=expiry - now
                     )
 
-                botapp.d['cooldowns'].setdefault(ctx.author.id, {})[cmd_id] = timenow
+                # Store expiry timestamp
+                user_cooldowns[cmd_id] = now + cooldown_s
 
             return await func(ctx, *args, **kwargs)
         return wrapper
     return decorator
 
+
 def check_admin_status():
     def decorator(func):
         @functools.wraps(func)
         async def wrapper(ctx: lightbulb.SlashContext, *args, **kwargs):
-            if not type(ctx) == lightbulb.SlashContext:
+            if not isinstance(ctx, lightbulb.SlashContext):
                 raise TypeError("This decorator can only be used on slash commands!")
-            if dbuser.is_administrator(list(ctx.member.role_ids), int(ctx.author.id)) is False:
+
+            if not dbuser.is_administrator(list(ctx.member.role_ids), int(ctx.author.id)):
                 await ctx.respond(
                     embed=hikari.Embed(
                         title="Unauthorized",
@@ -66,6 +76,7 @@ def check_admin_status():
                     flags=hikari.MessageFlag.EPHEMERAL
                 )
                 return None
+
             return await func(ctx, *args, **kwargs)
         return wrapper
     return decorator

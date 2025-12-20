@@ -2,6 +2,7 @@ from library import decorators as dc
 from library.botapp import botapp
 import lightbulb
 import hikari
+import time
 
 plugin = lightbulb.Plugin(__name__)
 
@@ -20,28 +21,30 @@ async def bot_command(ctx: lightbulb.SlashContext):
     )
 
     all_cooldowns = botapp.d['cooldowns'].get(ctx.author.id, {})
+    now = time.time()
     cooldown_txt = ""
-    for cmd_id, cooldown_s in all_cooldowns.items():
-        if cooldown_s <= 0:
-            continue
-        wait_time = cooldown_s  # cooldown_s is already "seconds remaining"; do not subtract current time
-        if wait_time <= 120:  # Under 2 minutes
-            time_unit = "second(s)"
-            # No change to wait_time (remains in seconds).
-        elif wait_time <= 3599:  # Under an hour
-            time_unit = "minute(s)"
-            wait_time = (wait_time + 59) // 60  # Convert seconds to minutes (rounded up).
-        elif wait_time <= 86399:  # Less than a day (under 24 hours)
-            time_unit = "hour(s)"
-            wait_time = (wait_time + 3599) // 3600  # Convert seconds to hours (rounded up).
-        else:  # Greater than or equal to 1 day
-            time_unit = "day(s)"
-            wait_time = (wait_time + 86399) // 86400  # Convert seconds to days (rounded up).
 
-        if wait_time != 0:
-            cooldown_txt += f"*__{cmd_id}__*\n{int(wait_time)} {time_unit} remaining\n\n"
+    for cmd_id, expiry in all_cooldowns.items():
+        wait_time = int(expiry - now)
+        if wait_time <= 0:
+            continue
+
+        if wait_time <= 120:
+            time_unit = "second(s)"
+        elif wait_time <= 3599:
+            time_unit = "minute(s)"
+            wait_time = (wait_time + 59) // 60
+        elif wait_time <= 86399:
+            time_unit = "hour(s)"
+            wait_time = (wait_time + 3599) // 3600
         else:
-            cooldown_txt += f"*__{cmd_id}__*\nThis cooldown has ended.\n\n"
+            time_unit = "day(s)"
+            wait_time = (wait_time + 86399) // 86400
+
+        cooldown_txt += (
+            f"*__{cmd_id}__*\n"
+            f"{int(wait_time)} {time_unit} remaining\n\n"
+        )
 
     if len(cooldown_txt) == 0:
         cooldown_txt = "All cooldowns are over!"
