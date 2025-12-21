@@ -1,6 +1,6 @@
 from library.dbmodules.dbuser import invent_errs
-from library.database import nichoshop, dbcards
-from cogs.nicho_market.group import group
+from library.database import bakesale, dbcards
+from cogs.bakesale.group import group
 from library import decorators as dc
 import lightbulb
 import hikari
@@ -35,7 +35,7 @@ plugin = lightbulb.Plugin(__name__)
 )
 @lightbulb.command(name='sell', description="Sell an item on the public card market!", pass_options=True)
 @lightbulb.implements(lightbulb.SlashSubCommand)
-@dc.prechecks('nicho sell')
+@dc.prechecks('bakesale sell')
 async def bot_command(ctx: lightbulb.SlashContext, card_id, amount, price):
     exists = dbcards.check_exists(card_id=card_id)
     if not exists:
@@ -49,7 +49,7 @@ async def bot_command(ctx: lightbulb.SlashContext, card_id, amount, price):
         return
 
     try:
-        offer_id = nichoshop.add_offer(
+        offer_id = bakesale.add_offer(
             card_id=card_id,
             amount=amount,
             price=price,
@@ -84,7 +84,7 @@ async def bot_command(ctx: lightbulb.SlashContext, card_id, amount, price):
             )
             .add_field(
                 name="Offer ID",
-                value=f"The offer ID used for others to purchase the offer for {price} pokecoins is: **{offer_id}**",
+                value=f"The offer ID used for others to purchase the offer for {price} {plugin.bot.d['coin_name']['better']} is: **{offer_id}**",
                 inline=True,
             )
         )

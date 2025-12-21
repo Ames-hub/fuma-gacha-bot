@@ -1,5 +1,5 @@
 from library.database import economy, dbcards
-from cogs.economy.group import group
+from cogs.economy.bakery_group import group
 from library import decorators as dc
 import lightbulb
 import hikari
@@ -12,9 +12,9 @@ plugin = lightbulb.Plugin(__name__)
 @lightbulb.add_checks(
     lightbulb.guild_only
 )
-@lightbulb.command(name='gymbattle', description="Fight for some money and cards!", pass_options=True)
+@lightbulb.command(name='decorate', description="Decorate cakes and stuff for some money and cards!", pass_options=True)
 @lightbulb.implements(lightbulb.SlashSubCommand)
-@dc.prechecks('gymbattle', cooldown_s=604800)  # A week in seconds
+@dc.prechecks('decorate', cooldown_s=604800)  # A week in seconds
 async def bot_command(ctx: lightbulb.SlashContext):
     target_acc = economy.account(ctx.author.id)
 
@@ -42,8 +42,8 @@ async def bot_command(ctx: lightbulb.SlashContext):
 
     embed = (
         hikari.Embed(
-            title="Gym Battle!",
-            description=f"You fought many battles with gym leaders and won and lost some.\nEarned {gained_fc} FumaCoins!",
+            title="Decorating!",
+            description=f"You spent a while decorating cakes with icing!\nEarned {gained_fc} FumaCoins!",
         )
     )
 

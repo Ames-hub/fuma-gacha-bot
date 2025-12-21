@@ -6,20 +6,6 @@ import hikari
 
 plugin = lightbulb.Plugin(__name__)
 
-rarity_crossref = {
-    1: "<:loveball:1389313177392513034>",
-    2: "<:loveball:1389313177392513034>" * 2,
-    3: "<:loveball:1389313177392513034>" * 3,
-    4: "<:loveball:1389313177392513034>" * 4,
-    5: "<:loveball:1389313177392513034>" * 5,
-}
-
-card_tier_crossref = {
-    1: "Standard",
-    2: "Event",
-    3: "Limited",
-}
-
 @botapp.command()
 @lightbulb.app_command_permissions(dm_enabled=False)
 @lightbulb.option(
@@ -99,10 +85,10 @@ async def bot_command(ctx: lightbulb.SlashContext, page, target_user, card_id, c
 
     invent_str = f"Your Inventory has {len(inventory)} Items."
     for item_identifier in inventory:
-        rarity_txt = rarity_crossref[inventory[item_identifier]['rarity']]
+        rarity_txt = plugin.bot.d['rarity_emojis_text'][inventory[item_identifier]['rarity']]
         invent_str += f"\n{rarity_txt} *__{inventory[item_identifier]['name']}__* - {item_identifier}\n**Amount** {inventory[item_identifier]['amount']}\n"
         if inventory[item_identifier]['tier'] > 1:
-            invent_str += f"**Card Tier** {card_tier_crossref[inventory[item_identifier]['tier']]}\n"
+            invent_str += f"**Card Tier** {botapp.d['card_tier_names']['numeric'][inventory[item_identifier]['tier']]}\n"
 
     lines = invent_str.split("\n")
 

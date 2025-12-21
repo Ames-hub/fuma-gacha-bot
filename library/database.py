@@ -3,7 +3,7 @@ import logging
 
 # Import all the extra DB Classes here, so there's a global place to import them from.
 # noinspection PyUnresolvedReferences
-from library.dbmodules import dbuser, stdn_events, lmtd_events, dbcards, eventlogs, economy, pokemarket, nichoshop
+from library.dbmodules import bakesale, dbuser, donutshop, stdn_events, lmtd_events, dbcards, eventlogs, economy
 # noinspection PyUnresolvedReferences
 from library.dbmodules.shared import *
 

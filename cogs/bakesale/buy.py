@@ -1,5 +1,5 @@
-from library.database import nichoshop, economy, dbcards
-from cogs.nicho_market.group import group
+from library.database import bakesale, economy, dbcards
+from cogs.bakesale.group import group
 from library import decorators as dc
 import lightbulb
 import hikari
@@ -20,14 +20,14 @@ plugin = lightbulb.Plugin(__name__)
 )
 @lightbulb.command(name='buy', description="Buy an item offer!", pass_options=True)
 @lightbulb.implements(lightbulb.SlashSubCommand)
-@dc.prechecks('nicho buy')
+@dc.prechecks('bakesale buy')
 async def bot_command(ctx: lightbulb.SlashContext, offer_id):
     try:
-        purchase_data = nichoshop.purchase_offer(
+        purchase_data = bakesale.purchase_offer(
             buyer_id=ctx.author.id,
             offer_id=offer_id,
         )
-    except nichoshop.OfferNotFoundError:
+    except bakesale.OfferNotFoundError:
         await ctx.respond(
             embed=hikari.Embed(
                 title="Not found!",
@@ -36,7 +36,7 @@ async def bot_command(ctx: lightbulb.SlashContext, offer_id):
             )
         )
         return
-    except nichoshop.OfferUnavailableError:
+    except bakesale.OfferUnavailableError:
         await ctx.respond(
             embed=hikari.Embed(
                 title="Unavailable!",
@@ -79,7 +79,7 @@ async def bot_command(ctx: lightbulb.SlashContext, offer_id):
             )
             .add_field(
                 name="You accepted this offer!",
-                value=f"Card \"{bought_card_id}\", Amount: {amount_bought} for {price} pokecoins",
+                value=f"Card \"{bought_card_id}\", Amount: {amount_bought} for {price} {plugin.bot.d['coin_name']['better']}s",
                 inline=True,
             )
             .set_image(hikari.Bytes(image, "cardphoto.png"))

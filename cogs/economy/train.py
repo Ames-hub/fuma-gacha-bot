@@ -12,9 +12,9 @@ plugin = lightbulb.Plugin(__name__)
 @lightbulb.add_checks(
     lightbulb.guild_only
 )
-@lightbulb.command(name='howl', description="Earn some rare cards, fumacoins and nichocoins!", pass_options=True)
+@lightbulb.command(name='trainingwork', description="Earn some rare cards, fumacoins and nichocoins!", pass_options=True)
 @lightbulb.implements(lightbulb.SlashSubCommand)
-@dc.prechecks('economy howl', cooldown_s=2_678_400)  # One month in seconds
+@dc.prechecks('trainingwork', cooldown_s=2_678_400)  # One month in seconds
 async def bot_command(ctx: lightbulb.SlashContext):
     target_acc = economy.account(ctx.author.id)
 

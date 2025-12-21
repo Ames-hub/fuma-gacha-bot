@@ -2,9 +2,8 @@ import lightbulb
 
 plugin = lightbulb.Plugin(__name__)
 
-# This was added since the one who owns the bot wants it to be 'Pokémon battle' not 'economy battle'
-name = "pokemon"
-desc = "All the pokemon commands!"
+name = "donutshop"
+desc = "The commands for the donutshop!"
 @plugin.command
 @lightbulb.command(name, desc)
 @lightbulb.implements(lightbulb.SlashCommandGroup)

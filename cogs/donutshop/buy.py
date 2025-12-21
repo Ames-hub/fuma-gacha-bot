@@ -1,7 +1,7 @@
-from cogs.pokeshop.buy_view.buy_choice_pack_view import main_view
-from library.database import economy, pokemarket
+from cogs.donutshop.buy_view.buy_choice_pack_view import main_view
+from library.database import economy, donutshop
 from library.botapp import miru_client
-from cogs.pokeshop.group import group
+from cogs.donutshop.group import group
 from library.dbmodules import dbcards
 from library import decorators as dc
 import lightbulb
@@ -27,7 +27,7 @@ async def bot_command(ctx: lightbulb.SlashContext):
     # Gets the price of the pack
     item_id = ctx.options.item_id
 
-    card_pack = pokemarket.get_item(item_id)
+    card_pack = donutshop.get_item(item_id)
     pack_price = card_pack['price']
 
     account = economy.account(ctx.author.id)
@@ -37,7 +37,7 @@ async def bot_command(ctx: lightbulb.SlashContext):
             embed=(
                 hikari.Embed(
                     title="Insufficient Funds!",
-                    description=f"You don't have enough coins to buy this pack.\nYou're short {pack_price - cur_bal} PokeCoins.",
+                    description=f"You don't have enough coins to buy this pack.\nYou're short {pack_price - cur_bal} {plugin.bot.d['coin_name']['normal']}s.",
                 )
             )
         )
@@ -56,7 +56,7 @@ async def bot_command(ctx: lightbulb.SlashContext):
         return
 
     if card_pack['type'] == 0:
-        success = pokemarket.give_random_pack(
+        success = donutshop.give_random_pack(
             user_id=ctx.author.id,
             item_id=item_id,
         )
@@ -81,7 +81,7 @@ async def bot_command(ctx: lightbulb.SlashContext):
                 )
             )
     elif card_pack['type'] == 1:
-        success = pokemarket.give_choice_pack(
+        success = donutshop.give_choice_pack(
             user_id=ctx.author.id,
             item_id=item_id
         )
@@ -97,8 +97,9 @@ async def bot_command(ctx: lightbulb.SlashContext):
             return
 
         embed = hikari.Embed(
-            title="Thank you for your PokeShop purchase!",
-            description=f"You bought the choice pack {item_id} for {card_pack['price']} Coins, which lets you pick {card_pack['amount']} cards!"
+            title="Thank you for your donutshop purchase!",
+            description=f"You bought the choice pack {item_id} for {card_pack['price']} {plugin.bot.d['coin_name']['normal']}, "
+            "which lets you pick {card_pack['amount']} cards!\n\n"
             "Click the button below to start picking!"
         )
 

@@ -1,5 +1,5 @@
-from library.database import eventlogs, pokemarket, verify_filter_string
-from cogs.pokeshop.group import group
+from library.database import eventlogs, donutshop, verify_filter_string
+from cogs.donutshop.group import group
 from library import decorators as dc
 import lightbulb
 import sqlite3
@@ -7,7 +7,7 @@ import hikari
 
 plugin = lightbulb.Plugin(__name__)
 
-pokeshop_type_crossref = {
+donutshop_type_crossref = {
     "Random Pack": 0,
     "Choice Pack": 1,
 }
@@ -54,7 +54,7 @@ pokeshop_type_crossref = {
 @lightbulb.command(name='additem', description="Add an item to the market to be purchased!", pass_options=True)
 @lightbulb.implements(lightbulb.SlashSubCommand)
 @dc.check_admin_status()
-@dc.prechecks('pokeshop_additem')
+@dc.prechecks('donutshop_additem')
 async def bot_command(ctx: lightbulb.SlashContext, name, price, amount, pack_type, filter_arg):
     if filter_arg.lower() == "help":
         await ctx.respond(
@@ -86,10 +86,10 @@ async def bot_command(ctx: lightbulb.SlashContext, name, price, amount, pack_typ
         return
 
     try:
-        success = pokemarket.add_item(
+        success = donutshop.add_item(
             name=name,
             amount=amount,
-            item_type=pokeshop_type_crossref[pack_type],
+            item_type=donutshop_type_crossref[pack_type],
             price=price,
             filter_arg=filter_arg
         )
@@ -113,8 +113,8 @@ async def bot_command(ctx: lightbulb.SlashContext, name, price, amount, pack_typ
             flags=hikari.MessageFlag.EPHEMERAL,
         )
         await eventlogs.log_event(
-            event_title="Item Added to PokeShop",
-            event_text=f"A {pack_type} {amount} Pack with the name {name} has been added to the shop for {price} PokeCoins."
+            event_title="Item Added to DonutShop",
+            event_text=f"A {pack_type} {amount} Pack with the name {name} has been added to the shop for {price} {plugin.bot.d['coin_name']['normal']}."
         )
     else:
         await ctx.respond(

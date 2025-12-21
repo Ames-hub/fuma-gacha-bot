@@ -6,14 +6,6 @@ import hikari
 
 plugin = lightbulb.Plugin(__name__)
 
-rarity_crossref = {
-    1: "<:loveball:1389313177392513034>",
-    2: "<:loveball:1389313177392513034>" * 2,
-    3: "<:loveball:1389313177392513034>" * 3,
-    4: "<:loveball:1389313177392513034>" * 4,
-    5: "<:loveball:1389313177392513034>" * 5,
-}
-
 @botapp.command()
 @lightbulb.app_command_permissions(dm_enabled=False)
 @lightbulb.option(
@@ -71,7 +63,7 @@ async def bot_command(ctx: lightbulb.SlashContext):
         )
         .add_field(
             name="Rarity",
-            value=f"*{rarity_crossref[card['rarity']]}*",
+            value=f"*{plugin.bot.d['rarity_emojis_text'][card['rarity']]}*",
         )
         .set_image(hikari.Bytes(image_bytes, "cardphoto.png"))
     )

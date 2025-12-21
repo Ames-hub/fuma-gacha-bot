@@ -10,8 +10,8 @@ database.modernize()
 
 # Load all extensions
 botapp.load_extensions_from("cogs/card_group")
-botapp.load_extensions_from("cogs/nicho_market")
-botapp.load_extensions_from("cogs/pokeshop")
+botapp.load_extensions_from("cogs/bakesale")
+botapp.load_extensions_from("cogs/donutshop")
 botapp.load_extensions_from("cogs/economy")
 botapp.load_extensions_from("cogs/staff")
 botapp.load_extensions_from("cogs/staff/events")
@@ -37,6 +37,10 @@ botapp.d['admin_roles'] = [
 DEBUG = os.environ.get("DEBUG", "False").lower() == "true"
 botapp.d['DEBUG'] = DEBUG
 
+botapp.d['coin_name'] = {}
+botapp.d['coin_name']['normal'] = "BreadCoin"  # "Normal" Coin name
+botapp.d['coin_name']['better'] = "NichoCoin"
+
 # Init Cache dicts
 botapp.d['inventory_username_cache'] = {}
 botapp.d['event_checked_cache'] = {}
@@ -46,7 +50,15 @@ botapp.d['pokestore'] = {
     'user_cache': {}
 }
 
-botapp.d['nicho_shop'] = {
+botapp.d['rarity_emojis_text'] = {
+    1: "<:donut:1452306017076383784>",
+    2: "<:donut:1452306017076383784>" * 2,
+    3: "<:donut:1452306017076383784>" * 3,
+    4: "<:donut:1452306017076383784>" * 4,
+    5: "<:donut:1452306017076383784>" * 5,
+}
+
+botapp.d['bakesale'] = {
     "cache": {
         "page_list": [],
         "last_update": datetime.datetime.now() - datetime.timedelta(seconds=30),

@@ -1,4 +1,4 @@
-from cogs.nicho_market.group import group
+from cogs.bakesale.group import group
 from library import decorators as dc
 import lightbulb
 import hikari
@@ -12,12 +12,16 @@ plugin = lightbulb.Plugin(__name__)
 )
 @lightbulb.command(name='help', description="Browse the public card market!", pass_options=True)
 @lightbulb.implements(lightbulb.SlashSubCommand)
-@dc.prechecks('nicho help')
+@dc.prechecks('bakesale help')
 async def bot_command(ctx: lightbulb.SlashContext):
     await ctx.respond(
         embed=hikari.Embed(
-            title="Nicho Shop Help",
-            description="This is a basic guide to what the nichomarket is!"
+            title="The Bakesale Help",
+            description="This is a basic guide to what the bake sale is!"
+        )
+        .add_field(
+            name="Currency",
+            value=f"The bake sale uses {plugin.bot.d['coin_name']['better']} as its currency!"
         )
         .add_field(
             name="Purpose",
@@ -25,8 +29,8 @@ async def bot_command(ctx: lightbulb.SlashContext):
         )
         .add_field(
             name="How to use",
-            value="If you're looking to buy, use `/nicho market` to browse the market!\n"
-                  "However, if you're looking to sell, use `/nichomarket sell` and we can get it on the market :)"
+            value="If you're looking to buy, use `/bakesale market` to browse the market!\n"
+                  "However, if you're looking to sell, use `/bakesale sell` and we can get it on the market :)"
         )
         .add_field(
             name="Offer IDs",

@@ -6,14 +6,6 @@ import hikari
 
 plugin = lightbulb.Plugin(__name__)
 
-rarity_crossref = {
-    1: "<:loveball:1389313177392513034>",
-    2: "<:loveball:1389313177392513034>" * 2,
-    3: "<:loveball:1389313177392513034>" * 3,
-    4: "<:loveball:1389313177392513034>" * 4,
-    5: "<:loveball:1389313177392513034>" * 5,
-}
-
 @botapp.command()
 @lightbulb.app_command_permissions(dm_enabled=False)
 @lightbulb.add_checks(
@@ -72,7 +64,7 @@ async def bot_command(ctx: lightbulb.SlashContext):
             own_text = "✨ *! New Card Unlocked !* ✨"
         embed.add_field(
             name=card['name'],
-            value=f"{own_text}\n\n{card['description']}\n{rarity_crossref[card['rarity']]}",
+            value=f"{own_text}\n\n{card['description']}\n{plugin.bot.d['rarity_emojis_text'][card['rarity']]}",
             inline=True,
         )
 

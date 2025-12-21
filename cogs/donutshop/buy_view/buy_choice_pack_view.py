@@ -1,4 +1,4 @@
-from library.botapp import miru_client
+from library.botapp import miru_client, botapp
 from library.dbmodules import dbcards
 import logging
 import hikari
@@ -32,7 +32,7 @@ def gen_poscards_str(filter):
 
 class main_view:
     def __init__(self, item_id):
-        from library.dbmodules.pokemarket import get_item
+        from library.dbmodules.donutshop import get_item
         self.item_id = item_id
         self.pack = get_item(item_id=item_id)
 
@@ -42,7 +42,7 @@ class main_view:
         embed = (
             hikari.Embed(
                 title="Your selected pack!",
-                description=f"You've picked a pack worth {self.pack['price']} Coins with {self.pack['amount']} cards inside!"
+                description=f"You've picked a pack worth {self.pack['price']} {botapp.d['coin_name']['normal']} with {self.pack['amount']} cards inside!"
             )
             .add_field(
                 name="Possible cards",

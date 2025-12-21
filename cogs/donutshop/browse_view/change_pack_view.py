@@ -1,4 +1,4 @@
-from library.database import pokemarket, economy
+from library.database import donutshop, economy
 from library.botapp import botapp
 import datetime
 import hikari
@@ -30,12 +30,12 @@ class main_view:
 
         embed = (
             hikari.Embed(
-                title="PokeShop",
+                title="DonutShop",
                 description="View below the great card packs available for purchase!",
             )
         )
 
-        all_items = pokemarket.get_all_items()
+        all_items = donutshop.get_all_items()
         if len(all_items) == 0:
             embed.add_field(
                 name="Card Packs",
@@ -54,13 +54,14 @@ class main_view:
             embed.add_field(
                 name="Card Packs",
                 value=f"✨ *{item['item_id']}*\n{item['amount']} Cards are in this pack\n"
-                      f"{item_type_crossref[item['type']]} Pack for **{item['price']} PokeCoins** ✨"
+                      f"{item_type_crossref[item['type']]} Pack for **{item['price']} {botapp.d['coin_name']['normal']}s** ✨"
             )
             embed.set_footer(f"Page {viewing_page}/{len(all_items)}")
         else:
             shop_str = ""
             for item in all_items:
-                shop_str += f"✨ *{item['item_id']}* - {item['amount']} Cards, {item_type_crossref[item['type']]} Pack for **{item['price']} PokeCoins** ✨\n\n"
+                shop_str += f"✨ *{item['item_id']}* - {item['amount']} Cards, {item_type_crossref[item['type']]} Pack for **{item['price']} "
+                f"{botapp.d['coin_name']['normal']}** ✨\n\n"
 
             embed.add_field(
                 name="Card Packs",
@@ -82,7 +83,7 @@ class main_view:
 
                 # Get the pack, find what cards they got.
                 item_id = botapp.d['pokestore']['user_cache'][str(ctx.author.id)]
-                pack = pokemarket.get_all_items()[item_id - 1]
+                pack = donutshop.get_all_items()[item_id - 1]
 
                 account = economy.account(ctx.author.id)
                 if account.fumacoins.balance() >= pack['price']:
@@ -94,7 +95,7 @@ class main_view:
                         )
                     else:
                         if pack['type'] == botapp.d['packtypes']['random']:
-                            item_give_success = pokemarket.give_random_pack(ctx.author.id, pack['item_id'])
+                            item_give_success = donutshop.give_random_pack(ctx.author.id, pack['item_id'])
                             if item_give_success is True:
                                 embed.add_field(
                                     name="Item Purchased!",
@@ -116,7 +117,7 @@ class main_view:
                         elif pack['type'] == botapp.d['packtypes']['choice']:
                             embed.add_field(
                                 name="Couldn't buy it!",
-                                value="Buying choice packs in browse is still a work in progress! Please use the `/pokeshop buy` command for that instead!"
+                                value="Buying choice packs in browse is still a work in progress! Please use the `/donutshop buy` command for that instead!"
                             )
                 else:
                     embed.add_field(

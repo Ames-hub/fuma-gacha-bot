@@ -1,4 +1,4 @@
-from cogs.pokeshop.buy_view.buy_choice_pack_view import main_view
+from cogs.donutshop.buy_view.buy_choice_pack_view import main_view
 from library.botapp import botapp, miru_client
 from library.dbmodules import dbcards
 import lightbulb

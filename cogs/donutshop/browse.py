@@ -1,5 +1,5 @@
-from cogs.pokeshop.browse_view.change_pack_view import main_view
-from cogs.pokeshop.group import group
+from cogs.donutshop.browse_view.change_pack_view import main_view
+from cogs.donutshop.group import group
 from library.botapp import miru_client
 from library import decorators as dc
 import lightbulb
@@ -13,7 +13,7 @@ plugin = lightbulb.Plugin(__name__)
 )
 @lightbulb.command(name='browse', description="Browse the card pack shop!")
 @lightbulb.implements(lightbulb.SlashSubCommand)
-@dc.prechecks('poke browse')
+@dc.prechecks('donutshop browse')
 async def bot_command(ctx: lightbulb.SlashContext):
     view = main_view()
 
