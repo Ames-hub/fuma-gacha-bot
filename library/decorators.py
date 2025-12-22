@@ -42,18 +42,19 @@ def prechecks(cmd_id, cooldown_s=0):
                 return None
 
             # Cooldown check
-            if cooldown_s > 0:
-                now = time.time()
-                user_cooldowns = botapp.d.setdefault("cooldowns", {}).setdefault(user_id, {})
-                expiry = user_cooldowns.get(cmd_id, 0)
+            if botapp.d['cooldowns_on'] is True:
+                if cooldown_s > 0:
+                    now = time.time()
+                    user_cooldowns = botapp.d.setdefault("cooldowns", {}).setdefault(user_id, {})
+                    expiry = user_cooldowns.get(cmd_id, 0)
 
-                if now < expiry:
-                    raise lightbulb.errors.CommandIsOnCooldown(
-                        retry_after=expiry - now
-                    )
+                    if now < expiry:
+                        raise lightbulb.errors.CommandIsOnCooldown(
+                            retry_after=expiry - now
+                        )
 
-                # Store expiry timestamp
-                user_cooldowns[cmd_id] = now + cooldown_s
+                    # Store expiry timestamp
+                    user_cooldowns[cmd_id] = now + cooldown_s
 
             return await func(ctx, *args, **kwargs)
         return wrapper

@@ -38,8 +38,8 @@ DEBUG = os.environ.get("DEBUG", "False").lower() == "true"
 botapp.d['DEBUG'] = DEBUG
 
 botapp.d['coin_name'] = {}
-botapp.d['coin_name']['normal'] = "BreadCoin"  # "Normal" Coin name
-botapp.d['coin_name']['better'] = "NichoCoin"
+botapp.d['coin_name']['normal'] = "DonutCoin"  # "Normal" Coin name
+botapp.d['coin_name']['better'] = "Woonagi Point"
 
 # Init Cache dicts
 botapp.d['inventory_username_cache'] = {}
@@ -91,6 +91,8 @@ botapp.d['card_tier_names'] = {
         "Limited": 3
     }
 }
+
+botapp.d['cooldowns_on'] = True
 
 async def main():
     config = uvicorn.Config(
