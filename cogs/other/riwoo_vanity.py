@@ -7,13 +7,13 @@ plugin = lightbulb.Plugin(__name__)
 
 @botapp.command()
 @lightbulb.app_command_permissions(dm_enabled=False)
-@lightbulb.command(name='fumabot', description="Get an invite to the server, or add the bot to your own server!")
+@lightbulb.command(name='riwoobot', description="Get an invite to the server, or add the bot to your own server!")
 @lightbulb.implements(lightbulb.SlashCommand)
 @dc.prechecks('vanity')
 async def bot_command(ctx: lightbulb.SlashContext):
     embed = (
         hikari.Embed(
-            title="<:loveball:1389313177392513034> Thank you for picking Fumabot <:loveball:1389313177392513034>",
+            title="<:agathedonut:1454905529016123474> Thank you for picking RiwooBot <:agathedonut:1454905529016123474>",
             description="Your contribution by using this bot is appreciated.",
             colour=0x00FF00
         )
@@ -25,7 +25,7 @@ async def bot_command(ctx: lightbulb.SlashContext):
             name="Join the community",
             value="[Click me to join in!](https://discord.gg/EwnaaNzuQy)"
         )
-        .set_thumbnail(hikari.files.URL(str(botapp.get_me().avatar_url), "fumabot.png"))
+        .set_thumbnail(hikari.files.URL(str(botapp.get_me().avatar_url), "riwoobot.png"))
         .set_footer(
             "If you're still wondering how to get started, use /help!"
         )

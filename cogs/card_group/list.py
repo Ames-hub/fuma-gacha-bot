@@ -8,9 +8,9 @@ plugin = lightbulb.Plugin(__name__)
 
 @botapp.command()
 @lightbulb.app_command_permissions(dm_enabled=False)
-@lightbulb.command(name='list', description="List All the cards the bot has!")
+@lightbulb.command(name='cardlist', description="List All the cards the bot has!")
 @lightbulb.implements(lightbulb.SlashCommand)
-@dc.prechecks('list')
+@dc.prechecks('cardlist')
 async def bot_command(ctx: lightbulb.SlashContext):
     embed = (
         hikari.Embed(

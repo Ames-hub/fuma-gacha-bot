@@ -26,7 +26,7 @@ plugin = lightbulb.Plugin(__name__)
     description="The new rarity of what the card is",
     required=False,
     type=hikari.OptionType.STRING,
-    choices=["1P", "2P", "3P", "4P", "5P"],
+    choices=["1B", "2B", "3B", "4B", "5B"],
 )
 @lightbulb.option(
     name="card_tier",
@@ -90,8 +90,11 @@ async def bot_command(ctx: lightbulb.SlashContext, card_id: str, description: st
                 )
             )
             return
+        
+    if card_tier:
 
-    card_tier = plugin.bot.d['card_tier_names']['text'][card_tier]
+        card_tier = plugin.bot.d['card_tier_names']['text'][card_tier]
+
     card_rarity = int(card_rarity[0])
 
     success = dbcards.edit_card(

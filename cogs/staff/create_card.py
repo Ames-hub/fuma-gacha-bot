@@ -37,7 +37,7 @@ plugin = lightbulb.Plugin(__name__)
     name="rarity",
     description="How rare is it?",
     required=True,
-    choices=["1P", "2P", "3P", "4P", "5P"],
+    choices=["1B", "2B", "3B", "4B", "5B"],
 )
 @lightbulb.option(
     name="idol",

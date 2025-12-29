@@ -2,7 +2,7 @@ import lightbulb
 
 plugin = lightbulb.Plugin(__name__)
 
-name = "nichoshop"
+name = "bakesale"
 desc = "~the market for rare cards~"
 @plugin.command
 @lightbulb.command(name, desc)

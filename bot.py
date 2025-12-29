@@ -38,8 +38,8 @@ DEBUG = os.environ.get("DEBUG", "False").lower() == "true"
 botapp.d['DEBUG'] = DEBUG
 
 botapp.d['coin_name'] = {}
-botapp.d['coin_name']['normal'] = "DonutCoin"  # "Normal" Coin name
-botapp.d['coin_name']['better'] = "Woonagi Point"
+botapp.d['coin_name']['normal'] = "DonutCoin"  # "Normal" Coin name. Used in pokeshop.
+botapp.d['coin_name']['better'] = "Woonagi Point"  # Used in bakesale
 
 # Init Cache dicts
 botapp.d['inventory_username_cache'] = {}
@@ -51,11 +51,11 @@ botapp.d['pokestore'] = {
 }
 
 botapp.d['rarity_emojis_text'] = {
-    1: "<:donut:1452306017076383784>",
-    2: "<:donut:1452306017076383784>" * 2,
-    3: "<:donut:1452306017076383784>" * 3,
-    4: "<:donut:1452306017076383784>" * 4,
-    5: "<:donut:1452306017076383784>" * 5,
+    1: "<:agathedonut:1454905529016123474>",
+    2: "<:agathedonut:1454905529016123474>" * 2,
+    3: "<:agathedonut:1454905529016123474>" * 3,
+    4: "<:agathedonut:1454905529016123474>" * 4,
+    5: "<:agathedonut:1454905529016123474>" * 5,
 }
 
 botapp.d['bakesale'] = {

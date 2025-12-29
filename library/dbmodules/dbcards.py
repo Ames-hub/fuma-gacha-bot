@@ -47,22 +47,18 @@ def edit_card(card_id, description:str=None, icon_bytes:bytes=None, card_tier:in
             logging.error(f"Error while editting card with ID {card_id}!", exc_info=err)
             return False
 
-def list_all(pullable_only=False):
+def list_all(pullable_only=False, include_customs=True):
     with sqlite3.connect(DB_PATH) as conn:
         try:
             cur = conn.cursor()
-            if not pullable_only:
-                cur.execute(
-                    """
-                    SELECT identifier, name, description, rarity, card_tier, pullable, card_group FROM global_cards
-                    """
-                )
-            else:
-                cur.execute(
-                    """
-                    SELECT identifier, name, description, rarity, card_tier, pullable, card_group FROM global_cards WHERE pullable = true
-                    """
-                )
+            cur.execute(
+                f"""
+                SELECT identifier, name, description, rarity, card_tier, pullable, card_group FROM global_cards
+                WHERE identifier IS NOT NULL
+                {"AND is_custom = false" if not include_customs else ""}
+                {"AND pullable = true" if pullable_only else ""}
+                """
+            )
             data = cur.fetchall()
             parsed_data = []
             for row in data:
@@ -598,7 +594,7 @@ def pull_random_card(exception_names=None, no_limited=False):
         exception_names = []
 
     base_query = '''
-    SELECT identifier, name, description, rarity, card_tier FROM global_cards WHERE pullable = True
+    SELECT identifier, name, description, rarity, card_tier FROM global_cards WHERE pullable = True AND is_custom = False
     '''
 
     where_clause = ''

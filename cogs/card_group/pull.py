@@ -19,7 +19,7 @@ async def bot_command(ctx: lightbulb.SlashContext):
     card_names = []
     card_imgs = []
 
-    if len(dbcards.list_all(pullable_only=True)) != 0:
+    if len(dbcards.list_all(pullable_only=True, include_customs=False)) != 0:
         await ctx.respond(
             embed=hikari.Embed(
                 title="Pulling cards...",
