@@ -386,7 +386,7 @@ class ItemNonexistence(Exception):
     def __init__(self):
         pass
 
-def pull_filtered_args(conn: sqlite3.Connection, filter_string, **filters) -> sqlite3.Cursor:
+def pull_filtered_args(conn: sqlite3.Connection, filter_string, fetch_one:bool, **filters) -> sqlite3.Cursor:
     cursor = conn.cursor()
 
     # Parse filter string like "<rarity=5><card_tier=2>"
@@ -419,7 +419,7 @@ def pull_filtered_args(conn: sqlite3.Connection, filter_string, **filters) -> sq
     FROM global_cards
     WHERE {where_clause}
     ORDER BY RANDOM()
-    LIMIT 1
+    {"LIMIT 1" if fetch_one else ""}
     """
 
     cursor.execute(query, values)
@@ -427,7 +427,7 @@ def pull_filtered_args(conn: sqlite3.Connection, filter_string, **filters) -> sq
 
 def filtered_get_card(filter_string=None, fetch_one:bool=True, **filters):
     conn = sqlite3.connect(DB_PATH)
-    cursor = pull_filtered_args(conn, filter_string, **filters)
+    cursor = pull_filtered_args(conn, filter_string, fetch_one, **filters)
 
     if fetch_one:
         datum = cursor.fetchone()

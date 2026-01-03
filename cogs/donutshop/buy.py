@@ -79,10 +79,11 @@ async def bot_command(ctx: lightbulb.SlashContext):
                 embed=(
                     hikari.Embed(
                         title="Error!",
-                        description="There was an error while buying the card pack.",
+                        description="There was an error while buying the card pack. You've been refunded.",
                     )
                 )
             )
+            account.fumacoins.modify_balance(pack_price, operator="add")
     elif card_pack['type'] == 1:
         success = donutshop.give_choice_pack(
             user_id=ctx.author.id,
@@ -93,10 +94,11 @@ async def bot_command(ctx: lightbulb.SlashContext):
                 embed=(
                     hikari.Embed(
                         title="Uh oh!",
-                        description="For some reason, we couldn't do this! Please file a bug report :("
+                        description="For some reason, we couldn't do this! Please file a bug report :( You've been refunded."
                     )
                 )
             )
+            account.fumacoins.modify_balance(pack_price, operator="add")
             return
 
         embed = hikari.Embed(
@@ -115,10 +117,11 @@ async def bot_command(ctx: lightbulb.SlashContext):
                 embed=(
                     hikari.Embed(
                         title="No cards!",
-                        description="There's no cards we can use for this!"
+                        description="There's no cards we can use for this! You've been refunded."
                     )
                 )
             )
+            account.fumacoins.modify_balance(pack_price, operator="add")
             return
 
         viewmenu = view.init_view()

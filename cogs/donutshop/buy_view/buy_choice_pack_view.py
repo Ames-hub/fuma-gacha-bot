@@ -4,14 +4,6 @@ import logging
 import hikari
 import miru
 
-rarity_crossref = {
-    1: "<:loveball:1389313177392513034>",
-    2: "<:loveball:1389313177392513034>" * 2,
-    3: "<:loveball:1389313177392513034>" * 3,
-    4: "<:loveball:1389313177392513034>" * 4,
-    5: "<:loveball:1389313177392513034>" * 5,
-}
-
 tier_word = {
     1: "Standard",
     2: "Event",
@@ -26,7 +18,7 @@ def gen_poscards_str(filter):
 
     text_list = []
     for card in all_pos_cards:
-        text_list.append(f"({card['identifier']}) {tier_word[card['tier']]} card - {card['name']} {rarity_crossref[card['rarity']]}")
+        text_list.append(f"({card['identifier']}) {tier_word[card['tier']]} card - {card['name']} {botapp.d['rarity_emojis_text'][card['rarity']]}")
 
     return text_list
 
@@ -46,7 +38,8 @@ class main_view:
             )
             .add_field(
                 name="Possible cards",
-                value=f"You can possibly get the following cards from this pack:\n{", ".join(pack_list)}"
+                value=f"You can possibly get the following cards from this pack: +"
+                "\n".join([f"- {card}" for card in pack_list])
             )
         )
         return embed

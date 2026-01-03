@@ -102,6 +102,8 @@ def get_item(item_id):
                 (item_id,)
             )
             data = cur.fetchone()
+            if not data:
+                return None
             return {
                 'item_id': data[0],
                 'price': data[1],

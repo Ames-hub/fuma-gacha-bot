@@ -5,14 +5,6 @@ import logging
 import hikari
 import miru
 
-rarity_crossref = {
-    1: "<:loveball:1389313177392513034>",
-    2: "<:loveball:1389313177392513034>" * 2,
-    3: "<:loveball:1389313177392513034>" * 3,
-    4: "<:loveball:1389313177392513034>" * 4,
-    5: "<:loveball:1389313177392513034>" * 5,
-}
-
 item_type_crossref = {
     0: "Random",
     1: "Choice",
