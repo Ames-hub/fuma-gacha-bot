@@ -99,7 +99,8 @@ def verify_filter_string(filter_string: str):
         'rarity': int,
         'card_tier': int,
         'pullable': bool,
-        'group': str,
+        'card_group': str,
+        'card_era': str,
     }
 
     errors = []

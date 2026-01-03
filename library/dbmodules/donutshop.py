@@ -120,6 +120,7 @@ def give_random_pack(user_id, item_id):
     if pack['type'] != botapp.d['packtypes']['random']:  # Randomised pack
         raise TypeError("This is not a randomised pack!")
 
+    given_cards = []
     for i in range(pack['amount']):
         try:
             card = dbcards.filtered_get_card(
@@ -132,8 +133,12 @@ def give_random_pack(user_id, item_id):
 
         if not success:
             return False
+        given_cards.append(card['identifier'])
 
-    return True
+    return {
+        "given_cards": given_cards,
+        "success": True
+    }
 
 class choicepack_errors:
     class NotChoicePack(Exception):

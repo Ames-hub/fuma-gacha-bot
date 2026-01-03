@@ -52,8 +52,8 @@ async def bot_command(ctx: lightbulb.SlashContext):
 
     embed = (
         hikari.Embed(
-            title="Howl!",
-            description=f"You earned {gained_fc} FumaCoins and {gained_nc} NichoCoins!",
+            title="Work work work!",
+            description=f"You earned {gained_fc} {plugin.bot.d['coin_name']['normal']} and {gained_nc} {plugin.bot.d['coin_name']['better']}!",
         )
     )
 

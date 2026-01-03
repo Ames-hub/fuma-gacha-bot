@@ -1,6 +1,7 @@
 from library.database import donutshop, economy
 from library.botapp import botapp
 import datetime
+import logging
 import hikari
 import miru
 
@@ -60,8 +61,8 @@ class main_view:
         else:
             shop_str = ""
             for item in all_items:
-                shop_str += f"✨ *{item['item_id']}* - {item['amount']} Cards, {item_type_crossref[item['type']]} Pack for **{item['price']} "
-                f"{botapp.d['coin_name']['normal']}** ✨\n\n"
+                shop_str += f"✨ *{item['item_id']}* - {item['amount']} Cards, {item_type_crossref[item['type']]} Pack for **{item['price']}** "
+                shop_str += f"{botapp.d['coin_name']['normal']}** ✨\n\n"
 
             embed.add_field(
                 name="Card Packs",
@@ -95,11 +96,14 @@ class main_view:
                         )
                     else:
                         if pack['type'] == botapp.d['packtypes']['random']:
-                            item_give_success = donutshop.give_random_pack(ctx.author.id, pack['item_id'])
+                            give_item_data = donutshop.give_random_pack(ctx.author.id, pack['item_id'])
+                            item_give_success = give_item_data['success']
+                            given_cards = give_item_data['given_cards']
                             if item_give_success is True:
                                 embed.add_field(
                                     name="Item Purchased!",
-                                    value=f"You bought a new card pack <t:{int(datetime.datetime.now().timestamp())}:R>!\n",
+                                    value=f"You bought a new card pack <t:{int(datetime.datetime.now().timestamp())}:R>!\nYou received the following cards:\n" +
+                                          "\n".join([f"- `{card}`" for card in given_cards]),
                                 )
                             elif item_give_success == -1:
                                 embed.add_field(
@@ -114,6 +118,7 @@ class main_view:
                                     name="Couldn't buy it!",
                                     value="Something went wrong when attempting to give you the item. You've been refunded.",
                                 )
+                                logging.info(f"Problem giving random pack, refunded user {ctx.author.id}. item_give_success={item_give_success} ({type(item_give_success)})")
                         elif pack['type'] == botapp.d['packtypes']['choice']:
                             embed.add_field(
                                 name="Couldn't buy it!",

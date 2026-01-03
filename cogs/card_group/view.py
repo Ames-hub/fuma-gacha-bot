@@ -58,8 +58,9 @@ async def bot_command(ctx: lightbulb.SlashContext):
             name=f"{card['name']} - {card['identifier']}",
             value=f"{card['description']}\n\n"
                     f"*ID:* ```{card['identifier']}```\n"
-                    f"Idol member: {card['idol']}\n"
-                    f"Group: {card['group']} - Era: {card['era']}"
+                    f"Idol: {card['idol']}\n"
+                    f"Group: {card['group']}\n"
+                    f"Era: {card['era']}"
         )
         .add_field(
             name="Rarity",

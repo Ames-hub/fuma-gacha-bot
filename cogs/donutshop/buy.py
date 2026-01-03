@@ -22,7 +22,7 @@ plugin = lightbulb.Plugin(__name__)
 )
 @lightbulb.command(name='buy', description="Buy a card from the pack shop!")
 @lightbulb.implements(lightbulb.SlashSubCommand)
-@dc.prechecks('poke buy')
+@dc.prechecks('donutshop buy')
 async def bot_command(ctx: lightbulb.SlashContext):
     # Gets the price of the pack
     item_id = ctx.options.item_id
@@ -56,17 +56,20 @@ async def bot_command(ctx: lightbulb.SlashContext):
         return
 
     if card_pack['type'] == 0:
-        success = donutshop.give_random_pack(
+        pack_give_data = donutshop.give_random_pack(
             user_id=ctx.author.id,
             item_id=item_id,
         )
+        success = pack_give_data['success']
+        cards_given = pack_give_data['given_cards']
 
         if success:
             await ctx.respond(
                 embed=(
                     hikari.Embed(
                         title="Success!",
-                        description="You bought the new card pack!",
+                        description="You bought the new card pack! You received the following cards:\n" +
+                        "\n".join([f"- `{card}`" for card in cards_given]),
                         color=0x00ff00,
                     )
                 )

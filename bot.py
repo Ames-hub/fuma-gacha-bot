@@ -1,5 +1,9 @@
+from cryptography.hazmat.primitives import hashes, serialization
+from cryptography.hazmat.primitives.asymmetric import rsa
+from cryptography.x509.oid import NameOID
 from library.database import database
 from library.botapp import botapp
+from cryptography import x509
 import datetime
 import uvicorn
 import asyncio
@@ -94,14 +98,93 @@ botapp.d['card_tier_names'] = {
 
 botapp.d['cooldowns_on'] = True
 
+ssl_keyfile_dir = "certs/key.pem"
+ssl_certfile_dir = "certs/cert.pem"
+
+def generate_self_signed_cert(country_name, province_name, locality_name, organisation_name, common_name="localhost", valid_days=365):
+    if os.path.exists(ssl_keyfile_dir) or os.path.exists(ssl_certfile_dir):
+        os.remove('certs')
+        os.makedirs('certs')
+
+    # Generate private key
+    key = rsa.generate_private_key(
+        public_exponent=65537,
+        key_size=2048,
+    )
+
+    # Generate a self-signed certificate
+    subject = issuer = x509.Name([
+        x509.NameAttribute(NameOID.COUNTRY_NAME, u"{}".format(country_name)),
+        x509.NameAttribute(NameOID.STATE_OR_PROVINCE_NAME, u"{}".format(province_name)),
+        x509.NameAttribute(NameOID.LOCALITY_NAME, u"{}".format(locality_name)),
+        x509.NameAttribute(NameOID.ORGANIZATION_NAME, u"{}".format(organisation_name)),
+        x509.NameAttribute(NameOID.COMMON_NAME, common_name),
+    ])
+
+    cert = x509.CertificateBuilder().subject_name(
+        subject
+    ).issuer_name(
+        issuer
+    ).public_key(
+        key.public_key()
+    ).serial_number(
+        x509.random_serial_number()
+    ).not_valid_before(
+        datetime.datetime.now(datetime.timezone.utc)
+    ).not_valid_after(
+        datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(days=valid_days)
+    ).add_extension(
+        x509.SubjectAlternativeName([x509.DNSName(common_name)]),
+        critical=False,
+    ).sign(key, hashes.SHA256())
+
+    # Write private key to file
+    with open(ssl_keyfile_dir, "wb") as f:
+        f.write(key.private_bytes(
+            encoding=serialization.Encoding.PEM,
+            format=serialization.PrivateFormat.TraditionalOpenSSL,
+            encryption_algorithm=serialization.NoEncryption()
+        ))
+
+    # Write certificate to file
+    with open(ssl_certfile_dir, "wb") as f:
+        f.write(cert.public_bytes(serialization.Encoding.PEM))
+
+    print(f"Self-signed certificate saved to {ssl_certfile_dir}")
+    print(f"Private key saved to {ssl_keyfile_dir}")
+    return True
+
 async def main():
+    if not os.path.exists(ssl_keyfile_dir) or not os.path.exists(ssl_certfile_dir):
+        print("SSL Certificate or Key not found, generating self-signed certificate...")
+        country_code = input("Enter Country Code (2 letter code, e.g., US): ") or "AU"
+        state_name = input("Enter State or Province Name: ") or "Western Australia"
+        locality_name = input("Enter Locality or City Name: ") or "Perth"
+        common_name = input("Enter Common Name (e.g., localhost or your domain): ") or "localhost"
+
+        success = generate_self_signed_cert(
+            country_name=country_code,
+            province_name=state_name,
+            locality_name=locality_name,
+            organisation_name="Gacha Bot Devs",
+            common_name=common_name,
+            valid_days=999
+        )
+        if success:
+            print("Self-signed certificate generated successfully.")
+        else:
+            print("Failed to generate self-signed certificate. Exiting.")
+            return
+
     config = uvicorn.Config(
         "webpanel.webpanel:fastapp",
         host="0.0.0.0" if not DEBUG else "127.0.0.1",
         port=8010,
         loop="asyncio",
         lifespan="on",
-        reload=False  # <- important
+        reload=False,  # <- important
+        ssl_certfile=ssl_certfile_dir,
+        ssl_keyfile=ssl_keyfile_dir
     )
     server = uvicorn.Server(config)
 
