@@ -1,5 +1,6 @@
 from library.dbmodules.cmds import list_commands, set_cmd_enabled, get_cmd_enabled
-from webpanel.library.auth import require_valid_token, authbook
+from webpanel.library.perms import require_permissions, permissions
+from webpanel.library.auth import require_auth, authbook
 from fastapi.responses import JSONResponse, HTMLResponse
 from fastapi import APIRouter, Request, Depends
 from fastapi.templating import Jinja2Templates
@@ -10,12 +11,14 @@ router = APIRouter()
 templates = Jinja2Templates(directory=os.path.join(os.path.dirname(__file__), "templates"))
 
 @router.get("/ctrl/commands")
-async def load_index(request: Request, token: str = Depends(require_valid_token)):
+@require_permissions(permissions.MANAGE_COMMANDS)
+async def load_index(request: Request, token: str = Depends(require_auth)):
     logging.info(f"IP {request.client.host} ({authbook.token_owner(token)}) Has accessed the commands listing page.")
     return templates.TemplateResponse(request, "commands.html")
 
 @router.get("/api/commands/list")
-async def list_bot_commands(request: Request, token: str = Depends(require_valid_token)):
+@require_permissions(permissions.MANAGE_COMMANDS)
+async def list_bot_commands(request: Request, token: str = Depends(require_auth)):
     logging.info(f"IP {request.client.host} ({authbook.token_owner(token)}) Is getting the list of all the bot commands.")
     all_cmds = list_commands()
     return JSONResponse(
@@ -27,7 +30,8 @@ async def list_bot_commands(request: Request, token: str = Depends(require_valid
     )
 
 @router.get("/api/commands/switch/{cmd_id}")
-async def switch_cmd_enabled(request: Request, cmd_id: str, token: str = Depends(require_valid_token)):
+@require_permissions(permissions.MANAGE_COMMANDS)
+async def switch_cmd_enabled(request: Request, cmd_id: str, token: str = Depends(require_auth)):
     new_status = not get_cmd_enabled(cmd_id)
     logging.info(f"IP {request.client.host} ({authbook.token_owner(token)}) Is switching the status of the command {cmd_id} to {new_status}")
     success = set_cmd_enabled(cmd_id, new_status)

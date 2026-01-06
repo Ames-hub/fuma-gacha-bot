@@ -154,6 +154,8 @@ def generate_self_signed_cert(country_name, province_name, locality_name, organi
     print(f"Private key saved to {ssl_keyfile_dir}")
     return True
 
+from webpanel.library.auth import authbook
+
 async def main():
     if not os.path.exists(ssl_keyfile_dir) or not os.path.exists(ssl_certfile_dir):
         print("SSL Certificate or Key not found, generating self-signed certificate...")
@@ -175,9 +177,22 @@ async def main():
         else:
             print("Failed to generate self-signed certificate. Exiting.")
             return
+        
+    account_count = len(authbook.list_accounts())
+    if account_count == 0:
+        print("Please create an admin account for the web panel to continue.")
+        while True:
+            username = input("Enter admin username: ").strip()
+            password = input("Enter admin password: ").strip()
+            try:
+                authbook.create_account(username, password, is_admin=True)
+                print(f"Admin account '{username}' created successfully.")
+                break
+            except Exception as e:
+                print(f"Error creating account: {e}. Please try again.")
 
     config = uvicorn.Config(
-        "webpanel.webpanel:fastapp",
+        "webpanel.webpanel:fastapi",
         host="0.0.0.0" if not DEBUG else "127.0.0.1",
         port=8010,
         loop="asyncio",

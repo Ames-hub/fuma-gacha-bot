@@ -1,17 +1,17 @@
+from fastapi.responses import HTMLResponse, PlainTextResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
-from fastapi.responses import HTMLResponse
 from fastapi import Request, FastAPI
 import importlib
 import logging
 import os
 
-fastapp = FastAPI()
+fastapi = FastAPI()
 DEBUG = os.environ.get("DEBUG", "False").lower() == "true"
 templates = Jinja2Templates(directory=os.path.join(os.path.dirname(__file__), "templates"))
 
 # noinspection PyUnusedLocal
-@fastapp.exception_handler(401)
+@fastapi.exception_handler(401)
 async def unauthorized_handler(request: Request, exc):
     logging.info(f"IP {request.client.host} Attempted to connect but was Unauthorized")
     # A Basic web page with the entire purpose of redirecting the user away from the page.
@@ -30,16 +30,21 @@ async def unauthorized_handler(request: Request, exc):
     """
     return HTMLResponse(content, status_code=401)
 
+@fastapi.get("/robots.txt", response_class=PlainTextResponse)
+async def robots_txt(request: Request):
+    with open('robots.txt') as f:
+        data = f.read()
+    return data
 
 # noinspection PyUnusedLocal
-@fastapp.exception_handler(404)
+@fastapi.exception_handler(404)
 async def custom_404_handler(request: Request, exc):
     with open("webpanel/404.html") as f:
         notfoundpage = f.read()
 
     return HTMLResponse(notfoundpage, status_code=404)
 
-@fastapp.get("/favicon.ico", include_in_schema=False)
+@fastapi.get("/favicon.ico", include_in_schema=False)
 async def favicon():
     image_path = "webpanel/favicon.png"
     if os.path.exists(image_path):
@@ -58,7 +63,7 @@ for module_name in os.listdir(modules_dir):
         static_path = os.path.join(module_path, "static")
         if os.path.isdir(static_path):
             mount_path = f"/static/{module_name}"
-            fastapp.mount(mount_path, StaticFiles(directory=static_path), name=f"{module_name}_static")
+            fastapi.mount(mount_path, StaticFiles(directory=static_path), name=f"{module_name}_static")
             logging.info(f"[✓] Mounted static files for {module_name} at {mount_path}")
 
         # 📦 Import and register router
@@ -67,7 +72,7 @@ for module_name in os.listdir(modules_dir):
             try:
                 module = importlib.import_module(f"webpanel.modules.{module_name}.routes")
                 if hasattr(module, "router"):
-                    fastapp.include_router(module.router)
+                    fastapi.include_router(module.router)
                     logging.info(f"[✓] Loaded router from {module_name} module")
                 else:
                     logging.info(f"[!] No 'router' found in {module_name}.routes")

@@ -106,7 +106,9 @@ class database:
             'authbook': {
                 'username': 'TEXT PRIMARY KEY',
                 'password': 'TEXT NOT NULL',
+                'admin': 'BOOLEAN NOT NULL DEFAULT FALSE',
                 'arrested': 'BOOLEAN NOT NULL DEFAULT FALSE',
+                'permissions_int': 'INTEGER NOT NULL DEFAULT 0',
             },
             'user_sessions': {
                 'username': 'TEXT',

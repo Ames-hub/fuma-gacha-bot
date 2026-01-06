@@ -1,5 +1,6 @@
 from library.dbmodules.bugsdb import list_bug_reports, get_bug_report, mark_bug_report_unresolved, mark_bug_report_resolved, get_traceback
-from webpanel.library.auth import require_valid_token, authbook
+from webpanel.library.perms import require_permissions, permissions
+from webpanel.library.auth import require_auth, authbook
 from library.dbmodules.shared import update_user_on_bug
 from fastapi import APIRouter, Request, Depends
 from fastapi.templating import Jinja2Templates
@@ -14,7 +15,7 @@ router = APIRouter()
 templates = Jinja2Templates(directory=os.path.join(os.path.dirname(__file__), "templates"))
 
 @router.get("/bot/errors")
-async def load_index(request: Request, token: str = Depends(require_valid_token)):
+async def load_index(request: Request, token: str = Depends(require_auth)):
     logging.info(f"IP {request.client.host} ({authbook.token_owner(token)}) Has accessed the error reports page.")
 
     all_reports = list_bug_reports()
@@ -35,8 +36,8 @@ async def load_index(request: Request, token: str = Depends(require_valid_token)
         "total_reports": len(all_reports),
     })
 
-@router.get("/bot/errors/{error_id}")
-async def load_error(request: Request, error_id: int, token: str = Depends(require_valid_token)):
+@router.get("/bot/errors/{error_id}", dependencies=[Depends(require_permissions(permissions.VIEW_BUGS))])
+async def load_error(request: Request, error_id: int, token: str = Depends(require_auth)):
     logging.info(f"IP {request.client.host} ({authbook.token_owner(token)}) Has accessed the error report {error_id}.")
     report = get_bug_report(bugid=error_id)
 
@@ -64,8 +65,8 @@ async def load_error(request: Request, error_id: int, token: str = Depends(requi
         }
     })
 
-@router.get("/api/errors/list")
-async def list_errors(request: Request, token: str = Depends(require_valid_token)):
+@router.get("/api/errors/list", dependencies=[Depends(require_permissions(permissions.VIEW_BUGS))])
+async def list_errors(request: Request, token: str = Depends(require_auth)):
     logging.info(f"IP {request.client.host} ({authbook.token_owner(token)}) Is listing the error reports.")
 
     all_errors = list_bug_reports()
@@ -88,8 +89,8 @@ class ResolveData(BaseModel):
 class UnresolveData(BaseModel):
     bug_id: int
 
-@router.post("/api/errors/resolve")
-async def resolve_error(request: Request, data: ResolveData, token: str = Depends(require_valid_token)):
+@router.post("/api/errors/resolve", dependencies=[Depends(require_permissions(permissions.RESOLVE_BUGS))])
+async def resolve_error(request: Request, data: ResolveData, token: str = Depends(require_auth)):
     logging.info(f"IP {request.client.host} ({authbook.token_owner(token)}) Is closing the error report {data.bug_id}.")
     success = mark_bug_report_resolved(data.bug_id)
 
@@ -104,14 +105,14 @@ async def resolve_error(request: Request, data: ResolveData, token: str = Depend
         status_code=200 if success else 500
     )
 
-@router.post("/api/errors/ignore")
-async def ignore_error(request: Request, data: UnresolveData, token: str = Depends(require_valid_token)):
+@router.post("/api/errors/ignore", dependencies=[Depends(require_permissions(permissions.RESOLVE_BUGS))])
+async def ignore_error(request: Request, data: UnresolveData, token: str = Depends(require_auth)):
     logging.info(f"IP {request.client.host} ({authbook.token_owner(token)}) Is deleting the error report {data.bug_id}.")
     success = mark_bug_report_resolved(data.bug_id)
     return HTMLResponse(content="Success" if success else "Error", status_code=200 if success else 500)
 
-@router.post("/api/errors/unresolve")
-async def resolve_error(request: Request, data: UnresolveData, token: str = Depends(require_valid_token)):
+@router.post("/api/errors/unresolve", dependencies=[Depends(require_permissions(permissions.RESOLVE_BUGS))])
+async def unresolve_error(request: Request, data: UnresolveData, token: str = Depends(require_auth)):
     logging.info(f"IP {request.client.host} ({authbook.token_owner(token)}) Is re-opening the error report {data.bug_id}.")
     success = mark_bug_report_unresolved(data.bug_id)
     return HTMLResponse(content="Success" if success else "Error", status_code=200 if success else 500)

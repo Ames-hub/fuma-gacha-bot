@@ -1,4 +1,4 @@
-from webpanel.library.auth import require_valid_token, authbook
+from webpanel.library.auth import require_auth, authbook
 from library.database import dbcards, stdn_events, lmtd_events
 from fastapi import APIRouter, Request, Depends
 from fastapi.templating import Jinja2Templates
@@ -9,7 +9,7 @@ router = APIRouter()
 templates = Jinja2Templates(directory=os.path.join(os.path.dirname(__file__), "templates"))
 
 @router.get("/")
-async def load_index(request: Request, token: str = Depends(require_valid_token)):
+async def load_index(request: Request, token: str = Depends(require_auth)):
     logging.info(f"IP {request.client.host} ({authbook.token_owner(token)}) Has accessed the home page.")
 
     all_cards = dbcards.list_all()

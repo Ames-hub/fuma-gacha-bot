@@ -1,3 +1,4 @@
+from webpanel.library.perms import user
 from library.database import DB_PATH
 from fastapi import HTTPException
 from fastapi import Request
@@ -6,19 +7,26 @@ import sqlite3
 import secrets
 import logging
 
-def require_valid_token(request: Request):
-    token = request.cookies.get("sessionKey") or request.headers.get("Authorization")
+def require_auth(required):
+    def dependency(request: Request):
+        token = request.cookies.get("sessionKey") or request.headers.get("Authorization")
+        if not token:
+            raise HTTPException(status_code=401, detail="Missing token")
 
-    redirect = False
-    if not token:
-        redirect = True
-    elif not authbook.verify_token(token):
-        redirect = True
+        if not authbook.verify_token(token):
+            raise HTTPException(status_code=401, detail="Invalid token")
 
-    if redirect:
-        raise HTTPException(status_code=401, detail="Invalid token")
+        owner = authbook.token_owner(token)
+        if owner is None:
+            raise HTTPException(status_code=401, detail="Invalid token")
 
-    return token
+        u = user(owner)
+
+        if required is not None and not u.has_permission(required):
+            raise HTTPException(status_code=403, detail="Insufficient permissions")
+
+        return u  # or return token, or both if you want
+    return dependency
 
 class autherrors:
     class InvalidPassword(Exception):
@@ -49,6 +57,69 @@ class autherrors:
             return f"User \"{self.username}\"'s account has been arrested."
 
 class authbook:
+    class user:
+        def __init__(self, username):
+            self.username = username
+
+        def is_admin(self):
+            try:
+                with sqlite3.connect(DB_PATH) as conn:
+                    cur = conn.cursor()
+                    cur.execute(
+                        """
+                        SELECT admin FROM authbook WHERE username = ?
+                        """,
+                        (self.username,),
+                    )
+                    try:
+                        data = cur.fetchone()[0]
+                    except TypeError:
+                        raise autherrors.UserNotFound(self.username)
+                    return bool(data)
+            except sqlite3.Error as err:
+                logging.error("Error connecting to database and running command!", exc_info=err)
+                conn.rollback()
+                return False
+
+    @staticmethod
+    def set_password(username, new_password):
+        try:
+            with sqlite3.connect(DB_PATH) as conn:
+                cur = conn.cursor()
+                cur.execute(
+                    """
+                    UPDATE authbook
+                    SET password = ?
+                    WHERE username = ?
+                    """,
+                    (str(new_password), str(username)),
+                )
+                if cur.rowcount == 0:
+                    raise autherrors.UserNotFound(username)
+                conn.commit()
+                logging.info(f"Password for account {username} changed.")
+                return True
+        except sqlite3.Error as err:
+            logging.error("Error connecting to database!", exc_info=err)
+            conn.rollback()
+            return False
+
+    @staticmethod
+    def list_accounts():
+        try:
+            with sqlite3.connect(DB_PATH) as conn:
+                cur = conn.cursor()
+                cur.execute(
+                    """
+                    SELECT username FROM authbook
+                    """
+                )
+                accounts = [row[0] for row in cur.fetchall()]
+                return accounts
+        except sqlite3.Error as err:
+            logging.error("Error connecting to database!", exc_info=err)
+            return []
+
     @staticmethod
     def token_owner(token):
         conn = sqlite3.connect(DB_PATH)
@@ -63,18 +134,18 @@ class authbook:
             conn.close()
 
     @staticmethod
-    def create_account(username, password):
+    def create_account(username, password, is_admin=False):
         try:
             with sqlite3.connect(DB_PATH) as conn:
                 cur = conn.cursor()
                 cur.execute(
                     """
-                    INSERT INTO authbook (username, password) VALUES (?, ?)
+                    INSERT INTO authbook (username, password, admin) VALUES (?, ?, ?)
                     """,
-                    (username, password,),
+                    (str(username), str(password), bool(is_admin)),
                 )
                 conn.commit()
-                logging.info(f"Account under the name {username} created")
+                logging.info(f"{"Admin " if is_admin else ""}Account under the name {username} created")
                 return True
         except sqlite3.IntegrityError:
             logging.info(f"Someone tried to make the account {username}, but it already existed.")
