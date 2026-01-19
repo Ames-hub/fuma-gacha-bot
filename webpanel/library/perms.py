@@ -1,7 +1,4 @@
-from fastapi import HTTPException, Request
 from library.database import DB_PATH
-from library.auth import authbook
-from functools import wraps
 from enum import IntFlag
 import sqlite3
 

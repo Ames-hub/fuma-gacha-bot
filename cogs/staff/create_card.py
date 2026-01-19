@@ -105,13 +105,7 @@ async def bot_command(ctx: lightbulb.SlashContext):
     attachment: hikari.Attachment = ctx.options.icon
     img_mime, _ = mimetypes.guess_type(attachment.filename)
     if not img_mime:
-        await ctx.respond(
-            embed=hikari.Embed(
-                title="Attachment problem.",
-                description="Could not find the image type?",
-            )
-        )
-        return
+        img_mime = "image/png"  # Assume its fine.
     if not img_mime.startswith("image/"):
         await ctx.respond(
             embed=hikari.Embed(

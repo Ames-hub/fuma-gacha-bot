@@ -14,7 +14,7 @@ plugin = lightbulb.Plugin(__name__)
 async def bot_command(ctx: lightbulb.SlashContext):
     embed = (
         hikari.Embed(
-            title="<:loveball:1389313177392513034> Your Current Cooldowns <:loveball:1389313177392513034>",
+            title="<:agathedonut:1454905529016123474> Your Current Cooldowns <:agathedonut:1454905529016123474>",
             description="This is a complete list of the remainder for the cooldown of each command.\n",
             colour=0x0000FF
         )

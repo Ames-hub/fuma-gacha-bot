@@ -63,7 +63,7 @@ async def bot_command(ctx: lightbulb.SlashContext):
         else:
             own_text = "✨ *! New Card Unlocked !* ✨"
         embed.add_field(
-            name=card['name'],
+            name=f"{card['name']} - `{card['identifier']}`",
             value=f"{own_text}\n\n{card['description']}\n{plugin.bot.d['rarity_emojis_text'][card['rarity']]}",
             inline=True,
         )
