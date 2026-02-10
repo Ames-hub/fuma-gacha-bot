@@ -43,7 +43,7 @@ async def bot_command(ctx: lightbulb.SlashContext):
     embed = (
         hikari.Embed(
             title="Decorating!",
-            description=f"You spent a while decorating cakes with icing!\nEarned {gained_fc} FumaCoins!",
+            description=f"You spent a while decorating cakes with icing!\nEarned {gained_fc} {ctx.bot.d['coin_name']['normal']}!",
         )
     )
 

@@ -1,14 +1,65 @@
 from fastapi.responses import HTMLResponse, PlainTextResponse
+from starlette.middleware.base import BaseHTTPMiddleware
+from datetime import datetime, timedelta, timezone
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from fastapi import Request, FastAPI
+from pathlib import Path
+import urllib.parse
 import importlib
 import logging
+import asyncio
 import os
 
 fastapi = FastAPI()
 DEBUG = os.environ.get("DEBUG", "False").lower() == "true"
 templates = Jinja2Templates(directory=os.path.join(os.path.dirname(__file__), "templates"))
+
+# Do not serve
+DNS_list = {}
+dns_lock = asyncio.Lock()
+
+BASE_DIR = Path("/safe/root/dir").resolve()
+
+class PathTraversalBlocker(BaseHTTPMiddleware):
+    async def dispatch(self, request: Request, call_next):
+        ip = request.client.host
+        now = datetime.now(timezone.utc)
+
+        # Check if IP is blocked
+        async with dns_lock:
+            blocked_until = DNS_list.get(ip)
+            if blocked_until:
+                if blocked_until > now:
+                    return PlainTextResponse("Access denied.", status_code=403)
+                else:
+                    del DNS_list[ip]
+
+        # Decode URL path
+        raw_path = request.url.path
+        decoded_path = urllib.parse.unquote(raw_path)
+
+        # Check for path traversal
+        try:
+            requested_path = (BASE_DIR / decoded_path.lstrip("/")).resolve()
+        except:
+            return PlainTextResponse(
+                "Bad path."
+            )
+        
+        if not str(requested_path).startswith(str(BASE_DIR)):
+            # Block IP for 2 days
+            async with dns_lock:
+                DNS_list[ip] = now + timedelta(days=2)
+            return PlainTextResponse(
+                "Your IP has been temporarily blocked for attempted path traversal.\nSeriously man, get a job. This cant be all there is for you.",
+                status_code=403
+            )
+
+        # All clear, continue processing
+        return await call_next(request)
+
+fastapi.add_middleware(PathTraversalBlocker)
 
 # noinspection PyUnusedLocal
 @fastapi.exception_handler(401)

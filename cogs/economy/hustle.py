@@ -16,63 +16,64 @@ SPLASH_TEXTS = [
         "min": 900,
         "max": 1000,
         "texts": [
-            "You tripped over a sack of flour and accidentally sold the mess as 'artisan'. Somehow earned {coins} FumaCoins.",
-            "You burned everything, cried a little, and a customer tipped you {coins} FumaCoins out of sympathy.",
-            "You forgot the recipe entirely and improvised. The bakery survived. Barely. +{coins} FumaCoins."
+            "You tripped over a sack of flour and accidentally sold the mess as 'artisan'. Somehow earned {coins} {coin_type}.",
+            "You burned everything, cried a little, and a customer tipped you {coins} {coin_type} out of sympathy.",
+            "You forgot the recipe entirely and improvised. The bakery survived. Barely. +{coins} {coin_type}."
         ]
     },
     {
         "min": 1101,
         "max": 1200,
         "texts": [
-            "You worked the ovens all day and scraped together {coins} FumaCoins in sales.",
-            "Your pastries were uneven but heartfelt. Customers paid you {coins} FumaCoins anyway.",
-            "You undercharged, overworked, and still walked away with {coins} FumaCoins."
+            "You worked the ovens all day and scraped together {coins} {coin_type} in sales.",
+            "Your pastries were uneven but heartfelt. Customers paid you {coins} {coin_type} anyway.",
+            "You undercharged, overworked, and still walked away with {coins} {coin_type}."
         ]
     },
     {
         "min": 1201,
         "max": 1300,
         "texts": [
-            "Your timing was perfect and the bread sold fast. You earned {coins} FumaCoins.",
-            "You nailed a new recipe and customers came back for seconds. +{coins} FumaCoins.",
-            "The bakery smelled incredible today. Sales climbed to {coins} FumaCoins."
+            "Your timing was perfect and the bread sold fast. You earned {coins} {coin_type}.",
+            "You nailed a new recipe and customers came back for seconds. +{coins} {coin_type}.",
+            "The bakery smelled incredible today. Sales climbed to {coins} {coin_type}."
         ]
     },
     {
         "min": 1301,
         "max": 1399,
         "texts": [
-            "You ran the bakery like a professional and pocketed {coins} FumaCoins.",
-            "Your precision and consistency impressed regulars. They paid you {coins} FumaCoins.",
-            "Everything went smoothly for once. You earned {coins} FumaCoins without disaster."
+            "You ran the bakery like a professional and pocketed {coins} {coin_type}.",
+            "Your precision and consistency impressed regulars. They paid you {coins} {coin_type}.",
+            "Everything went smoothly for once. You earned {coins} {coin_type} without disaster."
         ]
     },
     {
         "min": 1400,
         "max": 1499,
         "texts": [
-            "Your pastries caused a line down the street. You pulled in {coins} FumaCoins.",
-            "Customers spoke in hushed tones about your baking. Profits hit {coins} FumaCoins.",
-            "You dominated the local market today. Competitors watched as you earned {coins} FumaCoins."
+            "Your pastries caused a line down the street. You pulled in {coins} {coin_type}.",
+            "Customers spoke in hushed tones about your baking. Profits hit {coins} {coin_type}.",
+            "You dominated the local market today. Competitors watched as you earned {coins} {coin_type}."
         ]
     },
     {
         "min": 1500,
         "max": 1500,
         "texts": [
-            "You baked in silence and perfection followed. {coins} FumaCoins appeared.",
-            "The money knew better than to not be in your wallet. {coins} FumaCoins came to you.",
-            "The ovens obeyed you without question. Maximum profit: {coins} FumaCoins."
+            "You baked in silence and perfection followed. {coins} {coin_type} appeared.",
+            "The money knew better than to not be in your wallet. {coins} {coin_type} came to you.",
+            "The ovens obeyed you without question. Maximum profit: {coins} {coin_type}."
         ]
     }
 ]
 
 
-def get_splash(coins: int) -> str:
+def get_splash(coins: int, coin_type:str) -> str:
     for tier in SPLASH_TEXTS:
         if tier["min"] <= coins <= tier["max"]:
-            return random.choice(tier["texts"]).format(coins=coins)
+            splash_text:str = random.choice(tier["texts"])
+            return splash_text.format(coins=coins, coin_type=coin_type)
     return "You worked the bakery and earned your pay."
 
 
@@ -98,12 +99,13 @@ async def bot_command(ctx: lightbulb.SlashContext):
         loss = money_gained // 2
         splash_text = (
             "You threw water at an oil fire and burnt down the bakery. "
-            f"A Thief then walked by, slapped you, and stole {loss} FumaCoins from your wallet after giving you a mocking Nelson laugh."
+            "A Thief then walked by, slapped you,"
+            f"and stole {loss} {ctx.bot.d['coin_name']['normal']} from your wallet after giving you a mocking Nelson laugh."
         )
         user_account.fumacoins.modify_balance(loss, operator="-")
         embed_colour = 0xFF0000
     else:
-        splash_text = get_splash(money_gained)
+        splash_text = get_splash(money_gained, f"{ctx.bot.d['coin_name']['normal']}s")
         user_account.fumacoins.modify_balance(money_gained, operator="+")
         embed_colour = 0x00FF00
 
