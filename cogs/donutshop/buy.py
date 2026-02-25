@@ -31,7 +31,7 @@ async def bot_command(ctx: lightbulb.SlashContext):
     pack_price = card_pack['price']
 
     account = economy.account(ctx.author.id)
-    cur_bal = account.fumacoins.balance()
+    cur_bal = account.normalcoin.balance()
     if cur_bal < pack_price:
         await ctx.respond(
             embed=(
@@ -43,7 +43,7 @@ async def bot_command(ctx: lightbulb.SlashContext):
         )
         return
 
-    success = account.fumacoins.modify_balance(pack_price, operator="subtract")
+    success = account.normalcoin.modify_balance(pack_price, operator="subtract")
     if not success:
         await ctx.respond(
             embed=(
@@ -83,7 +83,7 @@ async def bot_command(ctx: lightbulb.SlashContext):
                     )
                 )
             )
-            account.fumacoins.modify_balance(pack_price, operator="add")
+            account.normalcoin.modify_balance(pack_price, operator="add")
     elif card_pack['type'] == 1:
         success = donutshop.give_choice_pack(
             user_id=ctx.author.id,
@@ -98,7 +98,7 @@ async def bot_command(ctx: lightbulb.SlashContext):
                     )
                 )
             )
-            account.fumacoins.modify_balance(pack_price, operator="add")
+            account.normalcoin.modify_balance(pack_price, operator="add")
             return
 
         embed = hikari.Embed(
@@ -121,7 +121,7 @@ async def bot_command(ctx: lightbulb.SlashContext):
                     )
                 )
             )
-            account.fumacoins.modify_balance(pack_price, operator="add")
+            account.normalcoin.modify_balance(pack_price, operator="add")
             return
 
         viewmenu = view.init_view()

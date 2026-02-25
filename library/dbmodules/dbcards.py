@@ -14,7 +14,16 @@ class NonexistantCard(Exception):
     def __str__(self):
         return "Nonexistant card."
 
-def edit_card(card_id, description:str=None, icon_bytes:bytes=None, card_tier:int=None, card_rarity:int=None, card_era:str=None, group:str=None):
+def edit_card(
+        card_id,
+        description:str=None,
+        icon_bytes:bytes=None,
+        card_tier:int=None,
+        card_rarity:int=None,
+        card_era:str=None,
+        group:str=None,
+        card_idol:str=None
+    ):
     # If none, assume it was unedited and use what's already set.
     card = view_card(card_id)[0]
     if not description:
@@ -29,6 +38,8 @@ def edit_card(card_id, description:str=None, icon_bytes:bytes=None, card_tier:in
         card_era = card['era']
     if not group:
         group = card['group']
+    if not card_idol:
+        card_idol = card['idol']
 
     with sqlite3.connect(DB_PATH) as conn:
         try:
@@ -36,10 +47,10 @@ def edit_card(card_id, description:str=None, icon_bytes:bytes=None, card_tier:in
             cur.execute(
                 """
                 UPDATE global_cards
-                SET description = ?, img_bytes = ?, card_tier = ?, rarity = ?, era = ?, group = ?
+                SET description = ?, img_bytes = ?, card_tier = ?, rarity = ?, era = ?, group = ?, card_idol = ?
                 WHERE identifier = ?
                 """,
-                (description, icon_bytes, card_tier, card_rarity, card_era, group, card_id)
+                (description, icon_bytes, card_tier, card_rarity, card_era, group, card_id, card_idol)
             )
             conn.commit()
             return True

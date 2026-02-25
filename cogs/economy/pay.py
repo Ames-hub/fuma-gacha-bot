@@ -39,7 +39,7 @@ async def bot_command(ctx: lightbulb.SlashContext, coin_type: str, amount: int, 
     target_acc = economy.account(user.id)
 
     if coin_type == "FumaCoin":
-        if sender_acc.fumacoins.balance() < amount:
+        if sender_acc.normalcoin.balance() < amount:
             await ctx.respond(
                 embed=hikari.Embed(
                     title="Insufficient Funds!",
@@ -47,10 +47,10 @@ async def bot_command(ctx: lightbulb.SlashContext, coin_type: str, amount: int, 
                 )
             )
             return
-        send_ok = sender_acc.fumacoins.modify_balance(amount, 'subtract')
-        tgt_ok = target_acc.fumacoins.modify_balance(amount, 'add')
+        send_ok = sender_acc.normalcoin.modify_balance(amount, 'subtract')
+        tgt_ok = target_acc.normalcoin.modify_balance(amount, 'add')
     else:
-        if sender_acc.nichocoins.balance() < amount:
+        if sender_acc.bettercoin.balance() < amount:
             await ctx.respond(
                 embed=hikari.Embed(
                     title="Insufficient Funds!",
@@ -58,8 +58,8 @@ async def bot_command(ctx: lightbulb.SlashContext, coin_type: str, amount: int, 
                 )
             )
             return
-        send_ok = sender_acc.nichocoins.modify_balance(amount, 'subtract')
-        tgt_ok = target_acc.nichocoins.modify_balance(amount, 'add')
+        send_ok = sender_acc.bettercoin.modify_balance(amount, 'subtract')
+        tgt_ok = target_acc.bettercoin.modify_balance(amount, 'add')
 
     if send_ok and tgt_ok:
         await ctx.respond(
@@ -82,11 +82,11 @@ async def bot_command(ctx: lightbulb.SlashContext, coin_type: str, amount: int, 
             )
         )
         if coin_type == "FumaCoin":
-            sender_acc.fumacoins.modify_balance(amount, 'add')
-            target_acc.fumacoins.modify_balance(amount, 'subtract')
+            sender_acc.normalcoin.modify_balance(amount, 'add')
+            target_acc.normalcoin.modify_balance(amount, 'subtract')
         else:
-            sender_acc.nichocoins.modify_balance(amount, 'add')
-            target_acc.nichocoins.modify_balance(amount, 'subtract')
+            sender_acc.bettercoin.modify_balance(amount, 'add')
+            target_acc.bettercoin.modify_balance(amount, 'subtract')
 
 def load(bot: lightbulb.BotApp) -> None:
     bot.add_plugin(plugin)

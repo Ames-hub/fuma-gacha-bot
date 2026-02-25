@@ -45,10 +45,10 @@ async def bot_command(ctx: lightbulb.SlashContext):
         event_card = False
 
     gained_fc = random.randint(20_000, 30_000)
-    target_acc.fumacoins.modify_balance(gained_fc, 'add')
+    target_acc.normalcoin.modify_balance(gained_fc, 'add')
 
     gained_nc = random.randint(2, 5)
-    target_acc.nichocoins.modify_balance(gained_nc, 'add')
+    target_acc.bettercoin.modify_balance(gained_nc, 'add')
 
     embed = (
         hikari.Embed(

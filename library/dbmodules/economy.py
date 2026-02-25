@@ -4,7 +4,7 @@ import logging
 
 DB_PATH = botapp.d['DB_PATH']
 
-class _fumacoins:
+class _normalcoins:
     def __init__(self, user_id:int,):
         self.user_id = int(user_id)
 
@@ -62,7 +62,7 @@ class _fumacoins:
             except sqlite3.IntegrityError:
                 conn.rollback()
 
-class _nichocoins:
+class _bettercoin:
     def __init__(self, user_id:int,):
         self.user_id = int(user_id)
 
@@ -118,8 +118,8 @@ class account:
     def __init__(self, user_id):
         self.user_id = int(user_id)
 
-        self.fumacoins:_fumacoins = _fumacoins(user_id)
-        self.nichocoins:_nichocoins = _nichocoins(user_id)
+        self.normalcoin:_normalcoins = _normalcoins(user_id)
+        self.bettercoin:_bettercoin = _bettercoin(user_id)
 
     class InsufficientFundsError(Exception):
         def __init__(self, amount_needed, user_has):

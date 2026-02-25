@@ -86,7 +86,8 @@ async def bot_command(ctx: lightbulb.SlashContext, page, target_user, card_id, c
     invent_str = f"Your Inventory has {len(inventory)} Items."
     for item_identifier in inventory:
         rarity_txt = plugin.bot.d['rarity_emojis_text'][inventory[item_identifier]['rarity']]
-        invent_str += f"\n{rarity_txt} *__{inventory[item_identifier]['name']}__* - {item_identifier}\n**Amount** {inventory[item_identifier]['amount']}\n"
+        invent_str += f"\n{rarity_txt} *__{inventory[item_identifier]['name']}__* - group: {inventory[item_identifier]['group']} "
+        f"- {item_identifier}\n**Amount** {inventory[item_identifier]['amount']}\n"
         if inventory[item_identifier]['tier'] > 1:
             invent_str += f"**Card Tier** {botapp.d['card_tier_names']['numeric'][inventory[item_identifier]['tier']]}\n"
 

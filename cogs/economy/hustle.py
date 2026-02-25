@@ -99,14 +99,15 @@ async def bot_command(ctx: lightbulb.SlashContext):
         loss = money_gained // 2
         splash_text = (
             "You threw water at an oil fire and burnt down the bakery. "
-            "A Thief then walked by, slapped you,"
-            f"and stole {loss} {ctx.bot.d['coin_name']['normal']} from your wallet after giving you a mocking Nelson laugh."
+            "A Thief then walked by, slapped you, "
+            f"and stole {loss} {ctx.bot.d['coin_name']['normal']} from your wallet after giving you a mocking Nelson laugh.\n"
+            "It's all down-hill from here."
         )
-        user_account.fumacoins.modify_balance(loss, operator="-")
+        user_account.normalcoin.modify_balance(loss, operator="-")
         embed_colour = 0xFF0000
     else:
         splash_text = get_splash(money_gained, f"{ctx.bot.d['coin_name']['normal']}s")
-        user_account.fumacoins.modify_balance(money_gained, operator="+")
+        user_account.normalcoin.modify_balance(money_gained, operator="+")
         embed_colour = 0x00FF00
 
     # -----------------------------

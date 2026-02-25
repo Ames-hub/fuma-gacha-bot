@@ -17,8 +17,8 @@ plugin = lightbulb.Plugin(__name__)
 async def bot_command(ctx: lightbulb.SlashContext):
     user_account = economy.account(ctx.author.id)
 
-    fc_coin_bal = user_account.fumacoins.balance()
-    nc_coin_bal = user_account.nichocoins.balance()
+    fc_coin_bal = user_account.normalcoin.balance()
+    nc_coin_bal = user_account.bettercoin.balance()
 
     if fc_coin_bal == 0 or nc_coin_bal == 0:
         embed_colour = 0xff0000

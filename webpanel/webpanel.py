@@ -19,7 +19,7 @@ templates = Jinja2Templates(directory=os.path.join(os.path.dirname(__file__), "t
 DNS_list = {}
 dns_lock = asyncio.Lock()
 
-BASE_DIR = Path("/safe/root/dir").resolve()
+BASE_DIR = Path(os.getcwd()).resolve()
 
 class PathTraversalBlocker(BaseHTTPMiddleware):
     async def dispatch(self, request: Request, call_next):

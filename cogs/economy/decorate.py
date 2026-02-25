@@ -38,7 +38,7 @@ async def bot_command(ctx: lightbulb.SlashContext):
         rare_cards.append(card)
 
     gained_fc = random.randint(5000, 6000)
-    target_acc.fumacoins.modify_balance(gained_fc, 'add')
+    target_acc.normalcoin.modify_balance(gained_fc, 'add')
 
     embed = (
         hikari.Embed(

@@ -71,9 +71,9 @@ def purchase_offer(offer_id, buyer_id):
 
     # Verifies the buyer has enough money.
     if not is_limited_pack:
-        cur_bal = buyer_bank.fumacoins.balance()
+        cur_bal = buyer_bank.normalcoin.balance()
     else:
-        cur_bal = buyer_bank.nichocoins.balance()
+        cur_bal = buyer_bank.bettercoin.balance()
 
     if cur_bal < offer['price']:
         raise buyer_bank.InsufficientFundsError(offer['price'], cur_bal)
@@ -94,11 +94,11 @@ def purchase_offer(offer_id, buyer_id):
 
     # Give the money to the seller
     if not is_limited_pack:
-        seller_money_given = seller_bank.fumacoins.modify_balance(offer['price'], operator="add")
-        buyer_money_taken = buyer_bank.fumacoins.modify_balance(offer['price'], operator="subtract")
+        seller_money_given = seller_bank.normalcoin.modify_balance(offer['price'], operator="add")
+        buyer_money_taken = buyer_bank.normalcoin.modify_balance(offer['price'], operator="subtract")
     else:
-        seller_money_given = seller_bank.nichocoins.modify_balance(offer['price'], operator="add")
-        buyer_money_taken = buyer_bank.nichocoins.modify_balance(offer['price'], operator="subtract")
+        seller_money_given = seller_bank.bettercoin.modify_balance(offer['price'], operator="add")
+        buyer_money_taken = buyer_bank.bettercoin.modify_balance(offer['price'], operator="subtract")
 
     if seller_money_given and buyer_money_taken:
         money_success = True
@@ -106,14 +106,14 @@ def purchase_offer(offer_id, buyer_id):
         # Attempt to undo it since one or the other failed.
         if not is_limited_pack:
             if seller_money_given is True and not buyer_money_taken:
-                seller_bank.fumacoins.modify_balance(offer['price'], operator="subtract")
+                seller_bank.normalcoin.modify_balance(offer['price'], operator="subtract")
             elif buyer_money_taken is True and not seller_money_given:
-                buyer_bank.fumacoins.modify_balance(offer['price'], operator="add")
+                buyer_bank.normalcoin.modify_balance(offer['price'], operator="add")
         else:
             if seller_money_given is True and not buyer_money_taken:
-                seller_bank.nichocoins.modify_balance(offer['price'], operator="subtract")
+                seller_bank.bettercoin.modify_balance(offer['price'], operator="subtract")
             elif buyer_money_taken is True and not seller_money_given:
-                buyer_bank.nichocoins.modify_balance(offer['price'], operator="add")
+                buyer_bank.bettercoin.modify_balance(offer['price'], operator="add")
         return False
 
     # Give the item

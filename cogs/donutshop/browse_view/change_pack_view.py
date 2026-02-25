@@ -79,8 +79,8 @@ class main_view:
                 pack = donutshop.get_all_items()[item_id - 1]
 
                 account = economy.account(ctx.author.id)
-                if account.fumacoins.balance() >= pack['price']:
-                    money_success = account.fumacoins.modify_balance(pack['price'], "subtract")
+                if account.normalcoin.balance() >= pack['price']:
+                    money_success = account.normalcoin.modify_balance(pack['price'], "subtract")
                     if money_success is False:
                         embed.add_field(
                             name="Couldn't buy it!",
@@ -105,7 +105,7 @@ class main_view:
                                 )
                             else:
                                 # TODO: Make this remove any cards it DID give you if it failed.
-                                money_success = account.fumacoins.modify_balance(pack['price'], "add")
+                                money_success = account.normalcoin.modify_balance(pack['price'], "add")
                                 embed.add_field(
                                     name="Couldn't buy it!",
                                     value="Something went wrong when attempting to give you the item. You've been refunded.",
