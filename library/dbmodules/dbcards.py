@@ -575,13 +575,14 @@ def save_to_invent(user_id, item_identifier, item_name):
         )
         data = cursor.fetchone()
 
+        card = view_card(item_identifier)
         if data is None:
             cursor.execute(
                 """
-                INSERT INTO inventories (item_identifier, item_name, user_id, amount)
-                VALUES (?, ?, ?, 1)
+                INSERT INTO inventories (item_identifier, item_name, user_id, amount, item_group, item_rarity, item_tier)
+                VALUES (?, ?, ?, 1, ?, ?, ?)
                 """,
-                (item_identifier, item_name, user_id)
+                (item_identifier, item_name, user_id, card['group'], card['rarity'], card['tier'])
             )
         else:
             cursor.execute(

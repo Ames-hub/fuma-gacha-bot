@@ -3,8 +3,11 @@ from library.database import dbuser
 from library.botapp import botapp
 import lightbulb
 import hikari
+import math
 
 plugin = lightbulb.Plugin(__name__)
+
+ITEMS_PER_PAGE = 10
 
 @botapp.command()
 @lightbulb.app_command_permissions(dm_enabled=False)
@@ -53,10 +56,9 @@ plugin = lightbulb.Plugin(__name__)
 @lightbulb.option(
     name="page",
     description="Enter which page of your inventory you want!",
-    required=False,
+    required=True,
     type=hikari.OptionType.INTEGER,
     min_value=1,
-    default=1
 )
 @lightbulb.add_checks(
     lightbulb.guild_only
@@ -83,22 +85,29 @@ async def bot_command(ctx: lightbulb.SlashContext, page, target_user, card_id, c
     else:
         search_txt = "Showing your inventory."
 
-    invent_str = f"Your Inventory has {len(inventory)} Items."
-    for item_identifier in inventory:
+    total_items = len(inventory)
+    total_pages = max(1, math.ceil(total_items / ITEMS_PER_PAGE))
+
+    # Clamp to the last valid page instead of erroring.
+    if page_number >= total_pages:
+        page_number = total_pages - 1
+    if page_number < 0:
+        page_number = 0
+
+    item_ids = list(inventory.keys())
+    start_index = page_number * ITEMS_PER_PAGE
+    end_index = start_index + ITEMS_PER_PAGE
+    page_item_ids = item_ids[start_index:end_index]
+
+    invent_str = f"Your Inventory has {total_items} Items."
+    for item_identifier in page_item_ids:
         rarity_txt = plugin.bot.d['rarity_emojis_text'][inventory[item_identifier]['rarity']]
-        invent_str += f"\n{rarity_txt} *__{inventory[item_identifier]['name']}__* - group: {inventory[item_identifier]['group']} "
-        f"- {item_identifier}\n**Amount** {inventory[item_identifier]['amount']}\n"
+        invent_str += (
+            f"\n{rarity_txt} *__{inventory[item_identifier]['name']}__* - group: {inventory[item_identifier]['group']} "
+            f"- `{item_identifier}`\n**Amount** {inventory[item_identifier]['amount']}\n"
+        )
         if inventory[item_identifier]['tier'] > 1:
             invent_str += f"**Card Tier** {botapp.d['card_tier_names']['numeric'][inventory[item_identifier]['tier']]}\n"
-
-    lines = invent_str.split("\n")
-
-    # One chunk every 300 lines
-    chunk_size = 300
-    chunk_list = ["\n".join(lines[i:i+chunk_size]) for i in range(0, len(lines), chunk_size)]
-
-    if page_number > len(chunk_list):
-        page_number = len(chunk_list)
 
     if target_user is not None:
         if botapp.d['inventory_username_cache'].get(target_user) is None:
@@ -112,18 +121,16 @@ async def bot_command(ctx: lightbulb.SlashContext, page, target_user, card_id, c
     embed = (
         hikari.Embed(
             title=f"{target_username}'s Inventory",
-            description=chunk_list[page_number],
+            description=invent_str,
         )
     )
 
     footer_text = ""
     if is_search is True:
         footer_text += f"{search_txt}\n"
-    if len(chunk_list) > 1:
-        footer_text += "Your inventory contains too many items to show on one page, use page option to see more."
+    footer_text += f"Page {page_number + 1}/{total_pages} • {total_items} total items"
 
-    if footer_text != "":
-        embed.set_footer(text=footer_text)
+    embed.set_footer(text=footer_text)
 
     await ctx.respond(embed=embed)
 

@@ -48,7 +48,7 @@ async def bot_command(ctx: lightbulb.SlashContext, card_id: str, target_user: hi
     if success:
         await ctx.respond(
             embed=hikari.Embed(
-                title=f"{card['identifier']} Spawned!",
+                title=f"`{card['identifier']}` Spawned!",
                 description=f"\"{card['name']}\" has been successfully spawned in {target_user.mention}'s inventory.",
             )
             .set_image(

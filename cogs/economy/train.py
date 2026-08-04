@@ -12,7 +12,7 @@ plugin = lightbulb.Plugin(__name__)
 @lightbulb.add_checks(
     lightbulb.guild_only
 )
-@lightbulb.command(name='trainingwork', description="Earn some rare cards, fumacoins and nichocoins!", pass_options=True)
+@lightbulb.command(name='trainingwork', description="Earn some rare cards, DonutCoins and NichoCoins!", pass_options=True)
 @lightbulb.implements(lightbulb.SlashSubCommand)
 @dc.prechecks('trainingwork', cooldown_s=2_678_400)  # One month in seconds
 async def bot_command(ctx: lightbulb.SlashContext):
@@ -31,7 +31,7 @@ async def bot_command(ctx: lightbulb.SlashContext):
                 user_id=ctx.author.id,
                 allow_limited=True
             )
-            str_rare_cards += f"\n{card['name']} ({card['identifier']})"
+            str_rare_cards += f"\n{card['name']} (`{card['identifier']}`)"
         except dbcards.ItemNonexistence:
             rare_cards.append(False)
             continue
@@ -72,12 +72,12 @@ async def bot_command(ctx: lightbulb.SlashContext):
     if event_card is False:
         embed.add_field(
             name="Event card",
-            value="Sorry, but we couldn't find any event cards for you to take home!"
+            value="Sorry, but we couldn't find any existing, available event cards for you to take home!"
         )
     else:
         embed.add_field(
             name="~ Event Card ~",
-            value=f"You got a new event card! \"{event_card['name']}\".\nID {event_card['identifier']}"
+            value=f"You got a new event card! \"{event_card['name']}\".\nID `{event_card['identifier']}`"
         )
 
     await ctx.respond(embed)

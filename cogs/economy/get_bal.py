@@ -1,6 +1,7 @@
 from cogs.economy.group import group
 from library.database import economy
 from library import decorators as dc
+from library.botapp import botapp
 import lightbulb
 import hikari
 
@@ -29,7 +30,7 @@ async def bot_command(ctx: lightbulb.SlashContext):
         embed=(
             hikari.Embed(
                 title="Balance 🔒",
-                description=f"You have {fc_coin_bal} FumaCoins,\nand {nc_coin_bal} NichoCoins.",
+                description=f"You have {fc_coin_bal} {botapp.d['coin_name']['normal']},\nand {nc_coin_bal} {botapp.d['coin_name']['better']}.",
                 color=embed_colour,
             )
         )

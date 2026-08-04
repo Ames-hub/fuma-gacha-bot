@@ -110,6 +110,7 @@ def get_inventory(user_id, card_id=None, card_name=None, card_group=None, card_r
         logging.error(f"An error occurred while running a command: {err}", exc_info=err)
     finally:
         conn.close()
+        
 class invent_errs:
     class TooFewItemsError(Exception):
         """For when an item exists, but you try to use more than you have of it."""

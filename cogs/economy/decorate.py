@@ -31,7 +31,7 @@ async def bot_command(ctx: lightbulb.SlashContext):
                 user_id=ctx.author.id,
                 allow_limited=True
             )
-            str_rare_cards += f"\n{card['name']} ({card['identifier']})"
+            str_rare_cards += f"\n{card['name']} (`{card['identifier']}`)"
         except dbcards.ItemNonexistence:
             rare_cards.append(False)
             continue

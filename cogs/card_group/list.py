@@ -51,7 +51,7 @@ async def bot_command(ctx: lightbulb.SlashContext):
 
     card_list_text = ""
     for card in page_cards:
-        card_list_text += f"**{card['identifier']}**\n{card['description']}\n\n"
+        card_list_text += f"`{card['identifier']}`\n{card['name']} - {card['description']}\n\n"
 
     embed.add_field(
         name="Cards",

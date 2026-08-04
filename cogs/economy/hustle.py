@@ -135,7 +135,10 @@ async def bot_command(ctx: lightbulb.SlashContext):
     if not failed:
         embed.add_field(
             name="Card Obtained!",
-            value="While cleaning up the bakery, you discovered a new card."
+            value=(
+                "While cleaning up the bakery, you discovered a new card.\n"
+                f"name: {obtained_card['name']} - `{obtained_card['id']}`"
+            )
         )
     embed.set_image(image)
 

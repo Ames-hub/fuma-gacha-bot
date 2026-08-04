@@ -19,7 +19,7 @@ donutshop_type_crossref = {
     required=True,
     type=hikari.OptionType.STRING,
 )
-@lightbulb.command(name='rmitem', description="Remove an item from the pokemarket!", pass_options=True)
+@lightbulb.command(name='rmitem', description="Remove an item from the donutshop!", pass_options=True)
 @lightbulb.implements(lightbulb.SlashSubCommand)
 @dc.check_admin_status()
 @dc.prechecks('donutshop rmitem')
