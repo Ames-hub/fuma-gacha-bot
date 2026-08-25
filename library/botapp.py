@@ -17,11 +17,20 @@ logging.basicConfig(
     filename=f'logs/{datetime.datetime.now().strftime("%Y-%m-%d")}.log',
 )
 
-BOT_TOKEN = os.environ.get("BOT_TOKEN", "none")
-if BOT_TOKEN == "none":
-    raise Exception("BOT_TOKEN is not set in environment variables. Please set it.")
+def ensure_bot_token():
+    from library import settings  # Its here & in a func to prevent circular import
+    BOT_TOKEN = os.environ.get("BOT_TOKEN", None) or settings.get_file()['BOT_TOKEN']
+    if BOT_TOKEN is None:
+        BOT_TOKEN = input("Enter bot token >>> ")
+        if not BOT_TOKEN:
+            raise Exception("BOT_TOKEN is not set in environment variables or settings. Please set it.")
+        else:
+            data = settings.get_file()
+            data["BOT_TOKEN"] = BOT_TOKEN
+            settings.update_file(data)
+    return BOT_TOKEN
 
-botapp = lightbulb.BotApp(token=BOT_TOKEN)
+botapp = lightbulb.BotApp(token=ensure_bot_token())
 tasks.load(botapp)
 
 botapp.d['DB_PATH'] = "botapp.sqlite"

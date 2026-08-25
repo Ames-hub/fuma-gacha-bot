@@ -47,10 +47,10 @@ def edit_card(
             cur.execute(
                 """
                 UPDATE global_cards
-                SET description = ?, img_bytes = ?, card_tier = ?, rarity = ?, era = ?, group = ?, card_idol = ?
+                SET description = ?, img_bytes = ?, card_tier = ?, rarity = ?, card_era = ?, "card_group" = ?, card_idol = ?
                 WHERE identifier = ?
                 """,
-                (description, icon_bytes, card_tier, card_rarity, card_era, group, card_id, card_idol)
+                (description, icon_bytes, card_tier, card_rarity, card_era, group, card_idol, card_id)
             )
             conn.commit()
             return True
@@ -575,7 +575,7 @@ def save_to_invent(user_id, item_identifier, item_name):
         )
         data = cursor.fetchone()
 
-        card = view_card(item_identifier)
+        card = view_card(item_identifier)[0]
         if data is None:
             cursor.execute(
                 """

@@ -70,12 +70,6 @@ botapp.d['bakesale'] = {
     "open": True
 }
 
-botapp.d['config'] = {  # The default config
-    "event_channel": {
-        "id": None,
-    },
-}
-
 botapp.d['cooldowns'] = {}
 
 botapp.d['packtypes'] = {
@@ -104,7 +98,7 @@ ssl_certfile_dir = "certs/cert.pem"
 def generate_self_signed_cert(country_name, province_name, locality_name, organisation_name, common_name="localhost", valid_days=365):
     if os.path.exists(ssl_keyfile_dir) or os.path.exists(ssl_certfile_dir):
         os.remove('certs')
-        os.makedirs('certs')
+    os.makedirs('certs', exist_ok=True)
 
     # Generate private key
     key = rsa.generate_private_key(

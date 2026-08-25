@@ -92,10 +92,9 @@ async def bot_command(ctx: lightbulb.SlashContext, card_id: str, description: st
             return
         
     if card_tier:
-
         card_tier = plugin.bot.d['card_tier_names']['text'][card_tier]
-
-    card_rarity = int(card_rarity[0])
+    if card_rarity:
+        card_rarity = int(card_rarity[0])
 
     success = dbcards.edit_card(
         card_id=card_id,
@@ -120,7 +119,7 @@ async def bot_command(ctx: lightbulb.SlashContext, card_id: str, description: st
             hikari.Embed(
                 title="Failure!",
                 description="The card has not been edited to your specifications due to an error.",
-                color=0x00FF00
+                color=0xFF0000
             )
         )
 

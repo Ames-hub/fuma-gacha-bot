@@ -42,11 +42,6 @@ async def bot_command(ctx: lightbulb.SlashContext):
 
         cards.append(rcard)
         card_names.append(card_id)
-        dbcards.save_to_invent(
-            item_identifier=card_id,
-            item_name=rcard["name"],
-            user_id=int(ctx.author.id),
-        )
         card_imgs.append(dbcards.load_img_bytes(card_id))  # Assumes returns BytesIO
 
     image = combine_image(card_imgs)
@@ -57,7 +52,12 @@ async def bot_command(ctx: lightbulb.SlashContext):
     )
 
     for card in cards:
-        own_count = dbuser.get_inventory(ctx.author.id, card_id=card['identifier'])[card['identifier']]['amount']
+        inv_entry = dbuser.get_inventory(ctx.author.id, card_id=card['identifier'])
+        if inv_entry:
+            own_count = inv_entry[card['identifier']]['amount']
+        else:
+            own_count = 0
+        
         if own_count != 0:
             own_text = f"You own {own_count} of these"
         else:
@@ -66,6 +66,12 @@ async def bot_command(ctx: lightbulb.SlashContext):
             name=f"{card['name']} - `{card['identifier']}`",
             value=f"{own_text}\n\n{card['description']}\n{plugin.bot.d['rarity_emojis_text'][card['rarity']]}",
             inline=True,
+        )
+        # Save it to inventory only after updating the embed so the own_count is correct
+        dbcards.save_to_invent(
+            item_identifier=card['identifier'],
+            item_name=card["name"],
+            user_id=int(ctx.author.id), 
         )
 
     embed.set_image(
