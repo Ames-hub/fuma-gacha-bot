@@ -28,6 +28,7 @@ async def bot_command(ctx: lightbulb.SlashContext, channel:hikari.GuildChannel):
             embed=hikari.Embed(
                 title="Success!",
                 description=f"The logging channel has been set to {channel.mention}.",
+                colour=ctx.bot.d['branding']['embed']
             )
         )
     else:

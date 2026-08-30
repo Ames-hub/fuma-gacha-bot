@@ -34,6 +34,7 @@ async def bot_command(ctx: lightbulb.SlashContext):
             embed=hikari.Embed(
                 title="Bad Format",
                 description="You cannot have spaces in your card ID!",
+                colour=ctx.bot.d['branding']['warning']
             ),
             flags=hikari.MessageFlag.EPHEMERAL
         )
@@ -45,7 +46,8 @@ async def bot_command(ctx: lightbulb.SlashContext):
             embed=(
                 hikari.Embed(
                     title="Success",
-                    description="Your card has been deleted."
+                    description="Your card has been deleted.",
+                    colour=ctx.bot.d['branding']['embed']
                 )
             )
         )

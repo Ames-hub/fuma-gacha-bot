@@ -12,7 +12,7 @@ plugin = lightbulb.Plugin(__name__)
 @lightbulb.add_checks(
     lightbulb.guild_only
 )
-@lightbulb.command(name='trainingwork', description="Earn some rare cards, DonutCoins and NichoCoins!", pass_options=True)
+@lightbulb.command(name='trainingwork', description="Earn some rare cards, Donut Coins and Woonagi Points!", pass_options=True)
 @lightbulb.implements(lightbulb.SlashSubCommand)
 @dc.prechecks('trainingwork', cooldown_s=2_678_400)  # One month in seconds
 async def bot_command(ctx: lightbulb.SlashContext):

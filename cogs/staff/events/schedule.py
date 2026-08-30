@@ -77,6 +77,7 @@ async def bot_command(ctx: lightbulb.SlashContext, name, start_time, end_time):
             embed=hikari.Embed(
                 title="Success!",
                 description="The event has been scheduled.",
+                colour=ctx.bot.d['branding']['embed']
             )
         )
 
@@ -89,6 +90,7 @@ async def bot_command(ctx: lightbulb.SlashContext, name, start_time, end_time):
             embed=hikari.Embed(
                 title="Error!",
                 description="The event could not be scheduled.",
+                colour=0xff0000
             )
         )
 

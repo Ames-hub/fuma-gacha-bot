@@ -101,6 +101,7 @@ async def bot_command(ctx: lightbulb.SlashContext, event_name, card_id):
             embed=hikari.Embed(
                 title="Success!",
                 description=f"The event card with the ID {card_id} has been assosciated with the event.",
+                colour=ctx.bot.d['branding']['embed']
             )
         )
         await eventlogs.log_event(
@@ -112,6 +113,7 @@ async def bot_command(ctx: lightbulb.SlashContext, event_name, card_id):
             embed=hikari.Embed(
                 title="Error!",
                 description="The card could not be assosciated with the event.",
+                colour=0xff0000
             )
         )
 

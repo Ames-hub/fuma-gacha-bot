@@ -50,6 +50,7 @@ async def bot_command(ctx: lightbulb.SlashContext, card_id: str, target_user: hi
             embed=hikari.Embed(
                 title=f"`{card['identifier']}` Spawned!",
                 description=f"\"{card['name']}\" has been successfully spawned in {target_user.mention}'s inventory.",
+                colour=ctx.bot.d['branding']['embed']
             )
             .set_image(
                 hikari.Bytes(
@@ -68,6 +69,7 @@ async def bot_command(ctx: lightbulb.SlashContext, card_id: str, target_user: hi
             embed=hikari.Embed(
                 title="Error!",
                 description="The card could not be spawned.",
+                colour=0xff0000
             )
         )
 

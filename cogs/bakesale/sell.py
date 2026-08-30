@@ -43,7 +43,7 @@ async def bot_command(ctx: lightbulb.SlashContext, card_id, amount, price):
             embed=hikari.Embed(
                 title="Card Not Found",
                 description="The card ID you are trying to sell does not exist.",
-                color=0xFF0000
+                colour=ctx.bot.d['branding']['embed']
             )
         )
         return

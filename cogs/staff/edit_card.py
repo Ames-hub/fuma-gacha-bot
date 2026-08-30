@@ -111,7 +111,7 @@ async def bot_command(ctx: lightbulb.SlashContext, card_id: str, description: st
             hikari.Embed(
                 title="Success!",
                 description="The card has been edited to your specifications.",
-                color=0x00FF00
+                colour=ctx.bot.d['branding']['embed']
             )
         )
     else:
@@ -119,7 +119,7 @@ async def bot_command(ctx: lightbulb.SlashContext, card_id: str, description: st
             hikari.Embed(
                 title="Failure!",
                 description="The card has not been edited to your specifications due to an error.",
-                color=0xFF0000
+                colour=0xFF0000
             )
         )
 

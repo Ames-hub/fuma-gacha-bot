@@ -15,7 +15,7 @@ async def bot_command(ctx: lightbulb.SlashContext):
         hikari.Embed(
             title="<:agathedonut:1454905529016123474> Thank you for picking RiwooBot <:agathedonut:1454905529016123474>",
             description="Your contribution by using this bot is appreciated.",
-            colour=0x00FF00
+            colour=ctx.bot.d['branding']['embed']
         )
         .add_field(
             name="Invite the bot",

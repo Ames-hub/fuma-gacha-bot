@@ -122,6 +122,7 @@ async def bot_command(ctx: lightbulb.SlashContext, page, target_user, card_id, c
         hikari.Embed(
             title=f"{target_username}'s Inventory",
             description=invent_str,
+            colour=ctx.bot.d['branding']['embed']
         )
     )
 

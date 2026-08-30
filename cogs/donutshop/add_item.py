@@ -61,7 +61,8 @@ async def bot_command(ctx: lightbulb.SlashContext, name, price, amount, pack_typ
             embed=(
                 hikari.Embed(
                     title="Filter Help",
-                    description="Please visit [This Note](https://gist.github.com/Ames-hub/095e6715a9c1d3adecd22dc0f869bed6) To learn more."
+                    description="Please visit [This Note](https://gist.github.com/Ames-hub/095e6715a9c1d3adecd22dc0f869bed6) To learn more.",
+                    colour=ctx.bot.d['branding']['embed']
                 )
             )
         )
@@ -79,6 +80,7 @@ async def bot_command(ctx: lightbulb.SlashContext, name, price, amount, pack_typ
                     title="Filter Error",
                     description="We cannot proceed because the following errors occured in your filter.\n"
                                 f"{error_text}",
+                    colour=ctx.bot.d['branding']['warning']
                 )
             ),
             flags=hikari.MessageFlag.EPHEMERAL,
@@ -97,7 +99,8 @@ async def bot_command(ctx: lightbulb.SlashContext, name, price, amount, pack_typ
         await ctx.respond(
             embed=hikari.Embed(
                 title="That name already exists!",
-                description="Please pick another name for the pack name."
+                description="Please pick another name for the pack name.",
+                colour=ctx.bot.d['branding']['warning']
             )
         )
         return
@@ -108,6 +111,7 @@ async def bot_command(ctx: lightbulb.SlashContext, name, price, amount, pack_typ
                 hikari.Embed(
                     title="Success!",
                     description="Your item has been added to the market!",
+                    colour=ctx.bot.d['branding']['embed']
                 )
             ),
             flags=hikari.MessageFlag.EPHEMERAL,
@@ -122,6 +126,7 @@ async def bot_command(ctx: lightbulb.SlashContext, name, price, amount, pack_typ
                 hikari.Embed(
                     title="Error!",
                     description="There was an error adding your item to the shop.",
+                    colour=0xff0000
                 )
             ),
             flags=hikari.MessageFlag.EPHEMERAL,

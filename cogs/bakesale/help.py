@@ -17,7 +17,8 @@ async def bot_command(ctx: lightbulb.SlashContext):
     await ctx.respond(
         embed=hikari.Embed(
             title="The Bakesale Help",
-            description="This is a basic guide to what the bake sale is!"
+            description="This is a basic guide to what the bake sale is!",
+            colour=ctx.bot.d['branding']['embed']
         )
         .add_field(
             name="Currency",

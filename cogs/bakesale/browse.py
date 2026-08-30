@@ -44,7 +44,7 @@ async def bot_command(ctx: lightbulb.SlashContext):
                 hikari.Embed(
                     title="Bake Sale",
                     description="There are no cards in the market yet.",
-                    colour=0xff0000,
+                    colour=ctx.bot.d['branding']['embed']
                 )
                 .add_field(
                     "Nothing here!",

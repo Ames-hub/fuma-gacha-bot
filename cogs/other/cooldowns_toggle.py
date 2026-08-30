@@ -17,7 +17,7 @@ async def bot_command(ctx: lightbulb.SlashContext):
         await ctx.respond(
             hikari.Embed(
                 title="Bad Permissions!",
-                description="You are not a bot admin."
+                description="You are not a bot admin.",
             )
         )
         return

@@ -75,7 +75,7 @@ async def bot_command(ctx: lightbulb.SlashContext, offer_id):
             embed=hikari.Embed(
                 title="Success!",
                 description="The card has been purchased and added to your inventory!",
-                color=0x00FF00
+                colour=ctx.bot.d['branding']['embed']
             )
             .add_field(
                 name="You accepted this offer!",

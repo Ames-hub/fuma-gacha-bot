@@ -49,16 +49,17 @@ async def bot_command(ctx: lightbulb.SlashContext):
     embed = hikari.Embed(
         title='✨ Pull Result ✨',
         description=f'<@{ctx.author.id}> Pulled the below cards!',
+        colour=ctx.bot.d['branding']['embed']
     )
 
     for card in cards:
         inv_entry = dbuser.get_inventory(ctx.author.id, card_id=card['identifier'])
         if inv_entry:
-            own_count = inv_entry[card['identifier']]['amount']
+            own_count = inv_entry[card['identifier']]['amount'] + 1  # Plus one for we're about to get another. This is never just 1.
         else:
-            own_count = 0
-        
-        if own_count != 0:
+            own_count = 1
+
+        if own_count > 1:
             own_text = f"You own {own_count} of these"
         else:
             own_text = "✨ *! New Card Unlocked !* ✨"
@@ -67,7 +68,6 @@ async def bot_command(ctx: lightbulb.SlashContext):
             value=f"{own_text}\n\n{card['description']}\n{plugin.bot.d['rarity_emojis_text'][card['rarity']]}",
             inline=True,
         )
-        # Save it to inventory only after updating the embed so the own_count is correct
         dbcards.save_to_invent(
             item_identifier=card['identifier'],
             item_name=card["name"],

@@ -42,7 +42,7 @@ async def bot_command(ctx: lightbulb.SlashContext, name):
                 title="Success!",
                 description="The event has been created and is ready to be scheduled for any time.\n\n"
                             f"To schedule the event,\nuse `/staff limited schedule` command.",
-                color=0x00ff00,
+                colour=ctx.bot.d['branding']['embed'],
             )
         )
 

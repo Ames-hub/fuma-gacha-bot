@@ -28,6 +28,7 @@ async def bot_command(ctx: lightbulb.SlashContext):
                 hikari.Embed(
                     title="Card Not Found!",
                     description=f"The card you requested was not found.\nIs the capitalization correct?",
+                    colour=0xff0000
                 )
             )
         )
@@ -39,7 +40,8 @@ async def bot_command(ctx: lightbulb.SlashContext):
         await ctx.respond(
             hikari.Embed(
                 title="Card Error!",
-                description="This card doesn't seem to have an assosciated image, so we can't load it!"
+                description="This card doesn't seem to have an assosciated image, so we can't load it!",
+                colour=0xff0000
             )
         )
         return
@@ -53,6 +55,7 @@ async def bot_command(ctx: lightbulb.SlashContext):
     embed = (
         hikari.Embed(
             title="Card Located!",
+            colour=ctx.bot.d['branding']['embed']
         )
         .add_field(
             name=f"{card['name']} - {card['identifier']}",

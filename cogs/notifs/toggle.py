@@ -29,7 +29,8 @@ async def bot_command(ctx: lightbulb.SlashContext, status:str):
             embed=(
                 hikari.Embed(
                     title="Notifications On",
-                    description="You'll start hearing from us from now on!\nPlease make sure we're able to DM you! (you can use `/notif test` to check!)"
+                    description="You'll start hearing from us from now on!\nPlease make sure we're able to DM you! (you can use `/notif test` to check!)",
+                    colour=ctx.bot.d['branding']['embed']
                 )
                 .set_footer(
                     text="By leaving this setting on, you agree to us contacting you for the purpose of these notifications."

@@ -29,6 +29,7 @@ async def bot_command(ctx: lightbulb.SlashContext, user: hikari.User):
             embed=hikari.Embed(
                 title="Success!",
                 description=f"User {user.mention} has been unbanned.",
+                colour=ctx.bot.d['branding']['embed']
             )
         )
 

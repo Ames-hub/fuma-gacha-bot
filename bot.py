@@ -1,5 +1,6 @@
 from cryptography.hazmat.primitives import hashes, serialization
 from cryptography.hazmat.primitives.asymmetric import rsa
+from webpanel.library.auth import authbook
 from cryptography.x509.oid import NameOID
 from library.database import database
 from library.botapp import botapp
@@ -42,7 +43,7 @@ DEBUG = os.environ.get("DEBUG", "False").lower() == "true"
 botapp.d['DEBUG'] = DEBUG
 
 botapp.d['coin_name'] = {}
-botapp.d['coin_name']['normal'] = "DonutCoin"  # "Normal" Coin name. Used in pokeshop.
+botapp.d['coin_name']['normal'] = "Donut Coin"  # "Normal" Coin name. Used in pokeshop.
 botapp.d['coin_name']['better'] = "Woonagi Point"  # Used in bakesale
 
 # Init Cache dicts
@@ -88,6 +89,11 @@ botapp.d['card_tier_names'] = {
         "Event": 2,
         "Limited": 3
     }
+}
+
+botapp.d['branding'] = {
+    'embed': 0xC5B4E3,
+    'warning': 0xFFA500,
 }
 
 botapp.d['cooldowns_on'] = True
@@ -147,8 +153,6 @@ def generate_self_signed_cert(country_name, province_name, locality_name, organi
     print(f"Self-signed certificate saved to {ssl_certfile_dir}")
     print(f"Private key saved to {ssl_keyfile_dir}")
     return True
-
-from webpanel.library.auth import authbook
 
 async def main():
     if not os.path.exists(ssl_keyfile_dir) or not os.path.exists(ssl_certfile_dir):

@@ -46,7 +46,7 @@ async def bot_command(ctx: lightbulb.SlashContext):
     embed = hikari.Embed(
         title="Card List",
         description=f"Showing page **{page}** of **{total_pages}**",
-        colour=0x00FF00,
+        colour=ctx.bot.d['branding']['embed'],
     )
 
     card_list_text = ""

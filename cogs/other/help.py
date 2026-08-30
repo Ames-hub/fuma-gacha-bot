@@ -16,7 +16,7 @@ async def bot_command(ctx: lightbulb.SlashContext):
             title="<:loveball:1389313177392513034> Help and Support <:loveball:1389313177392513034>",
             description="Below, you will find detailed information on Fumabot.\n"
                         "For more help, please visit the server: https://discord.gg/EwnaaNzuQy",
-            colour=0x0000FF
+            colour=ctx.bot.d['branding']['embed']
         )
         .add_field(
             "Summary",

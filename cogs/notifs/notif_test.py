@@ -17,7 +17,8 @@ async def bot_command(ctx: lightbulb.SlashContext):
         await ctx.respond((
                 hikari.Embed(
                     title="Success!",
-                    description="Our systems report the test went well, you should've received a DM from us!"
+                    description="Our systems report the test went well, you should've received a DM from us!",
+                    colour=ctx.bot.d['branding']['embed']
                 )
                 .add_field(
                     name="Didn't get it?",
@@ -31,7 +32,8 @@ async def bot_command(ctx: lightbulb.SlashContext):
             hikari.Embed(
                 title="Failure!",
                 description="Our systems report the test failed! We couldn't send anything.\n"
-                "Please make sure we're not blocked by you and DMs are enabled. If it still fails, please contact support."
+                "Please make sure we're not blocked by you and DMs are enabled. If it still fails, please contact support.",
+                colour=0xff0000
             ),
             flags=hikari.MessageFlag.EPHEMERAL
         )

@@ -93,6 +93,7 @@ async def bot_command(ctx: lightbulb.SlashContext):
                 embed=hikari.Embed(
                     title="Bad Format",
                     description="You cannot have spaces in your card ID!",
+                    colour=ctx.bot.d['branding']['warning']
                 ),
                 flags=hikari.MessageFlag.EPHEMERAL
             )
@@ -111,6 +112,7 @@ async def bot_command(ctx: lightbulb.SlashContext):
             embed=hikari.Embed(
                 title="Attachment problem.",
                 description="Wrong image type.",
+                colour=ctx.bot.d['branding']['warning']
             )
         )
         return
@@ -164,6 +166,7 @@ async def bot_command(ctx: lightbulb.SlashContext):
                 title="Card Created!",
                 description="Your card has successfully been created!\n"
                             f"Card ID: `{card_id}`\n",
+                colour=ctx.bot.d['branding']['embed']
             )
         )
 

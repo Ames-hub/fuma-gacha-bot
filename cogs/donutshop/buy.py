@@ -38,6 +38,7 @@ async def bot_command(ctx: lightbulb.SlashContext):
                 hikari.Embed(
                     title="Insufficient Funds!",
                     description=f"You don't have enough coins to buy this pack.\nYou're short {pack_price - cur_bal} {plugin.bot.d['coin_name']['normal']}s.",
+                    colour=ctx.bot.d['branding']['warning']
                 )
             )
         )

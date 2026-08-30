@@ -37,6 +37,7 @@ async def bot_command(ctx: lightbulb.SlashContext, user: hikari.User, reason: st
             embed=hikari.Embed(
                 title="Success!",
                 description=f"User {user.mention} has been banned.",
+                colour=ctx.bot.d['branding']['embed']
             )
             .add_field(
                 name="Reason",
