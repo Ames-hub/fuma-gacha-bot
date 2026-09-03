@@ -126,11 +126,105 @@ class invent_errs:
         def __init__(self):
             pass
 
+class user_wishlist:
+    def __init__(self, user_id:int):
+        self.user_id = int(user_id)
+
+    def add(self, card_id:int) -> bool:
+        """
+        Adds an item to the user's wishlist
+
+        Returns:
+            bool: True if the adding succeeded.
+        """
+        # Validate inputs
+        if card_id is None or str(card_id).strip() == "":
+            raise ValueError("card_id must be a non-empty value.")
+
+        with sqlite3.connect(DB_PATH) as conn:
+            try:
+                cur = conn.cursor()
+
+                cur.execute(
+                    """
+                    INSERT INTO user_wishlists (user_id, card_id)
+                    VALUES (?, ?)
+                    """,
+                    (self.user_id, card_id)
+                )
+
+                conn.commit()
+                return True
+            except sqlite3.OperationalError as err:
+                logging.error("Database operation failed while adding item to wishlist", exc_info=err)
+                return False
+
+    def remove(self, card_id:int) -> bool:
+        """
+        Remove an item from a user's wishlist.
+
+        Returns:
+            bool: True if the removal succeeded.
+        """
+        # Validate inputs
+        if card_id is None or str(card_id).strip() == "":
+            raise ValueError("card_id must be a non-empty value.")
+
+        with sqlite3.connect(DB_PATH) as conn:
+            try:
+                cur = conn.cursor()
+
+                cur.execute("""
+                    DELETE FROM user_wishlists
+                    WHERE user_id = ? AND card_id = ?
+                """, (self.user_id, card_id))
+
+                conn.commit()
+                return True
+            except sqlite3.OperationalError as err:
+                logging.error("Database operation failed while removing from wishlist", exc_info=err)
+                return False
+
+    def fetch(self) -> list[dict]:
+        """
+        list all item from a user's wishlist.
+
+        Returns a list of dictionaries
+        """
+        with sqlite3.connect(DB_PATH) as conn:
+            try:
+                cur = conn.cursor()
+
+                cur.execute(
+                    """
+                        SELECT * FROM user_wishlists
+                        WHERE user_id = ?
+                    """,
+                    (self.user_id,)
+                )
+
+                conn.commit()
+                rows = cur.fetchall()
+            except sqlite3.OperationalError as err:
+                logging.error("Database operation failed while listing all wishlist items", exc_info=err)
+                return False
+
+        parsed_rows = []
+        for row in rows:
+            parsed_rows.append({
+                "entry_id": row[0],
+                "user_id": row[1],
+                "card_id": row[2],
+                "start_date": row[3],
+            })
+        return parsed_rows if parsed_rows else []
+
 # A class meant to make things slightly more convenient.
 class userdb:
     def __init__(self, user_id:int):
         self.user_id = int(user_id)
         self.bank:account = account(user_id)
+        self.wishlist: user_wishlist = user_wishlist(user_id)
 
     def add_to_inventory(self, card_id, amount=1, allow_limited=False):
         from library.dbmodules.dbcards import spawn_card
@@ -203,5 +297,15 @@ class userdb:
                 logging.error("Database operation failed while removing from inventory", exc_info=err)
                 return False
 
-    def get_inventory(self):
-        return get_inventory(self.user_id)
+    def get_inventory(self, card_id:str=None, name:str=None, group:str=None, rarity:int=None, tier:int=None):
+        """
+        An alias for "get_inventory" function
+        """
+        return get_inventory(
+            self.user_id, 
+            card_id=card_id,
+            card_name=name,
+            card_group=group,
+            card_rarity=rarity,
+            card_tier=tier,
+        )

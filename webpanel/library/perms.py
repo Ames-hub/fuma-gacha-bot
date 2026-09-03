@@ -1,4 +1,6 @@
 from library.database import DB_PATH
+from fastapi import HTTPException
+from functools import wraps
 from enum import IntFlag
 import sqlite3
 
@@ -23,6 +25,41 @@ def _get_permissions(username: str) -> int | None:
         )
         row = cur.fetchone()
     return row[0] if row else None
+
+def require_permissions(permission: permissions):
+    def decorator(func):
+        from webpanel.library.auth import authbook
+        @wraps(func)
+        async def wrapper(*args, **kwargs):
+            token = kwargs.get("token")
+
+            if token is None:
+                raise HTTPException(
+                    status_code=401,
+                    detail="Authentication token required."
+                )
+
+            username = authbook.token_owner(token)
+
+            if username is None:
+                raise HTTPException(
+                    status_code=401,
+                    detail="Invalid authentication token."
+                )
+
+            current_user = user(username)
+
+            if not current_user.has_permission(permission):
+                raise HTTPException(
+                    status_code=403,
+                    detail="You do not have permission to access this resource."
+                )
+
+            return await func(*args, **kwargs)
+
+        return wrapper
+
+    return decorator
 
 class user:
     def __init__(self, username: str):

@@ -25,6 +25,7 @@ botapp.load_extensions_from("cogs/staff/botlogging")
 botapp.load_extensions_from("cogs/other")
 botapp.load_extensions_from("cogs/notifs")
 botapp.load_extensions_from("cogs/botworkers")
+botapp.load_extensions_from("cogs/wishlist")
 
 botapp.d['maintainer'] = 913574723475083274
 botapp.d['admin_ids'] = [
@@ -175,7 +176,7 @@ async def main():
         else:
             print("Failed to generate self-signed certificate. Exiting.")
             return
-        
+
     account_count = len(authbook.list_accounts())
     if account_count == 0:
         print("Please create an admin account for the web panel to continue.")

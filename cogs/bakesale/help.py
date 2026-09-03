@@ -22,7 +22,7 @@ async def bot_command(ctx: lightbulb.SlashContext):
         )
         .add_field(
             name="Currency",
-            value=f"The bake sale uses {plugin.bot.d['coin_name']['better']} as its currency!"
+            value=f"The bake sale uses {plugin.bot.d['coin_name']['normal']} as its currency!"
         )
         .add_field(
             name="Purpose",

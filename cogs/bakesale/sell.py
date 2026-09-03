@@ -79,12 +79,12 @@ async def bot_command(ctx: lightbulb.SlashContext, card_id, amount, price):
         await ctx.respond(
             embed=hikari.Embed(
                 title="Success!",
-                description="The card has been aded to the trading market to be bought.",
+                description="The card has been added to the trading market to be bought.",
                 color=0x00FF00
             )
             .add_field(
                 name="Offer ID",
-                value=f"The offer ID used for others to purchase the offer for {price} {plugin.bot.d['coin_name']['better']} is: **{offer_id}**",
+                value=f"The offer ID used for others to purchase the offer for {price} {plugin.bot.d['coin_name']['normal']} is: **{offer_id}**",
                 inline=True,
             )
         )

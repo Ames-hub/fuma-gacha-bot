@@ -25,7 +25,7 @@ class main_view:
             hikari.Embed(
                 title="DonutShop",
                 description="View below the great card packs available for purchase!",
-                colour=botapp.bot.d['branding']['embed']
+                colour=botapp.d['branding']['embed']
             )
         )
 

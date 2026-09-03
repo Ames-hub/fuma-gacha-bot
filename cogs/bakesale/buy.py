@@ -71,6 +71,8 @@ async def bot_command(ctx: lightbulb.SlashContext, offer_id):
         price = purchase_data['transaction']['price']
         amount_bought = purchase_data['transaction']['given_amount']
         bought_card_id = purchase_data['transaction']['given_card_id']
+        card = dbcards.view_card(bought_card_id)[0]
+        cur_type = plugin.bot.d['coin_name']['normal'] if card["tier"] != 3 else plugin.bot.d['coin_name']['better']
         await ctx.respond(
             embed=hikari.Embed(
                 title="Success!",
@@ -79,7 +81,7 @@ async def bot_command(ctx: lightbulb.SlashContext, offer_id):
             )
             .add_field(
                 name="You accepted this offer!",
-                value=f"Card \"{bought_card_id}\", Amount: {amount_bought} for {price} {plugin.bot.d['coin_name']['better']}s",
+                value=f"Card \"{bought_card_id}\", Amount: {amount_bought} for {price} {cur_type}s",
                 inline=True,
             )
             .set_image(hikari.Bytes(image, "cardphoto.png"))

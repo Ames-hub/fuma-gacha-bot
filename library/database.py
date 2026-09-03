@@ -141,6 +141,12 @@ class database:
             "user_notifs": {
                 "user_id": "INTEGER NOT NULL PRIMARY KEY",
                 "enabled": "BOOLEAN NOT NULl DEFAULT FALSE"
+            },
+            "user_wishlists": {
+                "entry_id": "INTEGER PRIMARY KEY AUTOINCREMENT", 
+                "user_id": "INTEGER NOT NULL",
+                "card_id": "TEXT NOT NULl",
+                "start_date": "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP"  # When they started wanting it.
             }
         }
 

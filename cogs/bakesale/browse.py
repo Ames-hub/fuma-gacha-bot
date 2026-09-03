@@ -1,3 +1,4 @@
+from library.dbmodules import dbcards, dbuser
 from cogs.bakesale.group import group
 from library.database import bakesale
 from library import decorators as dc
@@ -63,11 +64,22 @@ async def bot_command(ctx: lightbulb.SlashContext):
         page_counter = 1
         pageList[1] = []  # Initialise the page list.
         for item in all_stock:
-            item_txt = f"*{item['amount']}x {item['card_id']}* for {item['price']} {plugin.bot.d['coin_name']['better']}, Sold by {item['seller_disp_name']}\nOffer ID: {item['offer_id']}"
-            if len(pageList[page_counter]) == pageSize:
-                pageList[page_counter] = []
-                page_counter += 1
-            pageList[page_counter].append(item_txt)
+            card = dbcards.view_card(item['card_id'])[0]
+            cur_type = plugin.bot.d['coin_name']['normal'] if card["tier"] != 3 else plugin.bot.d['coin_name']['better']
+            item_txt = f"*{item['amount']}x* `{item['card_id']}` for {item['price']} {cur_type}, Sold by {item['seller_disp_name']}\nOffer ID: {item['offer_id']}"
+            if ctx.options.hide_too_expensive:
+                user = dbuser.userdb(ctx.user.id)
+                cur_bal = user.bank.normalcoin.balance() if card["tier"] != 3 else user.bank.bettercoin.balance()
+                if item['price'] < cur_bal:  # Only ones that need less balance than you have are listed
+                    if len(pageList[page_counter]) == pageSize:
+                        pageList[page_counter] = []
+                        page_counter += 1
+                    pageList[page_counter].append(item_txt)
+            else:
+                if len(pageList[page_counter]) == pageSize:
+                    pageList[page_counter] = []
+                    page_counter += 1
+                pageList[page_counter].append(item_txt)
         plugin.bot.d['bakesale']['cache']['page_list'] = pageList
     else:
         pageList = plugin.bot.d['bakesale']['cache']['page_list']
@@ -77,13 +89,15 @@ async def bot_command(ctx: lightbulb.SlashContext):
 
     if len(page) > 1024:
         page_content = page[:1000] + "... (trunciated)"
+    if len(page) == 0:
+        page_content = "No offers matched the filters."
 
     await ctx.respond(
         embed=(
             hikari.Embed(
                 title="Bake Sale",
                 description="Buy and sell cards! From users, for users.",
-                colour=0x00ff00,
+                colour=ctx.bot.d['branding']['embed'],
             )
             .add_field(
                 name=f"Purchasable Cards ({stock_count})",

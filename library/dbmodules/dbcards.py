@@ -289,8 +289,9 @@ def rm_card(card_id):
         cur.execute(
             """
             DELETE FROM global_cards WHERE identifier = ?
+            DELETE FROM inventories WHERE item_identifier = ?
             """,
-            (card_id,),
+            (card_id, card_id,),
         )
         conn.commit()
         return True
@@ -437,6 +438,10 @@ def pull_filtered_args(conn: sqlite3.Connection, filter_string, fetch_one:bool, 
     return cursor
 
 def filtered_get_card(filter_string=None, fetch_one:bool=True, **filters):
+    """
+    Gets a card according to the filter string, or according to filters set by the db column name.
+    Fetch one toggles if we use fetch_one() or fetchall(), fetchall returns a list of dicts. 
+    """
     conn = sqlite3.connect(DB_PATH)
     cursor = pull_filtered_args(conn, filter_string, fetch_one, **filters)
 
