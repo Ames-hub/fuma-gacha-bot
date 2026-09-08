@@ -28,7 +28,7 @@ plugin = lightbulb.Plugin(__name__)
     name="coin_type",
     description="What kind of coins are you sending?",
     required=True,
-    choices=["FumaCoin", "NichoCoin"],
+    choices=["DonutCoins", "Woonagi Points"],
     type=hikari.OptionType.STRING,
 )
 @lightbulb.command(name='pay', description="Send some money to someone!", pass_options=True)
@@ -38,12 +38,12 @@ async def bot_command(ctx: lightbulb.SlashContext, coin_type: str, amount: int, 
     sender_acc = economy.account(ctx.author.id)
     target_acc = economy.account(user.id)
 
-    if coin_type == "FumaCoin":
+    if coin_type == "DonutCoins":
         if sender_acc.normalcoin.balance() < amount:
             await ctx.respond(
                 embed=hikari.Embed(
                     title="Insufficient Funds!",
-                    description="You don't have enough fumacoins to do that!"
+                    description=f"You don't have enough {ctx.bot.d['coin_name']['normal']}s to do that!"
                 )
             )
             return
@@ -54,7 +54,7 @@ async def bot_command(ctx: lightbulb.SlashContext, coin_type: str, amount: int, 
             await ctx.respond(
                 embed=hikari.Embed(
                     title="Insufficient Funds!",
-                    description="You don't have enough nichocoins to do that!"
+                    description=f"You don't have enough {ctx.bot.d['coin_name']['better']}s to do that!"
                 )
             )
             return
@@ -81,7 +81,7 @@ async def bot_command(ctx: lightbulb.SlashContext, coin_type: str, amount: int, 
                 )
             )
         )
-        if coin_type == "FumaCoin":
+        if coin_type == ctx.bot.d['coin_name']['normal']:
             sender_acc.normalcoin.modify_balance(amount, 'add')
             target_acc.normalcoin.modify_balance(amount, 'subtract')
         else:

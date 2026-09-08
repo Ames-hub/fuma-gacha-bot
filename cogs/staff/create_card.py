@@ -79,6 +79,13 @@ plugin = lightbulb.Plugin(__name__)
     min_length=3,
     type=hikari.OptionType.STRING,
 )
+@lightbulb.option(
+    name="for_birthday",
+    description="Is this card for a birthday celebration?",
+    required=False,
+    default=False,
+    type=hikari.OptionType.BOOLEAN,
+)
 @lightbulb.command(name='mkcard', description="Add a new card to the collection (bot admin only)")
 @lightbulb.implements(lightbulb.SlashSubCommand)
 @dc.check_admin_status()
@@ -132,6 +139,7 @@ async def bot_command(ctx: lightbulb.SlashContext):
     era = ctx.options.era
     is_custom = ctx.options.is_custom
     card_idol = ctx.options.idol
+    for_birthday = ctx.options.for_birthday
 
     try:
         addresult = dbcards.add_card(
@@ -145,7 +153,8 @@ async def bot_command(ctx: lightbulb.SlashContext):
             card_group=card_group,
             era=era,
             is_custom=is_custom,
-            card_idol=card_idol
+            card_idol=card_idol,
+            for_birthday=for_birthday
         )
     except sqlite3.IntegrityError as err:
         logging.warning(f"User {ctx.author.id} has attempted to make a card with the pre-existing ID {card_id}. Err: {err}")

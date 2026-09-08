@@ -230,7 +230,20 @@ def spawn_card(card_id: str, amount: int, user_id: int, allow_limited:bool=False
     finally:
         conn.close()
 
-def add_card(card_id, name:str, description:str, rarity:int, card_tier:int, img_bytes, pullable:bool, card_group:str, era:str, is_custom:bool, card_idol:str):
+def add_card(
+        card_id,
+        name:str,
+        description:str,
+        rarity:int,
+        card_tier:int,
+        img_bytes,
+        pullable:bool,
+        card_group:str,
+        era:str,
+        is_custom:bool,
+        card_idol:str,
+        for_birthday:bool
+    ):
     conn = sqlite3.connect(DB_PATH)
 
     assert card_tier in [1, 2, 3], "Card tier must be 1, 2, or 3. (1, Standard. 2, Event. 3, Limited)"
@@ -253,8 +266,8 @@ def add_card(card_id, name:str, description:str, rarity:int, card_tier:int, img_
         cur = conn.cursor()
         cur.execute(
             f"""
-            INSERT INTO global_cards (identifier, name, description, rarity, img_bytes, pullable, card_tier, card_group, card_era, is_custom, card_idol)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            INSERT INTO global_cards (identifier, name, description, rarity, img_bytes, pullable, card_tier, card_group, card_era, is_custom, card_idol, birthday_flag)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             {"RETURNING global_cards.identifier" if card_id is None else ""}
             """,
             (
@@ -269,6 +282,7 @@ def add_card(card_id, name:str, description:str, rarity:int, card_tier:int, img_
                 str(era),
                 bool(is_custom),
                 str(card_idol),
+                bool(for_birthday),
             ),
         )
         conn.commit()

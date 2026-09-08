@@ -116,6 +116,20 @@ async def bot_command(ctx: lightbulb.SlashContext):
 
     if not failed:
         obtained_card = dbcards.pull_random_card()
+        if not obtained_card:
+            embed = (
+                hikari.Embed(
+                    title="🥐 Bakery Shift Complete 🥐",
+                    description=splash_text,
+                    color=embed_colour
+                )
+                .add_field(
+                    name="No Card Obtained",
+                    value="You didn't find any cards while working the bakery today.\n(There's no cards that can be grabbed!)"
+                )
+            )
+            await ctx.respond(embed)
+            return
         img_bytes = dbcards.load_img_bytes(obtained_card["identifier"])
 
         if obtained_card["rarity"] >= 3 or obtained_card["tier"] > 1:
@@ -137,7 +151,7 @@ async def bot_command(ctx: lightbulb.SlashContext):
             name="Card Obtained!",
             value=(
                 "While cleaning up the bakery, you discovered a new card.\n"
-                f"name: {obtained_card['name']} - `{obtained_card['id']}`"
+                f"name: {obtained_card['name']} - `{obtained_card['identifier']}`"
             )
         )
     embed.set_image(image)

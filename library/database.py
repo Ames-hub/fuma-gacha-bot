@@ -44,6 +44,7 @@ class database:
                 'card_era': 'TEXT',
                 'is_custom': 'BOOLEAN NOT NULL DEFAULT FALSE',
                 'card_idol': 'TEXT',
+                'birthday_flag': 'BOOLEAN NOT NULL DEFAULT FALSE',  # Set this to true if the card is a card celebrating an idol's birthday.
             },
             'banned_users': {
                 "user_id": "INTEGER NOT NULL PRIMARY KEY",

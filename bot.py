@@ -22,6 +22,7 @@ botapp.load_extensions_from("cogs/staff")
 botapp.load_extensions_from("cogs/staff/events")
 botapp.load_extensions_from("cogs/staff/limited_events")
 botapp.load_extensions_from("cogs/staff/botlogging")
+botapp.load_extensions_from("cogs/staff/bakesale_manage")
 botapp.load_extensions_from("cogs/other")
 botapp.load_extensions_from("cogs/notifs")
 botapp.load_extensions_from("cogs/botworkers")
@@ -44,7 +45,7 @@ DEBUG = os.environ.get("DEBUG", "False").lower() == "true"
 botapp.d['DEBUG'] = DEBUG
 
 botapp.d['coin_name'] = {}
-botapp.d['coin_name']['normal'] = "Donut Coin"  # "Normal" Coin name. Used in pokeshop.
+botapp.d['coin_name']['normal'] = "Donut Coin"  # "Normal" Coin name. Used in donutshop.
 botapp.d['coin_name']['better'] = "Woonagi Point"  # Used in bakesale
 
 # Init Cache dicts
@@ -207,7 +208,7 @@ async def main():
         botapp.start(shard_count=1)
     )
 
-bot_only = False
+bot_only = True
 
 if __name__ == "__main__":
     if bot_only:
